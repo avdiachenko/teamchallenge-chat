@@ -15,4 +15,18 @@ export const router = createBrowserRouter([
       return { Component: Chat };
     },
   },
+  {
+    path: "/signup",
+    lazy: async () => {
+      const { SignUp } = await import("../pages/SignUp/SignUp");
+      return { Component: SignUp };
+    },
+  },
+  {
+    path: "/signin",
+    lazy: async () => {
+      const { SignIn } = await import("../pages/SignIn/SignIn");
+      return { Component: SignIn };
+    },
+  },
 ]);

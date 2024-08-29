@@ -3,7 +3,7 @@ import styles from "./Chat.module.css";
 
 export function Chat() {
   return (
-    <div className={styles.chat}>
+    <div className={styles.container}>
       <Header />
       <div className={styles.content}>Hello from Chat</div>
     </div>
