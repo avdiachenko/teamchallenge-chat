@@ -1,11 +1,11 @@
 import { Header } from "../../widgets/Header/Header";
-import styles from "./Home.module.css";
+import styles from "./SignIn.module.css";
 
-export function Home() {
+export function SignIn() {
   return (
     <div className={styles.container}>
       <Header />
-      <div className={styles.content}>Home page</div>
+      <div className={styles.content}>SignIn page</div>
     </div>
   );
 }
