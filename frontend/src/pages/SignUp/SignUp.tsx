@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { BASE_URL } from "../../shared/constants/urls";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./SignUp.module.css";
 
@@ -7,18 +9,46 @@ interface IFormInput {
   email: string;
   password: string;
   residential_complex: string;
-  apartment: string;
-  entrance: string;
+  apartment: number;
+  entrance: number;
+  phone: string;
 }
 
 export function SignUp() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<IFormInput>();
+
+  const [regError, setRegError] = useState(false);
+  const [regSuccess, setRegSuccess] = useState(false);
+  const [regRequest, setRegRequest] = useState(false);
+
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
+    setRegError(false);
+    setRegSuccess(false);
+    setRegRequest(true);
+
+    fetch(BASE_URL + "/users/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Registration failed");
+        setRegSuccess(true);
+        reset();
+      })
+      .catch(() => {
+        setRegError(true);
+      })
+      .finally(() => {
+        setRegRequest(false);
+      });
   };
 
   return (
@@ -37,7 +67,7 @@ export function SignUp() {
                   message: "Name must be at least 3 characters long",
                 },
               })}
-              placeholder="Username"
+              placeholder="Name"
               className={styles.input}
             />
             {errors.name && <p className={styles.error}>{errors.name.message}</p>}
@@ -61,7 +91,7 @@ export function SignUp() {
 
           <div className={styles.inputContainer}>
             <input
-              type="password"
+              type="text"
               {...register("password", {
                 required: "Password is required",
                 minLength: {
@@ -91,8 +121,10 @@ export function SignUp() {
 
           <div className={styles.inputContainer}>
             <input
-              type="text"
-              {...register("apartment", { required: "Apartment is required" })}
+              type="number"
+              {...register("apartment", {
+                required: "Apartment is required",
+              })}
               placeholder="Apartment"
               className={styles.input}
             />
@@ -101,7 +133,7 @@ export function SignUp() {
 
           <div className={styles.inputContainer}>
             <input
-              type="text"
+              type="number"
               {...register("entrance", { required: "Entrance is required" })}
               placeholder="Entrance"
               className={styles.input}
@@ -109,8 +141,23 @@ export function SignUp() {
             {errors.entrance && <p className={styles.error}>{errors.entrance.message}</p>}
           </div>
 
-          <input type="submit" value="Sign Up" className={styles.submit} />
+          <div className={styles.inputContainer}>
+            <input
+              type="phone"
+              {...register("phone")}
+              placeholder="Phone"
+              className={styles.input}
+            />
+          </div>
+
+          <input type="submit" value="Sign Up" disabled={regRequest} className={styles.submit} />
         </form>
+
+        <div className={styles.status}>
+          {regRequest && <p className={styles.request}>Registration request</p>}
+          {regError && <p className={styles.error}>Registration error</p>}
+          {regSuccess && <p className={styles.success}>Registration success</p>}
+        </div>
       </div>
     </div>
   );
