@@ -11,6 +11,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 20px;
   height: calc(100vh - 100px);
   width: 100%;
 }
@@ -53,4 +55,21 @@
 
 .submit:hover {
   background-color: var(--secondary-color);
+}
+
+.submit:disabled {
+  cursor: not-allowed;
+  background-color: grey;
+}
+
+.status {
+  font-size: 20px;
+}
+
+.request {
+  color: blue;
+}
+
+.success {
+  color: green;
 }
