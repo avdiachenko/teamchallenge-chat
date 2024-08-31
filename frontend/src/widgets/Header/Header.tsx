@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
+import { useUserStore } from "../../entities/user/user.store";
 import styles from "./Header.module.css";
+import { UserPanel } from "./UserPanel/UserPanel";
 
 export function Header() {
+  const { name } = useUserStore();
+
   return (
     <div className={styles.container}>
       <ul className={styles.menu}>
@@ -10,25 +14,16 @@ export function Header() {
             Home
           </Link>
         </li>
-        <li>
-          <Link to="/chat" className={styles.link}>
-            Chat
-          </Link>
-        </li>
+        {name && (
+          <li>
+            <Link to="/chat" className={styles.link}>
+              Chat
+            </Link>
+          </li>
+        )}
       </ul>
 
-      <ul className={styles.menu}>
-        <li>
-          <Link to="/signup" className={styles.link}>
-            SignUp
-          </Link>
-        </li>
-        <li>
-          <Link to="/signin" className={styles.link}>
-            SignIn
-          </Link>
-        </li>
-      </ul>
+      <UserPanel />
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Navigate } from "react-router-dom";
+import { useUserStore } from "../../entities/user/user.store";
 import { BASE_URL } from "../../shared/constants/urls";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./SignUp.module.css";
@@ -26,6 +28,8 @@ export function SignUp() {
   const [regSuccess, setRegSuccess] = useState(false);
   const [regRequest, setRegRequest] = useState(false);
 
+  const { name } = useUserStore();
+
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     setRegError(false);
     setRegSuccess(false);
@@ -50,6 +54,10 @@ export function SignUp() {
         setRegRequest(false);
       });
   };
+
+  if (name) {
+    return <Navigate to="/chat" replace />;
+  }
 
   return (
     <div className={styles.container}>
