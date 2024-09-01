@@ -15,13 +15,13 @@ export const api = async (url: string, options: RequestInit = {}) => {
 
   try {
     const res = await fetch(BASE_URL + url, modifiedOptions);
-
     if (!res.ok) {
       const errorData = await res.json();
       throw new Error(errorData.message || "Request failed");
     }
-
-    return await res.json();
+    if (res.status === 204) return null;
+    if (res.headers.get("content-type")?.includes("application/json")) return await res.json();
+    return await res.text();
   } catch (error) {
     return Promise.reject(error);
   }
