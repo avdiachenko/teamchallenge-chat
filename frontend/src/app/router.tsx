@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import { ErrorPage } from "../pages/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
@@ -28,5 +29,9 @@ export const router = createBrowserRouter([
       const { SignIn } = await import("../pages/SignIn/SignIn");
       return { Component: SignIn };
     },
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);
