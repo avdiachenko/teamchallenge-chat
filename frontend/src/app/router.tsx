@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import { ErrorPage } from "../pages/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
   {
@@ -7,6 +8,7 @@ export const router = createBrowserRouter([
       const { Home } = await import("../pages/Home/Home");
       return { Component: Home };
     },
+    errorElement: <ErrorPage />,
   },
   {
     path: "/chat",
@@ -14,6 +16,7 @@ export const router = createBrowserRouter([
       const { Chat } = await import("../pages/Chat/Chat");
       return { Component: Chat };
     },
+    errorElement: <ErrorPage />,
   },
   {
     path: "/signup",
@@ -21,6 +24,7 @@ export const router = createBrowserRouter([
       const { SignUp } = await import("../pages/SignUp/SignUp");
       return { Component: SignUp };
     },
+    errorElement: <ErrorPage />,
   },
   {
     path: "/signin",
@@ -28,5 +32,10 @@ export const router = createBrowserRouter([
       const { SignIn } = await import("../pages/SignIn/SignIn");
       return { Component: SignIn };
     },
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);

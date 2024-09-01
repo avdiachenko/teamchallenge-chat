@@ -11,7 +11,7 @@ export function UserPanel() {
         <div className={styles.user}>
           <span className={styles.name}>{name}</span>
 
-          <button onClick={logout} className={styles.link}>
+          <button onClick={logout} className={styles.logout}>
             Log Out
           </button>
         </div>

@@ -14,18 +14,16 @@ export function SignIn() {
     formState: { errors },
   } = useForm<AuthData>();
 
-  const { name, loading, error, login } = useUserStore();
-
-  const onSubmit: SubmitHandler<AuthData> = (data) => {
-    login(data);
-    reset();
-  };
-
+  const { name, loading, error, errorMessage, login, clearMessage } = useUserStore();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (name) navigate("/chat", { replace: true });
   }, [name, navigate]);
+
+  useEffect(() => clearMessage(), [clearMessage]);
+
+  const onSubmit: SubmitHandler<AuthData> = (data) => login(data, reset);
 
   return (
     <div className={styles.container}>
@@ -69,8 +67,7 @@ export function SignIn() {
 
         <div className={styles.status}>
           {loading && <p className={styles.request}>Login request</p>}
-          {error && <p className={styles.error}>Login error</p>}
-          {name && <p className={styles.success}>Login success</p>}
+          {error && <p className={styles.error}>{errorMessage}</p>}
         </div>
       </div>
     </div>

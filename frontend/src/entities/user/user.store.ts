@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { BASE_URL } from "../../shared/constants/urls";
-import { AuthData } from "./user.types";
+import { api } from "../../shared/api/api";
+import { AuthData, RegistrationData } from "./user.types";
 
 type Store = {
   token: string | null;
@@ -9,30 +9,55 @@ type Store = {
   email: string | null;
   loading: boolean;
   error: boolean;
-  login: (loginInputs: AuthData) => Promise<void>;
+  errorMessage: string;
+  regLoading: boolean;
+  regSuccess: boolean;
+  regError: boolean;
+  regErrorMessage: string;
+  registration: (registrationData: RegistrationData, reset: () => void) => Promise<void>;
+  login: (loginInputs: AuthData, reset: () => void) => Promise<void>;
   logout: () => Promise<void>;
+  clearMessage: () => void;
 };
 
-export const useUserStore = create<Store>((set, get) => ({
+export const useUserStore = create<Store>((set) => ({
   token: localStorage.getItem("token"),
   refreshToken: localStorage.getItem("refreshToken"),
   name: localStorage.getItem("name"),
   email: localStorage.getItem("email"),
   loading: false,
   error: false,
+  errorMessage: "",
+  regLoading: false,
+  regSuccess: false,
+  regError: false,
+  regErrorMessage: "",
 
-  login: async (loginInputs: AuthData) => {
+  registration: async (registrationData: RegistrationData, reset: () => void) => {
+    try {
+      set({ regLoading: true, regSuccess: false, regError: false });
+      await api("/users/register", {
+        method: "POST",
+        body: JSON.stringify(registrationData),
+      });
+      set({ regSuccess: true });
+      reset();
+    } catch (error) {
+      console.error(error);
+      set({ regError: true, regErrorMessage: (error as Error).message });
+    } finally {
+      set({ regLoading: false });
+    }
+  },
+
+  login: async (loginInputs: AuthData, reset: () => void) => {
     try {
       set({ loading: true, error: false });
-      const res = await fetch(BASE_URL + "/users/login", {
+      const data = await api("/users/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify(loginInputs),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error("Login failed");
+
       set({
         token: data.token,
         refreshToken: data.refreshToken,
@@ -41,10 +66,12 @@ export const useUserStore = create<Store>((set, get) => ({
       });
       localStorage.setItem("token", data.token);
       localStorage.setItem("refreshToken", data.refreshToken);
-      localStorage.setItem("name", JSON.stringify(data.user.name));
-      localStorage.setItem("email", JSON.stringify(data.user.email));
-    } catch {
-      set({ error: true });
+      localStorage.setItem("name", data.user.name);
+      localStorage.setItem("email", data.user.email);
+      reset();
+    } catch (error) {
+      console.error(error);
+      set({ error: true, errorMessage: (error as Error).message });
     } finally {
       set({ loading: false });
     }
@@ -52,23 +79,29 @@ export const useUserStore = create<Store>((set, get) => ({
 
   logout: async () => {
     try {
-      const res = await fetch(BASE_URL + "/users/logout", {
+      await api("/users/logout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${get().token}`,
         },
       });
-
-      if (!res.ok) throw new Error("Logout failed");
-
+    } catch (error) {
+      console.error(error);
+    } finally {
       set({ token: null, refreshToken: null, name: null, email: null });
       localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("name");
       localStorage.removeItem("email");
-    } catch {
-      console.log("Logout failed");
     }
   },
+
+  clearMessage: () =>
+    set({
+      error: false,
+      errorMessage: "",
+      regError: false,
+      regErrorMessage: "",
+      regSuccess: false,
+    }),
 }));

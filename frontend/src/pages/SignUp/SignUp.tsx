@@ -1,20 +1,10 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
-import { BASE_URL } from "../../shared/constants/urls";
+import { RegistrationData } from "../../entities/user/user.types";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./SignUp.module.css";
-
-interface IFormInput {
-  name: string;
-  email: string;
-  password: string;
-  residential_complex: string;
-  apartment: number;
-  entrance: number;
-  phone: string;
-}
 
 export function SignUp() {
   const {
@@ -22,42 +12,19 @@ export function SignUp() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<IFormInput>();
+  } = useForm<RegistrationData>();
 
-  const [regError, setRegError] = useState(false);
-  const [regSuccess, setRegSuccess] = useState(false);
-  const [regRequest, setRegRequest] = useState(false);
+  const { name, regLoading, regSuccess, regError, regErrorMessage, registration, clearMessage } =
+    useUserStore();
+  const navigate = useNavigate();
 
-  const { name } = useUserStore();
+  useEffect(() => {
+    if (name) navigate("/chat", { replace: true });
+  }, [name, navigate]);
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    setRegError(false);
-    setRegSuccess(false);
-    setRegRequest(true);
+  useEffect(() => clearMessage(), [clearMessage]);
 
-    fetch(BASE_URL + "/users/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Registration failed");
-        setRegSuccess(true);
-        reset();
-      })
-      .catch(() => {
-        setRegError(true);
-      })
-      .finally(() => {
-        setRegRequest(false);
-      });
-  };
-
-  if (name) {
-    return <Navigate to="/chat" replace />;
-  }
+  const onSubmit: SubmitHandler<RegistrationData> = async (data) => registration(data, reset);
 
   return (
     <div className={styles.container}>
@@ -99,7 +66,7 @@ export function SignUp() {
 
           <div className={styles.inputContainer}>
             <input
-              type="text"
+              type="password"
               {...register("password", {
                 required: "Password is required",
                 minLength: {
@@ -158,12 +125,12 @@ export function SignUp() {
             />
           </div>
 
-          <input type="submit" value="Sign Up" disabled={regRequest} className={styles.submit} />
+          <input type="submit" value="Sign Up" disabled={regLoading} className={styles.submit} />
         </form>
 
         <div className={styles.status}>
-          {regRequest && <p className={styles.request}>Registration request</p>}
-          {regError && <p className={styles.error}>Registration error</p>}
+          {regLoading && <p className={styles.request}>Registration request</p>}
+          {regError && <p className={styles.error}>{regErrorMessage}</p>}
           {regSuccess && <p className={styles.success}>Registration success</p>}
         </div>
       </div>
