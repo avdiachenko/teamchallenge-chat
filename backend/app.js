@@ -3,6 +3,8 @@ import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./docs/swagger.json" assert { type: "json" };
 
 import contactsRouter from "./routes/contactsRouter.js";
 import authRouter from "./routes/authRouter.js";
@@ -15,8 +17,10 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
+
 app.use("/users", authRouter);
 app.use("/api/contacts", contactsRouter);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
