@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { api } from "../../shared/api/api";
-import { AuthData } from "./user.types";
+import { AuthData, RegistrationData } from "./user.types";
 
 type Store = {
   token: string | null;
@@ -10,8 +10,14 @@ type Store = {
   loading: boolean;
   error: boolean;
   errorMessage: string;
-  login: (loginInputs: AuthData) => Promise<void>;
+  regLoading: boolean;
+  regSuccess: boolean;
+  regError: boolean;
+  regErrorMessage: string;
+  registration: (registrationData: RegistrationData, reset: () => void) => Promise<void>;
+  login: (loginInputs: AuthData, reset: () => void) => Promise<void>;
   logout: () => Promise<void>;
+  clearMessage: () => void;
 };
 
 export const useUserStore = create<Store>((set) => ({
@@ -22,8 +28,29 @@ export const useUserStore = create<Store>((set) => ({
   loading: false,
   error: false,
   errorMessage: "",
+  regLoading: false,
+  regSuccess: false,
+  regError: false,
+  regErrorMessage: "",
 
-  login: async (loginInputs: AuthData) => {
+  registration: async (registrationData: RegistrationData, reset: () => void) => {
+    try {
+      set({ regLoading: true, regSuccess: false, regError: false });
+      await api("/users/register", {
+        method: "POST",
+        body: JSON.stringify(registrationData),
+      });
+      set({ regSuccess: true });
+      reset();
+    } catch (error) {
+      console.error(error);
+      set({ regError: true, regErrorMessage: (error as Error).message });
+    } finally {
+      set({ regLoading: false });
+    }
+  },
+
+  login: async (loginInputs: AuthData, reset: () => void) => {
     try {
       set({ loading: true, error: false });
       const data = await api("/users/login", {
@@ -41,6 +68,7 @@ export const useUserStore = create<Store>((set) => ({
       localStorage.setItem("refreshToken", data.refreshToken);
       localStorage.setItem("name", data.user.name);
       localStorage.setItem("email", data.user.email);
+      reset();
     } catch (error) {
       console.error(error);
       set({ error: true, errorMessage: (error as Error).message });
@@ -67,4 +95,13 @@ export const useUserStore = create<Store>((set) => ({
       localStorage.removeItem("email");
     }
   },
+
+  clearMessage: () =>
+    set({
+      error: false,
+      errorMessage: "",
+      regError: false,
+      regErrorMessage: "",
+      regSuccess: false,
+    }),
 }));

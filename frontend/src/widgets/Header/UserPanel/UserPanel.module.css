@@ -16,6 +16,18 @@
   font-weight: bold;
 }
 
+.logout {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background-color: var(--primary-color);
+  padding: 5px 10px;
+}
+
+.logout:hover {
+  background-color: var(--secondary-color);
+}
+
 .auth {
   display: flex;
   align-items: center;

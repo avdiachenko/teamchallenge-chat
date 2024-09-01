@@ -44,13 +44,13 @@
 }
 
 .submit {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background-color: var(--primary-color);
+  padding: 5px 10px;
   width: 200px;
   cursor: pointer;
-  background-color: var(--primary-color);
-  color: white;
-  font-size: 20px;
-  border: 1px solid var(--primary-color);
-  border-radius: 5px;
 }
 
 .submit:hover {
