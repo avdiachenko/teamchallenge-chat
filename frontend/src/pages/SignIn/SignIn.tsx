@@ -14,7 +14,7 @@ export function SignIn() {
     formState: { errors },
   } = useForm<AuthData>();
 
-  const { name, loading, error, login } = useUserStore();
+  const { name, loading, error, errorMessage, login } = useUserStore();
 
   const onSubmit: SubmitHandler<AuthData> = (data) => {
     login(data);
@@ -69,8 +69,7 @@ export function SignIn() {
 
         <div className={styles.status}>
           {loading && <p className={styles.request}>Login request</p>}
-          {error && <p className={styles.error}>Login error</p>}
-          {name && <p className={styles.success}>Login success</p>}
+          {error && <p className={styles.error}>{errorMessage}</p>}
         </div>
       </div>
     </div>
