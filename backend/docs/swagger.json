@@ -8,6 +8,9 @@
     "servers": [
       {
         "url": "https://teamchallenge-chat-jmsz.onrender.com"
+      },
+      {
+        "url": "http://localhost:4000"
       }
     ],
     "tags": [
@@ -226,6 +229,12 @@
       },
       "/users/logout": {
         "post": {
+          "description": "User must be authorized",
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
           "tags": [
             "users"
           ],
@@ -248,7 +257,13 @@
       }
     },
     "components": {
-      "securitySchemes": {},
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      },
       "schemas": {
         "SignUp": {
           "type": "object",
