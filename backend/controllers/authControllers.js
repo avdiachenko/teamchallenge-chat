@@ -64,10 +64,33 @@ const signin = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-  const { email, subscription } = req.user;
+  const { name, email, residential_complex, apartment, entrance, phone } =
+    req.user;
   res.json({
+    name,
     email,
-    subscription,
+    residential_complex,
+    apartment,
+    entrance,
+    phone,
+  });
+};
+
+const getrefreshCurrent = async (req, res) => {
+  const user = req.user;
+  const payload = {
+    id: user._id,
+  };
+  const token = jwt.sign(payload, JWT_SECRET, {
+    expiresIn: "1h",
+  });
+  const refreshToken = jwt.sign(payload, JWT_SECRET, {
+    expiresIn: "7d",
+  });
+  await setTokens(user.id, token, refreshToken);
+  res.json({
+    token,
+    refreshToken,
   });
 };
 
@@ -77,23 +100,10 @@ const logout = async (req, res) => {
   res.status(204).json();
 };
 
-const updateSubscription = async (req, res) => {
-  const { email } = req.user;
-  const result = await updateSubscriptionByFilter({ email }, req.body);
-  const { subscription } = result;
-  if (!result) {
-    throw HttpError(404);
-  }
-  res.status(200).json({
-    email,
-    subscription,
-  });
-};
-
 export default {
   signup: ctrlWrapper(signup),
   signin: ctrlWrapper(signin),
   getCurrent: ctrlWrapper(getCurrent),
+  getrefreshCurrent: ctrlWrapper(getrefreshCurrent),
   logout: ctrlWrapper(logout),
-  updateSubscription: ctrlWrapper(updateSubscription),
 };
