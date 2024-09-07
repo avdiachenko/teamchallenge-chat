@@ -18,7 +18,7 @@ const authenticateWithRefresh = async (req, res, next) => {
     const { id } = jwt.verify(refreshToken, JWT_SECRET);
     console.log(id);
     const user = await findUserById(id);
-    if (!user || !user.refreshToken) {
+    if (!user || user.refreshToken !== refreshToken) {
       return next(HttpError(401, "Not authorized user"));
     }
     req.user = user;
