@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  height: calc(100vh - 100px);
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.input {
+  font-size: 20px;
+  border: 1px solid var(--primary-color);
+  width: 200px;
+}
+
+.error {
+  color: red;
+}
+
+.submit {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background-color: var(--primary-color);
+  padding: 5px 10px;
+  width: 200px;
+  cursor: pointer;
+}
+
+.submit:hover {
+  background-color: var(--secondary-color);
+}
+
+.submit:disabled {
+  cursor: not-allowed;
+  background-color: grey;
+}
+
+.status {
+  font-size: 20px;
+}
+
+.request {
+  color: blue;
+}
+
+.success {
+  color: green;
+}

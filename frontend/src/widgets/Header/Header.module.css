@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+  padding: 30px 58px 30px 150px;
+  border-bottom: 1px solid #EFEFFE;
+}
+
+.header_title {
+  font-size: 32px;
+  color: #414141;
+}
+
+.links {
+  display: flex;
+}
+
+/* 
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.link {
+  font-size: 25px;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.link:hover {
+  color: var(--secondary-color);
+} */
