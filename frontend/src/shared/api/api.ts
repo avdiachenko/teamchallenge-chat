@@ -2,7 +2,7 @@ import { useUserStore } from "../../entities/user/user.store";
 import { BASE_URL } from "../constants/urls";
 
 export const api = async (url: string, options: RequestInit = {}) => {
-  const { token, refreshToken, refresh, logout } = useUserStore.getState();
+  const { token, refreshToken, refresh, clearTokens } = useUserStore.getState();
 
   const modifiedOptions = {
     ...options,
@@ -30,7 +30,7 @@ export const api = async (url: string, options: RequestInit = {}) => {
     }
 
     if (res.status === 401) {
-      logout();
+      clearTokens();
       throw new Error("Unauthorized, logged out.");
     }
 
