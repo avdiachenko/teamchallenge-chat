@@ -28,7 +28,7 @@ export function SignUp() {
 
   return (
     <div className={styles.container}>
-      <Header />
+      <Header title="Sign Up" />
 
       <div className={styles.content}>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>

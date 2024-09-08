@@ -27,7 +27,7 @@ export function SignIn() {
 
   return (
     <div className={styles.container}>
-      <Header />
+      <Header title="Sign In" />
       <div className={styles.content}>
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <div className={styles.inputContainer}>
