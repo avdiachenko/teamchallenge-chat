@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
 import { RegistrationData } from "../../entities/user/user.types";
+import signImage from "../../shared/assets/images/signImage.jpg";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./SignUp.module.css";
 
@@ -28,9 +29,11 @@ export function SignUp() {
 
   return (
     <div className={styles.container}>
-      <Header />
+      <Header title="Sign Up" />
 
       <div className={styles.content}>
+        <img src={signImage} alt="logo" className={styles.logo} />
+
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <div className={styles.inputContainer}>
             <input
@@ -126,13 +129,13 @@ export function SignUp() {
           </div>
 
           <input type="submit" value="Sign Up" disabled={regLoading} className={styles.submit} />
-        </form>
 
-        <div className={styles.status}>
-          {regLoading && <p className={styles.request}>Registration request</p>}
-          {regError && <p className={styles.error}>{regErrorMessage}</p>}
-          {regSuccess && <p className={styles.success}>Registration success</p>}
-        </div>
+          <div className={styles.status}>
+            {regLoading && <p className={styles.request}>Registration request</p>}
+            {regError && <p className={styles.error}>{regErrorMessage}</p>}
+            {regSuccess && <p className={styles.success}>Registration success</p>}
+          </div>
+        </form>
       </div>
     </div>
   );

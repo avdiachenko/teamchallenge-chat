@@ -17,12 +17,12 @@ export function UserPanel() {
         </div>
       ) : (
         <div className={styles.auth}>
-          <Link to="/signup" className={styles.link}>
-            Sign Up
+          <Link to="/signin" className={styles.link}>
+            Sign in
           </Link>
 
-          <Link to="/signin" className={styles.link}>
-            Sign In
+          <Link to="/signup" className={styles.link}>
+            Sign up
           </Link>
         </div>
       )}
