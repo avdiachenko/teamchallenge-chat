@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
 import { AuthData } from "../../entities/user/user.types";
+import signImage from "../../shared/assets/images/signImage.jpg";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./SignIn.module.css";
 
@@ -28,7 +29,10 @@ export function SignIn() {
   return (
     <div className={styles.container}>
       <Header title="Sign In" />
+
       <div className={styles.content}>
+        <img src={signImage} alt="logo" className={styles.logo} />
+
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <div className={styles.inputContainer}>
             <input
@@ -63,12 +67,12 @@ export function SignIn() {
           </div>
 
           <input type="submit" value="Sign In" disabled={loading} className={styles.submit} />
-        </form>
 
-        <div className={styles.status}>
-          {loading && <p className={styles.request}>Login request</p>}
-          {error && <p className={styles.error}>{errorMessage}</p>}
-        </div>
+          <div className={styles.status}>
+            {loading && <p className={styles.request}>Login request</p>}
+            {error && <p className={styles.error}>{errorMessage}</p>}
+          </div>
+        </form>
       </div>
     </div>
   );
