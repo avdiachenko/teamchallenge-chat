@@ -32,9 +32,7 @@ export function SignUp() {
       <Header title="Sign Up" />
 
       <div className={styles.content}>
-        <div className={styles.swiperContainer}>
-          <SignSwiper />
-        </div>
+        <SignSwiper />
 
         <div className={styles.formContainer}>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
