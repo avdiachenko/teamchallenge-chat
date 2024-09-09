@@ -12,8 +12,72 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  min-height: calc(100vh - 100px);
+  height: calc(100vh - 100px);
+  padding: 40px;
   width: 1600px;
+}
+
+@media screen and (max-width: 1600px) {
+  .content {
+    width: 100%;
+    flex-direction: column;
+    height: 100%;
+    gap: 40px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    padding: 20px;
+  }
+}
+
+.swiperContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 900px;
+}
+
+@media screen and (max-width: 1600px) {
+  .swiperContainer {
+    width: 100%;
+    height: 700px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .swiperContainer {
+    height: 100%;
+  }
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  width: 550px;
+  height: 100%;
+  padding-top: 60px;
+  border-radius: 20px;
+  background-color: var(--purple-color-100);
+}
+
+@media screen and (max-width: 1600px) {
+  .formContainer {
+    width: 100%;
+    padding-bottom: 60px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .formContainer {
+    padding: 40px;
+  }
 }
 
 .form {
@@ -22,8 +86,13 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
-  padding-top: 60px;
   width: 440px;
+}
+
+@media screen and (max-width: 768px) {
+  .form {
+    width: 100%;
+  }
 }
 
 .inputContainer {
@@ -32,7 +101,7 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
-  width: 440px;
+  width: 100%;
 }
 
 .input {
