@@ -1,37 +1,92 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-      "title": "Chat",
-      "description": "API for the Team Challenge Chat project",
-      "version": "1.0"
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Chat",
+    "description": "API for the Team Challenge Chat project",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://teamchallenge-chat-jmsz.onrender.com"
     },
-    "servers": [
-      {
-        "url": "https://teamchallenge-chat-jmsz.onrender.com"
-      },
-      {
-        "url": "http://localhost:4000"
-      }
-    ],
-    "tags": [
-      {
-        "name": "users",
-        "description": "User actions"
-      },
-      {
-        "name": "contacts",
-        "description": "???"
-      }
-    ],
-    "paths": {
-      "/users/register": {
-        "post": {
-          "tags": [
-            "users"
-          ],
-          "summary": "Add a new user",
-          "parameters": [],
-          "requestBody": {
+    {
+      "url": "http://localhost:4000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "users",
+      "description": "User actions"
+    },
+    {
+      "name": "contacts",
+      "description": "???"
+    }
+  ],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Add a new user",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "email",
+                  "password",
+                  "residential_complex",
+                  "apartment",
+                  "entrance"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "idn-email",
+                    "example": "example@email.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "password"
+                  },
+                  "residential_complex": {
+                    "type": "string",
+                    "example": "123A"
+                  },
+                  "apartment": {
+                    "type": "number",
+                    "format": "int64",
+                    "minimum": 1,
+                    "example": 11
+                  },
+                  "entrance": {
+                    "type": "number",
+                    "format": "int64",
+                    "minimum": 1,
+                    "example": 3
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "+380123456789"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
             "content": {
               "application/json": {
                 "schema": {
@@ -39,7 +94,6 @@
                   "required": [
                     "name",
                     "email",
-                    "password",
                     "residential_complex",
                     "apartment",
                     "entrance"
@@ -53,11 +107,6 @@
                       "type": "string",
                       "format": "idn-email",
                       "example": "example@email.com"
-                    },
-                    "password": {
-                      "type": "string",
-                      "minLength": 8,
-                      "example": "password"
                     },
                     "residential_complex": {
                       "type": "string",
@@ -83,325 +132,335 @@
                 }
               }
             },
-            "required": true
+            "description": "Successfull registration"
           },
-          "responses": {
-            "201": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "required": [
-                      "name",
-                      "email",
-                      "residential_complex",
-                      "apartment",
-                      "entrance"
-                    ],
-                    "properties": {
-                      "name": {
-                        "type": "string",
-                        "example": "John Doe"
-                      },
-                      "email": {
-                        "type": "string",
-                        "format": "idn-email",
-                        "example": "example@email.com"
-                      },
-                      "residential_complex": {
-                        "type": "string",
-                        "example": "123A"
-                      },
-                      "apartment": {
-                        "type": "number",
-                        "format": "int64",
-                        "minimum": 1,
-                        "example": 11
-                      },
-                      "entrance": {
-                        "type": "number",
-                        "format": "int64",
-                        "minimum": 1,
-                        "example": 3
-                      },
-                      "phone": {
-                        "type": "string",
-                        "example": "+380123456789"
-                      }
-                    }
-                  }
-                }
-              },
-              "description": "Successfull registration"
-            },
-            "400": {
-              "description": "Validating body failed"
-            },
-            "409": {
-              "description": "Email in use"
-            }
+          "400": {
+            "description": "Validating body failed"
+          },
+          "409": {
+            "description": "Email in use"
           }
         }
-      },
-      "/users/login": {
-        "post": {
-          "tags": [
-            "users"
-          ],
-          "summary": "Authenticate, get tokens",
-          "parameters": [],
-          "requestBody": {
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Authenticate, get tokens",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "idn-email",
+                    "example": "example@email.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "password"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "required": [
-                    "email",
-                    "password"
+                    "token",
+                    "refreshToken",
+                    "user"
                   ],
                   "properties": {
-                    "email": {
-                      "type": "string",
-                      "format": "idn-email",
-                      "example": "example@email.com"
+                    "token": {
+                      "type": "string"
                     },
-                    "password": {
-                      "type": "string",
-                      "minLength": 8,
-                      "example": "password"
-                    }
-                  }
-                }
-              }
-            },
-            "required": true
-          },
-          "responses": {
-            "200": {
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "required": [
-                      "token",
-                      "refreshToken",
-                      "user"
-                    ],
-                    "properties": {
-                      "token": {
-                        "type": "string"
-                      },
-                      "refreshToken": {
-                        "type": "string"
-                      },
-                      "user": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string",
-                            "example": "John Doe"
-                          },
-                          "email": {
-                            "type": "string",
-                            "format": "idn-email",
-                            "example": "example@email.com"
-                          },
-                          "phone": {
-                            "type": "string",
-                            "example": "+380123456789"
-                          }
+                    "refreshToken": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "John Doe"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "idn-email",
+                          "example": "example@email.com"
+                        },
+                        "phone": {
+                          "type": "string",
+                          "example": "+380123456789"
                         }
                       }
                     }
                   }
                 }
-              },
-              "description": "Successfull login"
+              }
             },
-            "400": {
-              "description": "Validating body failed"
-            },
-            "401": {
-              "description": "Email or password is wrong"
-            }
-          }
-        }
-      },
-      "/users/logout": {
-        "post": {
-          "description": "User must be authorized",
-          "security": [
-            {
-              "bearerAuth": []
-            }
-          ],
-          "tags": [
-            "users"
-          ],
-          "summary": "",
-          "parameters": [],
-          "responses": {
-            "204": {
-              "content": {
-                "application/json": {
-                  "schema": ""
-                }
-              },
-              "description": "Successfull logout"
-            },
-            "401": {
-              "description": "Not authorized"
-            }
+            "description": "Successfull login"
+          },
+          "400": {
+            "description": "Validating body failed"
+          },
+          "401": {
+            "description": "Email or password is wrong"
           }
         }
       }
     },
-    "components": {
-      "securitySchemes": {
-        "bearerAuth": {
-          "type": "http",
-          "scheme": "bearer",
-          "bearerFormat": "JWT"
+    "/users/logout": {
+      "post": {
+        "description": "User must be authorized",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "users"
+        ],
+        "summary": "",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "content": {
+              "application/json": {
+                "schema": ""
+              }
+            },
+            "description": "Successfull logout"
+          },
+          "401": {
+            "description": "Not authorized"
+          }
+        }
+      }
+    },
+    "/users/user-info": {
+      "get": {
+        "description": "User must be authorized",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "users"
+        ],
+        "summary": "Get general information about the user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "{\n\"name\": \"John Doe\",  \"email\": \"example@email.com\",\n\"residential_complex\": \"123A\", \"apartment\": 11, \"entrance\": 3, \"phone\": \"+380123456789\" }"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "401": {
+            "description": "Not authorized"
+          }
+        }
+      }
+    },
+    "/users/refreshCurrent": {
+      "get": {
+        "description": "User must provide a refresh token in the authorization header",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "users"
+        ],
+        "summary": "Get new token pair",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "{ \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZDFiNmRhODFlNjBmNDFiNmU0NmJhMSIsImlhdCI6MTcyNTcyNjM1MCwiZXhwIjoxNzI1NzI5OTUwfQ.mhAet4ixQKHGnc-YE2h7DV1Kj-IcyLm-4WGghw0xEhk\",\"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZDFiNmRhODFlNjBmNDFiNmU0NmJhMSIsImlhdCI6MTcyNTcyNjM1MCwiZXhwIjoxNzI2MzMxMTUwfQ.bZJbqkYwz7QkWf4JFfdrUX7KK83T_t7hgYFF7AJDZMU\"}"
+                }
+              }
+            },
+            "description": "Success"
+          },
+          "401": {
+            "description": "Not authorized or not a refresh token"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "SignUp": {
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "password",
+          "residential_complex",
+          "apartment",
+          "entrance"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "idn-email",
+            "example": "example@email.com"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "example": "password"
+          },
+          "residential_complex": {
+            "type": "string",
+            "example": "123A"
+          },
+          "apartment": {
+            "type": "number",
+            "format": "int64",
+            "minimum": 1,
+            "example": 11
+          },
+          "entrance": {
+            "type": "number",
+            "format": "int64",
+            "minimum": 1,
+            "example": 3
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380123456789"
+          }
         }
       },
-      "schemas": {
-        "SignUp": {
-          "type": "object",
-          "required": [
-            "name",
-            "email",
-            "password",
-            "residential_complex",
-            "apartment",
-            "entrance"
-          ],
-          "properties": {
-            "name": {
-              "type": "string",
-              "example": "John Doe"
-            },
-            "email": {
-              "type": "string",
-              "format": "idn-email",
-              "example": "example@email.com"
-            },
-            "password": {
-              "type": "string",
-              "minLength": 8,
-              "example": "password"
-            },
-            "residential_complex": {
-              "type": "string",
-              "example": "123A"
-            },
-            "apartment": {
-              "type": "number",
-              "format": "int64",
-              "minimum": 1,
-              "example": 11
-            },
-            "entrance": {
-              "type": "number",
-              "format": "int64",
-              "minimum": 1,
-              "example": 3
-            },
-            "phone": {
-              "type": "string",
-              "example": "+380123456789"
-            }
+      "SignUpResponse": {
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "residential_complex",
+          "apartment",
+          "entrance"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "idn-email",
+            "example": "example@email.com"
+          },
+          "residential_complex": {
+            "type": "string",
+            "example": "123A"
+          },
+          "apartment": {
+            "type": "number",
+            "format": "int64",
+            "minimum": 1,
+            "example": 11
+          },
+          "entrance": {
+            "type": "number",
+            "format": "int64",
+            "minimum": 1,
+            "example": 3
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380123456789"
           }
-        },
-        "SignUpResponse": {
-          "type": "object",
-          "required": [
-            "name",
-            "email",
-            "residential_complex",
-            "apartment",
-            "entrance"
-          ],
-          "properties": {
-            "name": {
-              "type": "string",
-              "example": "John Doe"
-            },
-            "email": {
-              "type": "string",
-              "format": "idn-email",
-              "example": "example@email.com"
-            },
-            "residential_complex": {
-              "type": "string",
-              "example": "123A"
-            },
-            "apartment": {
-              "type": "number",
-              "format": "int64",
-              "minimum": 1,
-              "example": 11
-            },
-            "entrance": {
-              "type": "number",
-              "format": "int64",
-              "minimum": 1,
-              "example": 3
-            },
-            "phone": {
-              "type": "string",
-              "example": "+380123456789"
-            }
+        }
+      },
+      "SignIn": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "idn-email",
+            "example": "example@email.com"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "example": "password"
           }
-        },
-        "SignIn": {
-          "type": "object",
-          "required": [
-            "email",
-            "password"
-          ],
-          "properties": {
-            "email": {
-              "type": "string",
-              "format": "idn-email",
-              "example": "example@email.com"
-            },
-            "password": {
-              "type": "string",
-              "minLength": 8,
-              "example": "password"
-            }
-          }
-        },
-        "SignInResponse": {
-          "type": "object",
-          "required": [
-            "token",
-            "refreshToken",
-            "user"
-          ],
-          "properties": {
-            "token": {
-              "type": "string"
-            },
-            "refreshToken": {
-              "type": "string"
-            },
-            "user": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "example": "John Doe"
-                },
-                "email": {
-                  "type": "string",
-                  "format": "idn-email",
-                  "example": "example@email.com"
-                },
-                "phone": {
-                  "type": "string",
-                  "example": "+380123456789"
-                }
+        }
+      },
+      "SignInResponse": {
+        "type": "object",
+        "required": [
+          "token",
+          "refreshToken",
+          "user"
+        ],
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "John Doe"
+              },
+              "email": {
+                "type": "string",
+                "format": "idn-email",
+                "example": "example@email.com"
+              },
+              "phone": {
+                "type": "string",
+                "example": "+380123456789"
               }
             }
           }
@@ -409,3 +468,4 @@
       }
     }
   }
+}

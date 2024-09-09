@@ -21,7 +21,8 @@ type Store = {
   refresh: () => Promise<void>;
   registration: (registrationData: RegistrationData, reset: () => void) => Promise<void>;
   login: (loginInputs: AuthData, reset: () => void) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
+  clearTokens: () => void;
   clearMessage: () => void;
 };
 
@@ -142,7 +143,19 @@ export const useUserStore = create<Store>((set, get) => ({
     }
   },
 
-  logout: () => {
+  logout: async () => {
+    try {
+      await api("/users/logout", {
+        method: "POST",
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      get().clearTokens();
+    }
+  },
+
+  clearTokens: () => {
     set({ token: null, refreshToken: null, name: null });
 
     localStorage.removeItem("token");
