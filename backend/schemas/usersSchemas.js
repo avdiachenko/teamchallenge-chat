@@ -19,6 +19,14 @@ export const signupSchema = Joi.object({
 });
 
 export const signinSchema = Joi.object({
-  password: Joi.string().required(),
+  password: Joi.string()
+    .pattern(new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/))
+    .required()
+    .error(
+      (errors) =>
+        new Error(
+          "The password may contain at least one upper case, one lower case English letter, one digit, and have a length of at least 8 characters"
+        )
+    ),
   email: Joi.string().email().required(),
 });
