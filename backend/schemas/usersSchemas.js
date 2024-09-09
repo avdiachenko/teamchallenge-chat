@@ -3,7 +3,15 @@ import Joi from "joi";
 export const signupSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
-  password: Joi.string().required(),
+  password: Joi.string()
+    .pattern(new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/))
+    .required()
+    .error(
+      (errors) =>
+        new Error(
+          "The password may contain at least one upper case, one lower case English letter, one digit, and have a length of at least 8 characters"
+        )
+    ),
   residential_complex: Joi.string().required(),
   apartment: Joi.number().required(),
   entrance: Joi.number().required(),
