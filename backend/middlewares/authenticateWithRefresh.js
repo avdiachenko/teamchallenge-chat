@@ -8,6 +8,9 @@ const { JWT_SECRET } = process.env;
 const authenticateWithRefresh = async (req, res, next) => {
   const { authorization } = req.headers;
   console.log(authorization);
+  if (!authorization) {
+    return next(HttpError(401));
+  }
   const [bearer, refreshToken] = authorization.split(" ");
   console.log(bearer);
   console.log(refreshToken);
