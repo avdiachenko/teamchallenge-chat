@@ -1,6 +1,10 @@
+import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
+import { Checkbox, Select } from "@mui/joy";
+import Option from "@mui/joy/Option";
+import { selectClasses } from "@mui/joy/Select";
 import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
 import { RegistrationData } from "../../entities/user/user.types";
 import { SignSwiper } from "../../shared/components/SignSwiper/SignSwiper";
@@ -12,6 +16,7 @@ export function SignUp() {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<RegistrationData>();
 
@@ -36,7 +41,10 @@ export function SignUp() {
 
         <div className={styles.formContainer}>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+            <span className={styles.formTitle}>Sign Up</span>
+
             <div className={styles.inputContainer}>
+              <label className={styles.label}>Name</label>
               <input
                 type="text"
                 {...register("name", {
@@ -46,13 +54,14 @@ export function SignUp() {
                     message: "Name must be at least 3 characters long",
                   },
                 })}
-                placeholder="Name"
+                placeholder="Your Name"
                 className={styles.input}
               />
               {errors.name && <p className={styles.error}>{errors.name.message}</p>}
             </div>
 
             <div className={styles.inputContainer}>
+              <label className={styles.label}>Email</label>
               <input
                 type="text"
                 {...register("email", {
@@ -62,71 +71,166 @@ export function SignUp() {
                       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || "Invalid email address",
                   },
                 })}
-                placeholder="Email"
+                placeholder="Your Email Address"
                 className={styles.input}
               />
               {errors.email && <p className={styles.error}>{errors.email.message}</p>}
             </div>
 
             <div className={styles.inputContainer}>
+              <label className={styles.label}>Password</label>
               <input
                 type="password"
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
-                    value: 6,
-                    message: "Password must be at least 6 characters long",
+                    value: 8,
+                    message: "Password must be at least 8 characters long",
+                  },
+                  pattern: {
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                    message:
+                      "Must contain one uppercase letter, one lowercase letter, and one number",
                   },
                 })}
-                placeholder="Password"
+                placeholder="Your Password"
                 className={styles.input}
               />
               {errors.password && <p className={styles.error}>{errors.password.message}</p>}
             </div>
 
             <div className={styles.inputContainer}>
-              <input
-                type="text"
-                {...register("residential_complex", {
-                  required: "Residential complex is required",
-                })}
-                placeholder="Residential complex"
-                className={styles.input}
+              <label className={styles.label}>Residential Complex</label>
+              <Controller
+                name="residential_complex"
+                control={control}
+                defaultValue=""
+                rules={{ required: "Residential complex is required" }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    placeholder="Your Residential Complex"
+                    indicator={<KeyboardArrowDown />}
+                    sx={{
+                      width: "100%",
+                      fontSize: "18px",
+                      fontWeight: 400,
+                      padding: "13px 20px",
+                      borderRadius: "40px",
+                      color: "var(--black-color)",
+                      border: "1px solid var(--gray-color-500)",
+                      "&:hover": {
+                        backgroundColor: "var(--white-color)",
+                      },
+                      [`& .${selectClasses.indicator}`]: {
+                        transition: "0.2s",
+                        [`&.${selectClasses.expanded}`]: {
+                          transform: "rotate(-180deg)",
+                        },
+                      },
+                    }}
+                    slotProps={{
+                      listbox: {
+                        sx: {
+                          maxHeight: 200,
+                          overflow: "auto",
+                          borderRadius: "5px",
+                        },
+                      },
+                    }}
+                  >
+                    {[
+                      "Panorama",
+                      "Azure Coast",
+                      "Altair",
+                      "Sunny Quarter",
+                      "Riviera",
+                      "Radiance",
+                      "Harmony",
+                      "Northern Star",
+                      "Eco Park",
+                      "Green Island",
+                    ].map((complex) => (
+                      <Option key={complex} value={complex}>
+                        {complex}
+                      </Option>
+                    ))}
+                  </Select>
+                )}
               />
               {errors.residential_complex && (
                 <p className={styles.error}>{errors.residential_complex.message}</p>
               )}
             </div>
 
-            <div className={styles.inputContainer}>
-              <input
-                type="number"
-                {...register("apartment", {
-                  required: "Apartment is required",
-                })}
-                placeholder="Apartment"
-                className={styles.input}
-              />
-              {errors.apartment && <p className={styles.error}>{errors.apartment.message}</p>}
+            <div className={styles.wrapper}>
+              <div className={styles.inputContainer}>
+                <label className={styles.label}>Apartment</label>
+                <input
+                  type="number"
+                  {...register("apartment", {
+                    required: "Apartment is required",
+                    min: {
+                      value: 1,
+                      message: "Number must be at least 1",
+                    },
+                    max: {
+                      value: 500,
+                      message: "Number must be 500 or less",
+                    },
+                  })}
+                  placeholder="Number"
+                  className={styles.input}
+                />
+                {errors.apartment && <p className={styles.error}>{errors.apartment.message}</p>}
+              </div>
+
+              <div className={styles.inputContainer}>
+                <label className={styles.label}>Entrance</label>
+                <input
+                  type="number"
+                  {...register("entrance", {
+                    required: "Entrance is required",
+                    min: {
+                      value: 1,
+                      message: "Number must be at least 1",
+                    },
+                    max: {
+                      value: 50,
+                      message: "Number must be 50 or less",
+                    },
+                  })}
+                  placeholder="Number"
+                  className={styles.input}
+                />
+                {errors.entrance && <p className={styles.error}>{errors.entrance.message}</p>}
+              </div>
             </div>
 
-            <div className={styles.inputContainer}>
-              <input
-                type="number"
-                {...register("entrance", { required: "Entrance is required" })}
-                placeholder="Entrance"
-                className={styles.input}
-              />
-              {errors.entrance && <p className={styles.error}>{errors.entrance.message}</p>}
-            </div>
-
-            <div className={styles.inputContainer}>
-              <input
-                type="phone"
-                {...register("phone")}
-                placeholder="Phone"
-                className={styles.input}
-              />
+            <div className={styles.checkboxContainer}>
+              <div className={styles.wrapper}>
+                <Checkbox
+                  sx={{
+                    "& .MuiCheckbox-checkbox": {
+                      backgroundColor: "var(--purple-color-600)",
+                    },
+                    "& .MuiCheckbox-checkbox:hover": {
+                      backgroundColor: "var(--purple-color-600)",
+                    },
+                    "& .MuiCheckbox-icon": {
+                      color: "var(--white-color)",
+                    },
+                  }}
+                  disabled={false}
+                  size="lg"
+                  variant="solid"
+                  {...register("agree", { required: "Agree is required" })}
+                />
+                <label className={styles.label}>
+                  Agree to receive advertisements and promotions
+                </label>
+              </div>
+              {errors.agree && <p className={styles.error}>{errors.agree.message}</p>}
             </div>
 
             <input type="submit" value="Sign Up" disabled={regLoading} className={styles.submit} />
@@ -135,6 +239,13 @@ export function SignUp() {
               {regLoading && <p className={styles.request}>Registration request</p>}
               {regError && <p className={styles.error}>{regErrorMessage}</p>}
               {regSuccess && <p className={styles.success}>Registration success</p>}
+            </div>
+
+            <div className={styles.text}>
+              Already have an account?{" "}
+              <Link to="/signin" className={styles.link}>
+                Log In
+              </Link>
             </div>
           </form>
         </div>
