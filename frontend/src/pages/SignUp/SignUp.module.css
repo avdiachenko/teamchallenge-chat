@@ -41,15 +41,9 @@
   gap: 20px;
   width: 550px;
   height: 100%;
-  padding-top: 60px;
+  padding: 40px;
   border-radius: 20px;
   background-color: var(--purple-color-100);
-}
-
-@media screen and (max-width: 1600px) {
-  .formContainer {
-    padding: 40px;
-  }
 }
 
 @media screen and (max-width: 1200px) {
@@ -62,7 +56,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 20px;
   width: 440px;
@@ -74,13 +68,32 @@
   }
 }
 
+.formTitle {
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  width: 100%;
+}
+
 .inputContainer {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 5px;
   width: 100%;
+}
+
+.label {
+  font-size: 18px;
+  font-weight: 400;
 }
 
 .input {
