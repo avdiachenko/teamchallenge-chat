@@ -4,13 +4,19 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 700px;
+  height: 750px;
   width: 900px;
+}
+
+@media screen and (max-width: 1600px) {
+  .container {
+    height: 700px;
+  }
 }
 
 @media screen and (max-width: 1360px) {
   .container {
-    height: 100%;
+    height: 600px;
   }
 }
 
