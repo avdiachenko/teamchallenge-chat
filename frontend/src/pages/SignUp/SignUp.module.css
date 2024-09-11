@@ -39,7 +39,7 @@
   justify-content: flex-start;
   gap: 20px;
   width: 550px;
-  height: 100%;
+  height: 755px;
   padding: 35px;
   border-radius: 20px;
   background-color: var(--purple-color-100);
@@ -48,6 +48,7 @@
 @media screen and (max-width: 1200px) {
   .formContainer {
     width: 100%;
+    height: 100%;
     padding: 20px;
   }
 }
@@ -111,10 +112,9 @@
   font-size: 18px;
   font-weight: 400;
   color: var(--black-color);
-  border: 1px solid var(--gray-color-500);
+  background-color: var(--purple-color-100);
   width: 100%;
   padding: 13px 20px;
-  border-radius: 40px;
 }
 
 .input::placeholder {
@@ -170,4 +170,8 @@
   font-size: 16px;
   font-weight: 400;
   text-align: center;
+}
+
+.link {
+  color: var(--purple-color-600);
 }

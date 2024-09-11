@@ -121,11 +121,12 @@ export function SignUp() {
                       fontSize: "18px",
                       fontWeight: 400,
                       padding: "13px 20px",
-                      borderRadius: "40px",
                       color: "var(--black-color)",
-                      border: "1px solid var(--gray-color-500)",
+                      border: "none",
+                      boxShadow: "none",
+                      backgroundColor: "var(--purple-color-100)",
                       "&:hover": {
-                        backgroundColor: "var(--white-color)",
+                        backgroundColor: "var(--purple-color-100)",
                       },
                       [`& .${selectClasses.indicator}`]: {
                         transition: "0.2s",
