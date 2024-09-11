@@ -1,8 +1,8 @@
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
-import { Checkbox, Select } from "@mui/joy";
+import { Button, Checkbox, Select } from "@mui/joy";
 import Option from "@mui/joy/Option";
 import { selectClasses } from "@mui/joy/Select";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
@@ -19,6 +19,8 @@ export function SignUp() {
     control,
     formState: { errors },
   } = useForm<RegistrationData>();
+
+  const [isAgree, setIsAgree] = useState(false);
 
   const { name, regLoading, regSuccess, regError, regErrorMessage, registration, clearMessage } =
     useUserStore();
@@ -90,7 +92,7 @@ export function SignUp() {
                   pattern: {
                     value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
                     message:
-                      "Must contain one uppercase letter, one lowercase letter, and one number",
+                      "Must contain one uppercase letter, one lowercase letter and one number",
                   },
                 })}
                 placeholder="Your Password"
@@ -111,16 +113,20 @@ export function SignUp() {
                     {...field}
                     placeholder="Your Residential Complex"
                     indicator={<KeyboardArrowDown />}
+                    onChange={(_, newValue) => {
+                      field.onChange(newValue);
+                    }}
                     sx={{
                       width: "100%",
                       fontSize: "18px",
                       fontWeight: 400,
                       padding: "13px 20px",
-                      borderRadius: "40px",
                       color: "var(--black-color)",
-                      border: "1px solid var(--gray-color-500)",
+                      border: "none",
+                      boxShadow: "none",
+                      backgroundColor: "var(--purple-color-100)",
                       "&:hover": {
-                        backgroundColor: "var(--white-color)",
+                        backgroundColor: "var(--purple-color-100)",
                       },
                       [`& .${selectClasses.indicator}`]: {
                         transition: "0.2s",
@@ -132,7 +138,7 @@ export function SignUp() {
                     slotProps={{
                       listbox: {
                         sx: {
-                          maxHeight: 200,
+                          maxHeight: 220,
                           overflow: "auto",
                           borderRadius: "5px",
                         },
@@ -175,8 +181,8 @@ export function SignUp() {
                       message: "Number must be at least 1",
                     },
                     max: {
-                      value: 500,
-                      message: "Number must be 500 or less",
+                      value: 1000,
+                      message: "Number must be 1000 or less",
                     },
                   })}
                   placeholder="Number"
@@ -196,8 +202,8 @@ export function SignUp() {
                       message: "Number must be at least 1",
                     },
                     max: {
-                      value: 50,
-                      message: "Number must be 50 or less",
+                      value: 100,
+                      message: "Number must be 100 or less",
                     },
                   })}
                   placeholder="Number"
@@ -210,6 +216,8 @@ export function SignUp() {
             <div className={styles.checkboxContainer}>
               <div className={styles.wrapper}>
                 <Checkbox
+                  checked={isAgree}
+                  value="agree"
                   sx={{
                     "& .MuiCheckbox-checkbox": {
                       backgroundColor: "var(--purple-color-600)",
@@ -221,22 +229,39 @@ export function SignUp() {
                       color: "var(--white-color)",
                     },
                   }}
-                  disabled={false}
                   size="lg"
                   variant="solid"
-                  {...register("agree", { required: "Agree is required" })}
+                  onChange={() => setIsAgree(!isAgree)}
                 />
                 <label className={styles.label}>
                   Agree to receive advertisements and promotions
                 </label>
               </div>
-              {errors.agree && <p className={styles.error}>{errors.agree.message}</p>}
             </div>
 
-            <input type="submit" value="Sign Up" disabled={regLoading} className={styles.submit} />
+            <Button
+              type="submit"
+              disabled={regLoading || !isAgree}
+              loading={regLoading}
+              sx={{
+                width: "100%",
+                fontSize: "20px",
+                fontWeight: 500,
+                color: "var(--white-color)",
+                background: "var(--purple-color-600)",
+                borderRadius: "60px",
+                padding: "14px",
+                cursor: "pointer",
+                fontFamily: "Inter, sans-serif",
+                "&:hover": {
+                  background: "var(--secondary-color)",
+                },
+              }}
+            >
+              Sign Up
+            </Button>
 
             <div className={styles.status}>
-              {regLoading && <p className={styles.request}>Registration request</p>}
               {regError && <p className={styles.error}>{regErrorMessage}</p>}
               {regSuccess && <p className={styles.success}>Registration success</p>}
             </div>

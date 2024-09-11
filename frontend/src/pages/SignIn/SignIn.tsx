@@ -1,6 +1,7 @@
+import { Button } from "@mui/joy";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
 import { AuthData } from "../../entities/user/user.types";
 import { SignSwiper } from "../../shared/components/SignSwiper/SignSwiper";
@@ -35,7 +36,10 @@ export function SignIn() {
 
         <div className={styles.formContainer}>
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+            <span className={styles.formTitle}>Sign In</span>
+
             <div className={styles.inputContainer}>
+              <label className={styles.label}>Email</label>
               <input
                 type="text"
                 {...register("email", {
@@ -45,33 +49,62 @@ export function SignIn() {
                       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || "Invalid email address",
                   },
                 })}
-                placeholder="Email"
+                placeholder="Your Email Address"
                 className={styles.input}
               />
               {errors.email && <p className={styles.error}>{errors.email.message}</p>}
             </div>
 
             <div className={styles.inputContainer}>
+              <label className={styles.label}>Password</label>
               <input
                 type="password"
                 {...register("password", {
                   required: "Password is required",
-                  minLength: {
-                    value: 6,
-                    message: "Password must be at least 6 characters long",
-                  },
                 })}
-                placeholder="Password"
+                placeholder="Your Password"
                 className={styles.input}
               />
               {errors.password && <p className={styles.error}>{errors.password.message}</p>}
             </div>
 
-            <input type="submit" value="Sign In" disabled={loading} className={styles.submit} />
+            <div className={styles.forgot}>
+              <Link to="/signup" className={styles.link}>
+                Forgot password?
+              </Link>
+            </div>
+
+            <Button
+              type="submit"
+              disabled={loading}
+              loading={loading}
+              sx={{
+                width: "100%",
+                fontSize: "20px",
+                fontWeight: 500,
+                color: "var(--white-color)",
+                background: "var(--purple-color-600)",
+                borderRadius: "60px",
+                padding: "14px",
+                cursor: "pointer",
+                fontFamily: "Inter, sans-serif",
+                "&:hover": {
+                  background: "var(--secondary-color)",
+                },
+              }}
+            >
+              Sign Up
+            </Button>
 
             <div className={styles.status}>
-              {loading && <p className={styles.request}>Login request</p>}
               {error && <p className={styles.error}>{errorMessage}</p>}
+            </div>
+
+            <div className={styles.text}>
+              Don’t have an account?{" "}
+              <Link to="/signup" className={styles.link}>
+                Sign Up
+              </Link>
             </div>
           </form>
         </div>
