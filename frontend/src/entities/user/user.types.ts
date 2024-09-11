@@ -19,5 +19,4 @@ export interface RegistrationData {
   residential_complex: string;
   apartment: number;
   entrance: number;
-  agree: boolean;
 }
