@@ -22,6 +22,11 @@
     height: 100%;
 }
 
+.nav_links:hover {
+    background-color: var(--purple-color-100);
+    border-radius: 16px;
+}
+
 .nav_links {
     display: flex;
     flex-direction: column;
@@ -29,6 +34,8 @@
     justify-content: center;
     width: 56px;
     height: 56px;
+    transition: .2s all;
+    margin-bottom: 14px;
 }
 
 .nav_links:last-child {
@@ -36,4 +43,5 @@
     bottom: 0;
     background-color: #EFEFFE66;
     border-radius: 16px;
+    margin-bottom: 0px;
 }
