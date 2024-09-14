@@ -100,7 +100,7 @@ export function SignIn() {
                 width: "100%",
                 fontSize: "20px",
                 fontWeight: 500,
-                color: "var(--white-color)",
+                color: "var(--white)",
                 background: "var(--purple-color-600)",
                 borderRadius: "60px",
                 padding: "14px",

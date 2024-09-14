@@ -42,7 +42,7 @@
   height: 755px;
   padding: 35px;
   border-radius: 20px;
-  background-color: var(--sign-form-bg-color);
+  background-color: var(--purple-40pct);
 }
 
 @media screen and (max-width: 1200px) {
@@ -111,11 +111,11 @@
 .input {
   font-size: 18px;
   font-weight: 400;
-  color: var(--black-color);
+  color: var(--gray-900);
   background-color: var(--purple-color-100);
   width: 100%;
   padding: 13px 20px;
-  background-color: var(--white-color);
+  background-color: var(--white);
   border-radius: 20px;
 }
 
@@ -126,7 +126,7 @@
 }
 
 .error {
-  color: var(--error);
+  color: var(--error-500);
   font-size: 12px;
   width: 100%;
   text-align: center;
@@ -148,13 +148,13 @@
   right: 20px;
   top: 50%;
   transform: translateY(-50%);
-  background-color: var(--white-color);
+  background-color: var(--white);
 }
 
 .submit {
   font-size: 20px;
   font-weight: 500;
-  color: var(--white-color);
+  color: var(--white);
   background-color: var(--purple-color-600);
   border-radius: 60px;
   padding: 14px;

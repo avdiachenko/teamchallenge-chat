@@ -12,6 +12,7 @@ import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
 import { SignSwiper } from "../../shared/components/SignSwiper/SignSwiper";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./SignUp.module.css";
+import { SuccessRegistrationModal } from "./SuccessRegistrationModal/SuccessRegistrationModal";
 
 export function SignUp() {
   const {
@@ -24,6 +25,7 @@ export function SignUp() {
 
   const [isAgree, setIsAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(true);
 
   const { name, regLoading, regSuccess, regError, regErrorMessage, registration, clearMessage } =
     useUserStore();
@@ -138,13 +140,13 @@ export function SignUp() {
                       fontSize: "18px",
                       fontWeight: 400,
                       padding: "13px 20px",
-                      color: "var(--black-color)",
+                      color: "var(--gray-900)",
                       border: "none",
                       boxShadow: "none",
-                      backgroundColor: "var(--white-color)",
+                      backgroundColor: "var(--white)",
                       borderRadius: "20px",
                       "&:hover": {
-                        backgroundColor: "var(--white-color)",
+                        backgroundColor: "var(--white)",
                       },
                       [`& .${selectClasses.indicator}`]: {
                         transition: "0.2s",
@@ -265,7 +267,7 @@ export function SignUp() {
                       backgroundColor: "var(--purple-color-600)",
                     },
                     "& .MuiCheckbox-icon": {
-                      color: "var(--white-color)",
+                      color: "var(--white)",
                     },
                   }}
                   size="lg"
@@ -286,7 +288,7 @@ export function SignUp() {
                 width: "100%",
                 fontSize: "20px",
                 fontWeight: 500,
-                color: "var(--white-color)",
+                color: "var(--white)",
                 background: "var(--purple-color-600)",
                 borderRadius: "60px",
                 padding: "14px",
@@ -314,6 +316,8 @@ export function SignUp() {
           </form>
         </div>
       </div>
+
+      <SuccessRegistrationModal open={isOpenModal} setOpen={setIsOpenModal} />
     </div>
   );
 }
