@@ -7,4 +7,6 @@
   --gray-color-50: #FBFBFD;
   --white-color: #FFFFFF;
   --black-color: #0C111D;
+  --sign-form-bg-color: rgba(239, 239, 254, 0.4);
+  --error: #C20D0A;
 }

@@ -1,9 +1,11 @@
 import { Button } from "@mui/joy";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
 import { AuthData } from "../../entities/user/user.types";
+import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
+import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
 import { SignSwiper } from "../../shared/components/SignSwiper/SignSwiper";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./SignIn.module.css";
@@ -15,6 +17,8 @@ export function SignIn() {
     reset,
     formState: { errors },
   } = useForm<AuthData>();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const { name, loading, error, errorMessage, login, clearMessage } = useUserStore();
   const navigate = useNavigate();
@@ -57,14 +61,28 @@ export function SignIn() {
 
             <div className={styles.inputContainer}>
               <label className={styles.label}>Password</label>
-              <input
-                type="password"
-                {...register("password", {
-                  required: "Password is required",
-                })}
-                placeholder="Your Password"
-                className={styles.input}
-              />
+              <div className={styles.passwordWrapper}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
+                  placeholder="Your Password"
+                  className={styles.input}
+                />
+                <button
+                  type="button"
+                  className={styles.showPassword}
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label="toggle password visibility"
+                >
+                  {showPassword ? (
+                    <img src={EyeClosed} alt="show Pasword" />
+                  ) : (
+                    <img src={EyeOpen} alt="hide Password" />
+                  )}
+                </button>
+              </div>
               {errors.password && <p className={styles.error}>{errors.password.message}</p>}
             </div>
 

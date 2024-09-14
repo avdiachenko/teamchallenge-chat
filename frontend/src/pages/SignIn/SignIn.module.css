@@ -42,7 +42,7 @@
   height: 755px;
   padding: 35px;
   border-radius: 20px;
-  background-color: var(--purple-color-100);
+  background-color: var(--sign-form-bg-color);
 }
 
 @media screen and (max-width: 1200px) {
@@ -115,6 +115,8 @@
   background-color: var(--purple-color-100);
   width: 100%;
   padding: 13px 20px;
+  background-color: var(--white-color);
+  border-radius: 20px;
 }
 
 .input::placeholder {
@@ -124,10 +126,29 @@
 }
 
 .error {
-  color: red;
+  color: var(--error);
   font-size: 12px;
   width: 100%;
   text-align: center;
+}
+
+.passwordWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  position: relative;
+}
+
+.showPassword {
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--white-color);
 }
 
 .submit {
