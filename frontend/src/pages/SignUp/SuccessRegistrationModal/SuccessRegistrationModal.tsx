@@ -5,11 +5,16 @@ import regFolderImage from "./icons/regFolderImage.svg";
 
 interface Props {
   open: boolean;
-  setOpen: (open: boolean) => void;
+  close: () => void;
 }
 export function SuccessRegistrationModal(props: Props) {
-  const { open, setOpen } = props;
+  const { open, close } = props;
   const navigate = useNavigate();
+
+  const clickHomeButton = () => {
+    close();
+    navigate("/");
+  };
 
   if (!open) {
     return null;
@@ -20,7 +25,7 @@ export function SuccessRegistrationModal(props: Props) {
       aria-labelledby="modal-title"
       aria-describedby="modal-desc"
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={() => close()}
       sx={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "10px" }}
     >
       <Sheet
@@ -39,7 +44,19 @@ export function SuccessRegistrationModal(props: Props) {
           },
         }}
       >
-        <ModalClose variant="plain" sx={{ m: 1 }} />
+        <ModalClose
+          variant="plain"
+          sx={{
+            m: 2,
+            "&:hover": {
+              backgroundColor: "transparent",
+            },
+            "& .MuiSvgIcon-root": {
+              fontSize: 30,
+              color: "var(--purple-950)",
+            },
+          }}
+        />
         <div className={styles.content}>
           <div className={styles.imageBox}>
             <img src={regFolderImage} alt="SuccessRegistrationModal" />
@@ -54,13 +71,13 @@ export function SuccessRegistrationModal(props: Props) {
 
           <Button
             type="button"
-            onClick={() => navigate("/")}
+            onClick={clickHomeButton}
             sx={{
               width: "100%",
               fontSize: "20px",
               fontWeight: 500,
               color: "var(--white)",
-              background: "var(--purple-color-600)",
+              background: "var(--purple-600)",
               borderRadius: "60px",
               padding: "14px",
               cursor: "pointer",

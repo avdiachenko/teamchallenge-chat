@@ -5,6 +5,7 @@
   flex-direction: column;
   gap: 22px;
   width: 500px;
+  color: var(--purple-950);
 }
 
 @media screen and (max-width: 768px) {

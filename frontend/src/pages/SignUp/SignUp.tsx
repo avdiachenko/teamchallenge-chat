@@ -25,7 +25,6 @@ export function SignUp() {
 
   const [isAgree, setIsAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(true);
 
   const { name, regLoading, regSuccess, regError, regErrorMessage, registration, clearMessage } =
     useUserStore();
@@ -59,6 +58,10 @@ export function SignUp() {
                   minLength: {
                     value: 3,
                     message: "Name must be at least 3 characters long",
+                  },
+                  maxLength: {
+                    value: 64,
+                    message: "Name must be at most 64 characters long",
                   },
                 })}
                 placeholder="Your Name"
@@ -95,8 +98,12 @@ export function SignUp() {
                       value: 8,
                       message: "Password must be at least 8 characters long",
                     },
+                    maxLength: {
+                      value: 64,
+                      message: "Password must be at most 64 characters long",
+                    },
                     pattern: {
-                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,64}$/,
                       message:
                         "Must contain one uppercase letter, one lowercase letter and one number",
                     },
@@ -261,10 +268,10 @@ export function SignUp() {
                   value="agree"
                   sx={{
                     "& .MuiCheckbox-checkbox": {
-                      backgroundColor: "var(--purple-color-600)",
+                      backgroundColor: "var(--purple-600)",
                     },
                     "& .MuiCheckbox-checkbox:hover": {
-                      backgroundColor: "var(--purple-color-600)",
+                      backgroundColor: "var(--purple-600)",
                     },
                     "& .MuiCheckbox-icon": {
                       color: "var(--white)",
@@ -289,7 +296,7 @@ export function SignUp() {
                 fontSize: "20px",
                 fontWeight: 500,
                 color: "var(--white)",
-                background: "var(--purple-color-600)",
+                background: "var(--purple-600)",
                 borderRadius: "60px",
                 padding: "14px",
                 cursor: "pointer",
@@ -304,7 +311,6 @@ export function SignUp() {
 
             <div className={styles.status}>
               {regError && <p className={styles.error}>{regErrorMessage}</p>}
-              {regSuccess && <p className={styles.success}>Registration success</p>}
             </div>
 
             <div className={styles.text}>
@@ -317,7 +323,7 @@ export function SignUp() {
         </div>
       </div>
 
-      <SuccessRegistrationModal open={isOpenModal} setOpen={setIsOpenModal} />
+      <SuccessRegistrationModal open={regSuccess} close={clearMessage} />
     </div>
   );
 }

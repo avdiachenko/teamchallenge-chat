@@ -101,7 +101,7 @@ export function SignIn() {
                 fontSize: "20px",
                 fontWeight: 500,
                 color: "var(--white)",
-                background: "var(--purple-color-600)",
+                background: "var(--purple-600)",
                 borderRadius: "60px",
                 padding: "14px",
                 cursor: "pointer",
