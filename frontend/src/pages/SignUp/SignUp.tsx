@@ -7,9 +7,12 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
 import { RegistrationData } from "../../entities/user/user.types";
+import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
+import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
 import { SignSwiper } from "../../shared/components/SignSwiper/SignSwiper";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./SignUp.module.css";
+import { SuccessRegistrationModal } from "./SuccessRegistrationModal/SuccessRegistrationModal";
 
 export function SignUp() {
   const {
@@ -21,6 +24,7 @@ export function SignUp() {
   } = useForm<RegistrationData>();
 
   const [isAgree, setIsAgree] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { name, regLoading, regSuccess, regError, regErrorMessage, registration, clearMessage } =
     useUserStore();
@@ -55,6 +59,10 @@ export function SignUp() {
                     value: 3,
                     message: "Name must be at least 3 characters long",
                   },
+                  maxLength: {
+                    value: 64,
+                    message: "Name must be at most 64 characters long",
+                  },
                 })}
                 placeholder="Your Name"
                 className={styles.input}
@@ -81,23 +89,41 @@ export function SignUp() {
 
             <div className={styles.inputContainer}>
               <label className={styles.label}>Password</label>
-              <input
-                type="password"
-                {...register("password", {
-                  required: "Password is required",
-                  minLength: {
-                    value: 8,
-                    message: "Password must be at least 8 characters long",
-                  },
-                  pattern: {
-                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-                    message:
-                      "Must contain one uppercase letter, one lowercase letter and one number",
-                  },
-                })}
-                placeholder="Your Password"
-                className={styles.input}
-              />
+              <div className={styles.passwordWrapper}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters long",
+                    },
+                    maxLength: {
+                      value: 64,
+                      message: "Password must be at most 64 characters long",
+                    },
+                    pattern: {
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,64}$/,
+                      message:
+                        "Must contain one uppercase letter, one lowercase letter and one number",
+                    },
+                  })}
+                  placeholder="Your Password"
+                  className={styles.input}
+                />
+                <button
+                  type="button"
+                  className={styles.showPassword}
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label="toggle password visibility"
+                >
+                  {showPassword ? (
+                    <img src={EyeClosed} alt="show Pasword" />
+                  ) : (
+                    <img src={EyeOpen} alt="hide Password" />
+                  )}
+                </button>
+              </div>
               {errors.password && <p className={styles.error}>{errors.password.message}</p>}
             </div>
 
@@ -121,12 +147,13 @@ export function SignUp() {
                       fontSize: "18px",
                       fontWeight: 400,
                       padding: "13px 20px",
-                      color: "var(--black-color)",
+                      color: "var(--gray-900)",
                       border: "none",
                       boxShadow: "none",
-                      backgroundColor: "var(--purple-color-100)",
+                      backgroundColor: "var(--white)",
+                      borderRadius: "20px",
                       "&:hover": {
-                        backgroundColor: "var(--purple-color-100)",
+                        backgroundColor: "var(--white)",
                       },
                       [`& .${selectClasses.indicator}`]: {
                         transition: "0.2s",
@@ -170,26 +197,26 @@ export function SignUp() {
             </div>
 
             <div className={styles.wrapper}>
-              <div className={styles.inputContainer}>
-                <label className={styles.label}>Apartment</label>
+              {/* <div className={styles.inputContainer}>
+                <label className={styles.label}>Section</label>
                 <input
                   type="number"
-                  {...register("apartment", {
-                    required: "Apartment is required",
+                  {...register("section", {
+                    required: "Section is required",
                     min: {
                       value: 1,
                       message: "Number must be at least 1",
                     },
                     max: {
-                      value: 1000,
-                      message: "Number must be 1000 or less",
+                      value: 100,
+                      message: "Number must be 100 or less",
                     },
                   })}
                   placeholder="Number"
                   className={styles.input}
                 />
-                {errors.apartment && <p className={styles.error}>{errors.apartment.message}</p>}
-              </div>
+                {errors.section && <p className={styles.error}>{errors.section.message}</p>}
+              </div> */}
 
               <div className={styles.inputContainer}>
                 <label className={styles.label}>Entrance</label>
@@ -211,6 +238,27 @@ export function SignUp() {
                 />
                 {errors.entrance && <p className={styles.error}>{errors.entrance.message}</p>}
               </div>
+
+              <div className={styles.inputContainer}>
+                <label className={styles.label}>Apartment</label>
+                <input
+                  type="number"
+                  {...register("apartment", {
+                    required: "Apartment is required",
+                    min: {
+                      value: 1,
+                      message: "Number must be at least 1",
+                    },
+                    max: {
+                      value: 1000,
+                      message: "Number must be 1000 or less",
+                    },
+                  })}
+                  placeholder="Number"
+                  className={styles.input}
+                />
+                {errors.apartment && <p className={styles.error}>{errors.apartment.message}</p>}
+              </div>
             </div>
 
             <div className={styles.checkboxContainer}>
@@ -220,13 +268,13 @@ export function SignUp() {
                   value="agree"
                   sx={{
                     "& .MuiCheckbox-checkbox": {
-                      backgroundColor: "var(--purple-color-600)",
+                      backgroundColor: "var(--purple-600)",
                     },
                     "& .MuiCheckbox-checkbox:hover": {
-                      backgroundColor: "var(--purple-color-600)",
+                      backgroundColor: "var(--purple-600)",
                     },
                     "& .MuiCheckbox-icon": {
-                      color: "var(--white-color)",
+                      color: "var(--white)",
                     },
                   }}
                   size="lg"
@@ -247,8 +295,8 @@ export function SignUp() {
                 width: "100%",
                 fontSize: "20px",
                 fontWeight: 500,
-                color: "var(--white-color)",
-                background: "var(--purple-color-600)",
+                color: "var(--white)",
+                background: "var(--purple-600)",
                 borderRadius: "60px",
                 padding: "14px",
                 cursor: "pointer",
@@ -263,7 +311,6 @@ export function SignUp() {
 
             <div className={styles.status}>
               {regError && <p className={styles.error}>{regErrorMessage}</p>}
-              {regSuccess && <p className={styles.success}>Registration success</p>}
             </div>
 
             <div className={styles.text}>
@@ -275,6 +322,8 @@ export function SignUp() {
           </form>
         </div>
       </div>
+
+      <SuccessRegistrationModal open={regSuccess} close={clearMessage} />
     </div>
   );
 }
