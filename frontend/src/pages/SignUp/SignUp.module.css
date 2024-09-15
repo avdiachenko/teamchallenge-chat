@@ -108,6 +108,10 @@
   font-weight: 400;
 }
 
+.labelError {
+  color: var(--error-500);
+}
+
 .input {
   font-size: 18px;
   font-weight: 400;
@@ -117,6 +121,10 @@
   padding: 13px 20px;
   background-color: var(--white);
   border-radius: 20px;
+}
+
+.inputError {
+  border: 1px solid var(--error-500);
 }
 
 .input::placeholder {
@@ -129,7 +137,6 @@
   color: var(--error-500);
   font-size: 12px;
   width: 100%;
-  text-align: center;
 }
 
 .passwordWrapper {
@@ -175,14 +182,6 @@
   font-size: 20px;
   width: 100%;
   text-align: center;
-}
-
-.request {
-  color: blue;
-}
-
-.success {
-  color: green;
 }
 
 .text {

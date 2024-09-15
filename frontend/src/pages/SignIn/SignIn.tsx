@@ -43,7 +43,9 @@ export function SignIn() {
             <span className={styles.formTitle}>Sign In</span>
 
             <div className={styles.inputContainer}>
-              <label className={styles.label}>Email</label>
+              <label className={`${errors.email && styles.labelError} ${styles.label}`}>
+                Email
+              </label>
               <input
                 type="text"
                 {...register("email", {
@@ -54,13 +56,15 @@ export function SignIn() {
                   },
                 })}
                 placeholder="Your Email Address"
-                className={styles.input}
+                className={`${errors.email && styles.inputError} ${styles.input}`}
               />
               {errors.email && <p className={styles.error}>{errors.email.message}</p>}
             </div>
 
             <div className={styles.inputContainer}>
-              <label className={styles.label}>Password</label>
+              <label className={`${errors.password && styles.labelError} ${styles.label}`}>
+                Password
+              </label>
               <div className={styles.passwordWrapper}>
                 <input
                   type={showPassword ? "text" : "password"}
@@ -68,7 +72,7 @@ export function SignIn() {
                     required: "Password is required",
                   })}
                   placeholder="Your Password"
-                  className={styles.input}
+                  className={`${errors.password && styles.inputError} ${styles.input}`}
                 />
                 <button
                   type="button"
