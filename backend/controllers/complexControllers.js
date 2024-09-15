@@ -1,12 +1,17 @@
-import complexServices from "../services/complexServices";
+import * as complexServices from "../services/complexServices.js";
+import HttpError from "../helpers/HttpError.js";
+import ctrlWrapper from "../decorators/ctrlWrapper.js";
 
-export const createComplex = async (req, res) => {
-    if(!req.file){
-        throw HttpError(400, "No image");
-    }
-    else{
-      const complexID = complexServices.createComplex({
-        images: req.file.filename,
+async function createComplex(req, res) {
+    if(req.files.length == 0){
+        throw HttpError(400, "No images");
+    } else {
+      let images = "";
+      for (const file of req.files) {
+        images += file.filename + " ";
+      }
+      const complexID = await complexServices.createComplex({
+        images: images,
         parking: req.body.parking,
         security: req.body.security,
         access_control: req.body.access_control,
@@ -19,7 +24,7 @@ export const createComplex = async (req, res) => {
       })
 
       for (const building of req.body.buildings) {
-        const buildingID = complexServices.createBuilding({
+        const buildingID = await complexServices.createBuilding({
           residential_complex_id: complexID,
           address: building.address
         })
@@ -29,9 +34,9 @@ export const createComplex = async (req, res) => {
             apartmentNum <= entrance.apartment_max; 
             apartmentNum++
           ) {
-              complexServices.createApartment({
+              /*await*/ complexServices.createApartment({
                 building_id: buildingID,
-                entrance: entrance
+                entrance: entrance.number
               })            
           }
         }
@@ -39,4 +44,20 @@ export const createComplex = async (req, res) => {
 
       res.status(201).send();
     }
+};
+
+async function getAllComplexes(req, res) {
+  const complexes = await complexServices.getAllComplexes();
+  res.json(complexes);
+};
+
+async function deleteAllComplexes(req, res) {
+  await complexServices.deleteAllComplexes();
+  res.send();
+}
+
+export default {
+  createComplex: ctrlWrapper(createComplex),
+  getAllComplexes: ctrlWrapper(getAllComplexes),
+  deleteAllComplexes: ctrlWrapper(deleteAllComplexes),
 };

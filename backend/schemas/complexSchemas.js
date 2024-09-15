@@ -13,8 +13,9 @@ export const createComplexSchema = Joi.object({
   buildings: Joi.array().items({
     address: Joi.string().required(),
     entrances: Joi.array().items({
-      apaptment_min: Joi.number().required(),
-      apaptment_max: Joi.number().required(),
+      number: Joi.number().required(),
+      apartment_min: Joi.number().required(),
+      apartment_max: Joi.number().required(),
     }),
   }),
 

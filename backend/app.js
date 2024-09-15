@@ -8,6 +8,7 @@ import swaggerDocument from "./docs/swagger.json" assert { type: "json" };
 
 import contactsRouter from "./routes/contactsRouter.js";
 import authRouter from "./routes/authRouter.js";
+import complexRouter from "./routes/complexRouter.js";
 
 dotenv.config();
 
@@ -17,9 +18,11 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
 
+app.use(express.static("upload/images"));
 
 app.use("/users", authRouter);
 app.use("/api/contacts", contactsRouter);
+app.use("/api", complexRouter);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((_, res) => {

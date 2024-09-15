@@ -1,15 +1,29 @@
-import Complex from "../models/Complex";
-import Building from "../models/Building";
-import Apartment from "../models/Apartment";
+import Complex from "../models/Complex.js";
+import Building from "../models/Building.js";
+import Apartment from "../models/Apartment.js";
 
-export function createComplex(complex) {
-    Complex.create(complex);
+export async function createComplex(complex) {
+    const res = await Complex.create(complex);    
+    return res._id;
 }
 
-export function createBuilding(building) {
-    Building.create(building);
+export async function createBuilding(building) {
+    const res = await Building.create(building);
+    return res._id;
 }
 
-export function createApartment(apartment) {
-    Apartment.create(apartment);
+export async function createApartment(apartment) {
+    const res = await Apartment.create(apartment);
+    return res._id;
+}
+
+export async function getAllComplexes() {
+    return await Complex.find();
+}
+
+export async function deleteAllComplexes() {
+    await Complex.deleteMany({});
+    await Building.deleteMany({});
+    await Apartment.deleteMany({});
+    // TODO delete relevant images
 }
