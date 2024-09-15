@@ -116,7 +116,7 @@
   font-size: 18px;
   font-weight: 400;
   color: var(--gray-900);
-  background-color: var(--purple-color-100);
+  background-color: var(--purple-100);
   width: 100%;
   padding: 13px 20px;
   background-color: var(--white);
@@ -128,7 +128,7 @@
 }
 
 .input::placeholder {
-  color: var(--gray-color-500);
+  color: var(--gray-500);
   font-size: 18px;
   font-weight: 400;
 }
@@ -158,26 +158,6 @@
   background-color: var(--white);
 }
 
-.submit {
-  font-size: 20px;
-  font-weight: 500;
-  color: var(--white);
-  background-color: var(--purple-color-600);
-  border-radius: 60px;
-  padding: 14px;
-  width: 100%;
-  cursor: pointer;
-}
-
-.submit:hover {
-  background-color: var(--secondary-color);
-}
-
-.submit:disabled {
-  cursor: not-allowed;
-  background-color: grey;
-}
-
 .status {
   font-size: 20px;
   width: 100%;
@@ -199,5 +179,5 @@
 }
 
 .link {
-  color: var(--purple-color-600);
+  color: var(--purple-600);
 }

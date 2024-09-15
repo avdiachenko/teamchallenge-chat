@@ -1,5 +1,5 @@
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
-import { Button, Checkbox, Select } from "@mui/joy";
+import { Checkbox, Select } from "@mui/joy";
 import Option from "@mui/joy/Option";
 import { selectClasses } from "@mui/joy/Select";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import { useUserStore } from "../../entities/user/user.store";
 import { RegistrationData } from "../../entities/user/user.types";
 import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
 import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
+import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
 import { SignSwiper } from "../../shared/components/SignSwiper/SignSwiper";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./SignUp.module.css";
@@ -299,27 +300,9 @@ export function SignUp() {
               </div>
             </div>
 
-            <Button
-              type="submit"
-              disabled={regLoading || !isAgree}
-              loading={regLoading}
-              sx={{
-                width: "100%",
-                fontSize: "20px",
-                fontWeight: 500,
-                color: "var(--white)",
-                background: "var(--purple-600)",
-                borderRadius: "60px",
-                padding: "14px",
-                cursor: "pointer",
-                fontFamily: "Inter, sans-serif",
-                "&:hover": {
-                  background: "var(--secondary-color)",
-                },
-              }}
-            >
+            <BaseButton disabled={regLoading || !isAgree} type="submit">
               Sign Up
-            </Button>
+            </BaseButton>
 
             <div className={styles.status}>
               {regError && <p className={styles.error}>{regErrorMessage}</p>}

@@ -1,4 +1,3 @@
-import { Button } from "@mui/joy";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,6 +5,7 @@ import { useUserStore } from "../../entities/user/user.store";
 import { AuthData } from "../../entities/user/user.types";
 import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
 import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
+import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
 import { SignSwiper } from "../../shared/components/SignSwiper/SignSwiper";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./SignIn.module.css";
@@ -96,27 +96,9 @@ export function SignIn() {
               </Link>
             </div>
 
-            <Button
-              type="submit"
-              disabled={loading}
-              loading={loading}
-              sx={{
-                width: "100%",
-                fontSize: "20px",
-                fontWeight: 500,
-                color: "var(--white)",
-                background: "var(--purple-600)",
-                borderRadius: "60px",
-                padding: "14px",
-                cursor: "pointer",
-                fontFamily: "Inter, sans-serif",
-                "&:hover": {
-                  background: "var(--secondary-color)",
-                },
-              }}
-            >
-              Sign Up
-            </Button>
+            <BaseButton disabled={loading} type="submit">
+              Sign In
+            </BaseButton>
 
             <div className={styles.status}>
               {error && <p className={styles.error}>{errorMessage}</p>}
