@@ -1,5 +1,6 @@
-import { Button, Modal, ModalClose, Sheet } from "@mui/joy";
+import { Modal, ModalClose, Sheet } from "@mui/joy";
 import { useNavigate } from "react-router-dom";
+import { BaseButton } from "../../../shared/components/BaseButton/BaseButton";
 import styles from "./SuccessRegistrationModal.module.css";
 import regFolderImage from "./icons/regFolderImage.svg";
 
@@ -51,6 +52,9 @@ export function SuccessRegistrationModal(props: Props) {
             "&:hover": {
               backgroundColor: "transparent",
             },
+            "&:active": {
+              backgroundColor: "transparent",
+            },
             "& .MuiSvgIcon-root": {
               fontSize: 30,
               color: "var(--purple-950)",
@@ -69,26 +73,9 @@ export function SuccessRegistrationModal(props: Props) {
             notification and be able to log in. Thank you for your patience!
           </div>
 
-          <Button
-            type="button"
-            onClick={clickHomeButton}
-            sx={{
-              width: "100%",
-              fontSize: "20px",
-              fontWeight: 500,
-              color: "var(--white)",
-              background: "var(--purple-600)",
-              borderRadius: "60px",
-              padding: "14px",
-              cursor: "pointer",
-              fontFamily: "Inter, sans-serif",
-              "&:hover": {
-                background: "var(--secondary-color)",
-              },
-            }}
-          >
-            Go To Home Page
-          </Button>
+          <BaseButton type="button" onClick={clickHomeButton}>
+            Sign Up
+          </BaseButton>
         </div>
       </Sheet>
     </Modal>

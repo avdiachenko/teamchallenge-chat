@@ -1,5 +1,5 @@
 import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
-import { Button, Checkbox, Select } from "@mui/joy";
+import { Checkbox, Select } from "@mui/joy";
 import Option from "@mui/joy/Option";
 import { selectClasses } from "@mui/joy/Select";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import { useUserStore } from "../../entities/user/user.store";
 import { RegistrationData } from "../../entities/user/user.types";
 import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
 import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
+import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
 import { SignSwiper } from "../../shared/components/SignSwiper/SignSwiper";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./SignUp.module.css";
@@ -50,7 +51,7 @@ export function SignUp() {
             <span className={styles.formTitle}>Sign Up</span>
 
             <div className={styles.inputContainer}>
-              <label className={styles.label}>Name</label>
+              <label className={`${errors.name && styles.labelError} ${styles.label}`}>Name</label>
               <input
                 type="text"
                 {...register("name", {
@@ -65,13 +66,15 @@ export function SignUp() {
                   },
                 })}
                 placeholder="Your Name"
-                className={styles.input}
+                className={`${errors.name && styles.inputError} ${styles.input}`}
               />
               {errors.name && <p className={styles.error}>{errors.name.message}</p>}
             </div>
 
             <div className={styles.inputContainer}>
-              <label className={styles.label}>Email</label>
+              <label className={`${errors.email && styles.labelError} ${styles.label}`}>
+                Email
+              </label>
               <input
                 type="text"
                 {...register("email", {
@@ -82,13 +85,15 @@ export function SignUp() {
                   },
                 })}
                 placeholder="Your Email Address"
-                className={styles.input}
+                className={`${errors.email && styles.inputError} ${styles.input}`}
               />
               {errors.email && <p className={styles.error}>{errors.email.message}</p>}
             </div>
 
             <div className={styles.inputContainer}>
-              <label className={styles.label}>Password</label>
+              <label className={`${errors.password && styles.labelError} ${styles.label}`}>
+                Password
+              </label>
               <div className={styles.passwordWrapper}>
                 <input
                   type={showPassword ? "text" : "password"}
@@ -109,7 +114,7 @@ export function SignUp() {
                     },
                   })}
                   placeholder="Your Password"
-                  className={styles.input}
+                  className={`${errors.password && styles.inputError} ${styles.input}`}
                 />
                 <button
                   type="button"
@@ -128,7 +133,11 @@ export function SignUp() {
             </div>
 
             <div className={styles.inputContainer}>
-              <label className={styles.label}>Residential Complex</label>
+              <label
+                className={`${errors.residential_complex && styles.labelError} ${styles.label}`}
+              >
+                Residential Complex
+              </label>
               <Controller
                 name="residential_complex"
                 control={control}
@@ -148,9 +157,9 @@ export function SignUp() {
                       fontWeight: 400,
                       padding: "13px 20px",
                       color: "var(--gray-900)",
-                      border: "none",
                       boxShadow: "none",
                       backgroundColor: "var(--white)",
+                      border: errors.residential_complex ? "1px solid var(--error-500)" : "none",
                       borderRadius: "20px",
                       "&:hover": {
                         backgroundColor: "var(--white)",
@@ -198,7 +207,7 @@ export function SignUp() {
 
             <div className={styles.wrapper}>
               {/* <div className={styles.inputContainer}>
-                <label className={styles.label}>Section</label>
+                <label className={`${errors.section && styles.labelError} ${styles.label}`}>Section</label>
                 <input
                   type="number"
                   {...register("section", {
@@ -213,13 +222,15 @@ export function SignUp() {
                     },
                   })}
                   placeholder="Number"
-                  className={styles.input}
+                  className={`${errors.section && styles.inputError} ${styles.input}`}
                 />
                 {errors.section && <p className={styles.error}>{errors.section.message}</p>}
               </div> */}
 
               <div className={styles.inputContainer}>
-                <label className={styles.label}>Entrance</label>
+                <label className={`${errors.entrance && styles.labelError} ${styles.label}`}>
+                  Entrance
+                </label>
                 <input
                   type="number"
                   {...register("entrance", {
@@ -234,13 +245,15 @@ export function SignUp() {
                     },
                   })}
                   placeholder="Number"
-                  className={styles.input}
+                  className={`${errors.entrance && styles.inputError} ${styles.input}`}
                 />
                 {errors.entrance && <p className={styles.error}>{errors.entrance.message}</p>}
               </div>
 
               <div className={styles.inputContainer}>
-                <label className={styles.label}>Apartment</label>
+                <label className={`${errors.apartment && styles.labelError} ${styles.label}`}>
+                  Apartment
+                </label>
                 <input
                   type="number"
                   {...register("apartment", {
@@ -255,7 +268,7 @@ export function SignUp() {
                     },
                   })}
                   placeholder="Number"
-                  className={styles.input}
+                  className={`${errors.apartment && styles.inputError} ${styles.input}`}
                 />
                 {errors.apartment && <p className={styles.error}>{errors.apartment.message}</p>}
               </div>
@@ -287,27 +300,9 @@ export function SignUp() {
               </div>
             </div>
 
-            <Button
-              type="submit"
-              disabled={regLoading || !isAgree}
-              loading={regLoading}
-              sx={{
-                width: "100%",
-                fontSize: "20px",
-                fontWeight: 500,
-                color: "var(--white)",
-                background: "var(--purple-600)",
-                borderRadius: "60px",
-                padding: "14px",
-                cursor: "pointer",
-                fontFamily: "Inter, sans-serif",
-                "&:hover": {
-                  background: "var(--secondary-color)",
-                },
-              }}
-            >
+            <BaseButton disabled={regLoading || !isAgree} type="submit">
               Sign Up
-            </Button>
+            </BaseButton>
 
             <div className={styles.status}>
               {regError && <p className={styles.error}>{regErrorMessage}</p>}
