@@ -15,19 +15,23 @@
   ],
   "tags": [
     {
-      "name": "users",
+      "name": "Users",
       "description": "User actions"
     },
     {
-      "name": "contacts",
+      "name": "Contacts",
       "description": "???"
+    },
+    {
+      "name": "Other",
+      "description": "Other routes"
     }
   ],
   "paths": {
     "/users/register": {
       "post": {
         "tags": [
-          "users"
+          "Users"
         ],
         "summary": "Add a new user",
         "parameters": [],
@@ -146,7 +150,7 @@
     "/users/login": {
       "post": {
         "tags": [
-          "users"
+          "Users"
         ],
         "summary": "Authenticate, get tokens",
         "parameters": [],
@@ -236,7 +240,7 @@
           }
         ],
         "tags": [
-          "users"
+          "Users"
         ],
         "summary": "",
         "parameters": [],
@@ -264,7 +268,7 @@
           }
         ],
         "tags": [
-          "users"
+          "Users"
         ],
         "summary": "Get general information about the user",
         "parameters": [],
@@ -294,7 +298,7 @@
           }
         ],
         "tags": [
-          "users"
+          "Users"
         ],
         "summary": "Get new token pair",
         "parameters": [],
@@ -311,6 +315,148 @@
           },
           "401": {
             "description": "Not authorized or not a refresh token"
+          }
+        }
+      }
+    },
+    "/api/residential_complex": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "Get full info about all complexes",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "[]"
+                }
+              }
+            },
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "description": "User must be an admin. Must have an ARRAY of entrances",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Other"
+        ],
+        "summary": "Create a new complex",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "parking",
+                  "security",
+                  "access_control",
+                  "concierge",
+                  "playground",
+                  "closed_area",
+                  "video_surveillance",
+                  "description",
+                  "location",
+                  "buildings"
+                ],
+                "properties": {
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  },
+                  "parking": {
+                    "type": "boolean"
+                  },
+                  "security": {
+                    "type": "boolean"
+                  },
+                  "access_control": {
+                    "type": "boolean"
+                  },
+                  "concierge": {
+                    "type": "boolean"
+                  },
+                  "playground": {
+                    "type": "boolean"
+                  },
+                  "closed_area": {
+                    "type": "boolean"
+                  },
+                  "video_surveillance": {
+                    "type": "boolean"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "buildings": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "address": {
+                          "type": "string"
+                        },
+                        "entrances": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "number": {
+                                "type": "number"
+                              },
+                              "apartment_min": {
+                                "type": "number"
+                              },
+                              "apartment_max": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/delete_residential_complex": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "Delete all complexes, buildings, apartments",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -461,6 +607,85 @@
               "phone": {
                 "type": "string",
                 "example": "+380123456789"
+              }
+            }
+          }
+        }
+      },
+      "PostResidentialComplex": {
+        "type": "object",
+        "required": [
+          "parking",
+          "security",
+          "access_control",
+          "concierge",
+          "playground",
+          "closed_area",
+          "video_surveillance",
+          "description",
+          "location",
+          "buildings"
+        ],
+        "properties": {
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "binary"
+            }
+          },
+          "parking": {
+            "type": "boolean"
+          },
+          "security": {
+            "type": "boolean"
+          },
+          "access_control": {
+            "type": "boolean"
+          },
+          "concierge": {
+            "type": "boolean"
+          },
+          "playground": {
+            "type": "boolean"
+          },
+          "closed_area": {
+            "type": "boolean"
+          },
+          "video_surveillance": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "buildings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string"
+                },
+                "entrances": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "number": {
+                        "type": "number"
+                      },
+                      "apartment_min": {
+                        "type": "number"
+                      },
+                      "apartment_max": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
               }
             }
           }
