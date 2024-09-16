@@ -35,6 +35,14 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    path: "/forgot-password",
+    lazy: async () => {
+      const { ForgotPassword } = await import("../pages/ForgotPassword/ForgotPassword");
+      return { Component: ForgotPassword };
+    },
+    errorElement: <ErrorPage />,
+  },
+  {
     path: "*",
     element: <ErrorPage />,
   },

@@ -69,7 +69,8 @@
 }
 
 .formTitle {
-  font-size: 24px;
+  color: var(--gray-900);
+  font-size: 28px;
   font-weight: 500;
   padding-bottom: 20px;
 }
@@ -104,7 +105,7 @@
 }
 
 .label {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
 }
 
