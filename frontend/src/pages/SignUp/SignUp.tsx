@@ -61,8 +61,8 @@ export function SignUp() {
                     message: "Name must be at least 3 characters long",
                   },
                   maxLength: {
-                    value: 64,
-                    message: "Name must be at most 64 characters long",
+                    value: 256,
+                    message: "Name must be at most 256 characters long",
                   },
                 })}
                 placeholder="Your Name"
@@ -104,8 +104,8 @@ export function SignUp() {
                       message: "Password must be at least 8 characters long",
                     },
                     maxLength: {
-                      value: 64,
-                      message: "Password must be at most 64 characters long",
+                      value: 256,
+                      message: "Password must be at most 256 characters long",
                     },
                     pattern: {
                       value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,64}$/,
