@@ -91,7 +91,7 @@ export function SignIn() {
             </div>
 
             <div className={styles.forgot}>
-              <Link to="/signup" className={styles.link}>
+              <Link to="/forgot-password" className={styles.link}>
                 Forgot password?
               </Link>
             </div>
