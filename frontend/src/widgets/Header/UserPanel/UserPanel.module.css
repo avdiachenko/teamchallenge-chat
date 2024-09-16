@@ -7,13 +7,39 @@
 .user {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
+  gap: 12px;
+}
+
+.user_name_status {
+  display: flex;
+  flex-direction: column;
+}
+
+.user_status {
+  font-size: 14px;
+  color: #363636;
+  font-weight: 400;
 }
 
 .name {
-  font-size: 25px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgb(210, 210, 210);
+  margin-left: 32px;
+}
+
+.nofitication {
+  border-radius: 16px;
+  background-color: #EFEFFE66;
+  padding: 16px;
+  margin-left: 32px;
+  cursor: pointer;
 }
 
 .logout {

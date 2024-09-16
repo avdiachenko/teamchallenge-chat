@@ -17,12 +17,12 @@ export function Home() {
       <div className={styles.container}>
         <div className={styles.content}>
           <h4 className={styles.main_page_info}>
-            <strong>Horizon Development LLC</strong> is a construction company with over 15 years of experience.
-            Specializing in the creation of high-quality residential complexes focused on comfort
-            and well-being. The company employs innovative architectural solutions, uses
-            eco-friendly materials, and ensures quality control at all stages. It implements
-            energy-efficient technologies and offers "smart homes," modern infrastructure, and green
-            spaces.
+            <strong>Horizon Development LLC</strong> is a construction company with over 15 years of
+            experience. experience. Specializing in the creation of high-quality residential
+            complexes focused and well-being. The company employs innovative architectural
+            solutions, uses eco-friendly materials, and ensures quality control at all stages. It
+            implements energy-efficient technologies and offers "smart homes," modern
+            infrastructure, and green spaces.
           </h4>
           <div>
             <Swiper
