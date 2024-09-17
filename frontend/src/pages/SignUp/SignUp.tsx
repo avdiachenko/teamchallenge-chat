@@ -4,7 +4,7 @@ import Option from "@mui/joy/Option";
 import { selectClasses } from "@mui/joy/Select";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
 import { RegistrationData } from "../../entities/user/user.types";
 import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
@@ -27,17 +27,14 @@ export function SignUp() {
   const [isAgree, setIsAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const { name, regLoading, regSuccess, regError, regErrorMessage, registration, clearMessage } =
+  const { token, regLoading, regSuccess, regError, regErrorMessage, registration, clearMessage } =
     useUserStore();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (name) navigate("/chat", { replace: true });
-  }, [name, navigate]);
 
   useEffect(() => clearMessage(), [clearMessage]);
 
   const onSubmit: SubmitHandler<RegistrationData> = async (data) => registration(data, reset);
+
+  if (token) return <Navigate to="/chat" replace />;
 
   return (
     <div className={styles.container}>
@@ -108,7 +105,7 @@ export function SignUp() {
                       message: "Password must be at most 256 characters long",
                     },
                     pattern: {
-                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,64}$/,
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,256}$/,
                       message:
                         "Must contain one uppercase letter, one lowercase letter and one number",
                     },

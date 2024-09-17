@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { ErrorPage } from "../pages/ErrorPage/ErrorPage";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -12,10 +13,16 @@ export const router = createBrowserRouter([
   },
   {
     path: "/chat",
-    lazy: async () => {
-      const { Chat } = await import("../pages/Chat/Chat");
-      return { Component: Chat };
-    },
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: "/chat",
+        lazy: async () => {
+          const { Chat } = await import("../pages/Chat/Chat");
+          return { Component: Chat };
+        },
+      },
+    ],
     errorElement: <ErrorPage />,
   },
   {
@@ -39,6 +46,14 @@ export const router = createBrowserRouter([
     lazy: async () => {
       const { ForgotPassword } = await import("../pages/ForgotPassword/ForgotPassword");
       return { Component: ForgotPassword };
+    },
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/reset-password",
+    lazy: async () => {
+      const { ResetPassword } = await import("../pages/ResetPassword/ResetPassword");
+      return { Component: ResetPassword };
     },
     errorElement: <ErrorPage />,
   },
