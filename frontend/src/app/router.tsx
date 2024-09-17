@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { ErrorPage } from "../pages/ErrorPage/ErrorPage";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -12,10 +13,16 @@ export const router = createBrowserRouter([
   },
   {
     path: "/chat",
-    lazy: async () => {
-      const { Chat } = await import("../pages/Chat/Chat");
-      return { Component: Chat };
-    },
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: "/chat",
+        lazy: async () => {
+          const { Chat } = await import("../pages/Chat/Chat");
+          return { Component: Chat };
+        },
+      },
+    ],
     errorElement: <ErrorPage />,
   },
   {

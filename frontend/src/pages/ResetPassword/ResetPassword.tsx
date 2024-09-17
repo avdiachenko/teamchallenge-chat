@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Navigate, useSearchParams } from "react-router-dom";
+import { useUserStore } from "../../entities/user/user.store";
 import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
 import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
 import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
@@ -19,12 +20,15 @@ export function ResetPassword() {
   const [searchParams] = useSearchParams();
   const reset_token = searchParams.get("reset_token");
 
+  const { token } = useUserStore();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit: SubmitHandler<{ password: string; repeatPassword: string }> = (data) => {
     alert(JSON.stringify({ reset_token, password: data.password }));
   };
 
+  if (token) return <Navigate to="/chat" replace />;
   if (!reset_token) return <Navigate to="/" />;
 
   return (
