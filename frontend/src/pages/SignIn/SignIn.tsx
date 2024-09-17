@@ -24,7 +24,7 @@ export function SignIn() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (name) navigate("/chat", { replace: true });
+    if (name) navigate("/chat");
   }, [name, navigate]);
 
   useEffect(() => clearMessage(), [clearMessage]);

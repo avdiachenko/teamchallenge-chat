@@ -32,7 +32,7 @@ export function SignUp() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (name) navigate("/chat", { replace: true });
+    if (name) navigate("/chat");
   }, [name, navigate]);
 
   useEffect(() => clearMessage(), [clearMessage]);
@@ -108,7 +108,7 @@ export function SignUp() {
                       message: "Password must be at most 256 characters long",
                     },
                     pattern: {
-                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,64}$/,
+                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,256}$/,
                       message:
                         "Must contain one uppercase letter, one lowercase letter and one number",
                     },

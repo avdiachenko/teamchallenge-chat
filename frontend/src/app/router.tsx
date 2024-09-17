@@ -43,6 +43,14 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    path: "/reset-password",
+    lazy: async () => {
+      const { ResetPassword } = await import("../pages/ResetPassword/ResetPassword");
+      return { Component: ResetPassword };
+    },
+    errorElement: <ErrorPage />,
+  },
+  {
     path: "*",
     element: <ErrorPage />,
   },
