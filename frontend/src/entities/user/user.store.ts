@@ -24,6 +24,8 @@ type Store = {
   logout: () => Promise<void>;
   clearTokens: () => void;
   clearMessage: () => void;
+  forgotPassword: (email: string, reset: () => void) => Promise<void>;
+  updatePassword: (tempCode: string, password: string, reset: () => void) => Promise<void>;
 };
 
 export const useUserStore = create<Store>((set, get) => ({
@@ -170,4 +172,40 @@ export const useUserStore = create<Store>((set, get) => ({
       regErrorMessage: "",
       regSuccess: false,
     }),
+
+  forgotPassword: async (email: string, reset: () => void) => {
+    try {
+      set({ loading: true, error: false, errorMessage: "" });
+
+      await api("/users/forgot-password", {
+        method: "POST",
+        body: JSON.stringify({ email }),
+      });
+
+      reset();
+    } catch (error) {
+      console.error(error);
+      set({ error: true, errorMessage: (error as Error).message });
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  updatePassword: async (tempCode: string, newPassword: string, reset: () => void) => {
+    try {
+      set({ loading: true, error: false, errorMessage: "" });
+
+      await api(`/users/update-password/${tempCode}`, {
+        method: "POST",
+        body: JSON.stringify({ newPassword }),
+      });
+
+      reset();
+    } catch (error) {
+      console.error(error);
+      set({ error: true, errorMessage: (error as Error).message });
+    } finally {
+      set({ loading: false });
+    }
+  },
 }));

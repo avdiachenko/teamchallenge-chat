@@ -11,11 +11,12 @@ export function ForgotPassword() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<{ email: string }>();
 
-  const { token } = useUserStore();
+  const { token, error, errorMessage, loading, forgotPassword } = useUserStore();
 
-  const onSubmit: SubmitHandler<{ email: string }> = (data) => alert(JSON.stringify(data));
+  const onSubmit: SubmitHandler<{ email: string }> = (data) => forgotPassword(data.email, reset);
 
   if (token) return <Navigate to="/chat" replace />;
 
@@ -54,7 +55,13 @@ export function ForgotPassword() {
               {errors.email && <p className={styles.error}>{errors.email.message}</p>}
             </div>
 
-            <BaseButton type="submit">Confirm</BaseButton>
+            <BaseButton disabled={loading} type="submit">
+              Confirm
+            </BaseButton>
+
+            <div className={styles.status}>
+              {error && <p className={styles.error}>{errorMessage}</p>}
+            </div>
           </form>
         </div>
       </div>

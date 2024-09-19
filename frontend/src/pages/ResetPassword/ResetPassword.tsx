@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Navigate, useSearchParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
 import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
 import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
@@ -15,21 +15,20 @@ export function ResetPassword() {
     handleSubmit,
     formState: { errors },
     watch,
+    reset,
   } = useForm<{ password: string; repeatPassword: string }>();
 
-  const [searchParams] = useSearchParams();
-  const reset_token = searchParams.get("reset_token");
+  const { tempCode } = useParams();
 
-  const { token } = useUserStore();
+  const { token, error, errorMessage, loading, updatePassword } = useUserStore();
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit: SubmitHandler<{ password: string; repeatPassword: string }> = (data) => {
-    alert(JSON.stringify({ reset_token, password: data.password }));
-  };
-
   if (token) return <Navigate to="/chat" replace />;
-  if (!reset_token) return <Navigate to="/" />;
+  if (!tempCode) return <Navigate to="/" replace />;
+
+  const onSubmit: SubmitHandler<{ password: string; repeatPassword: string }> = (data) =>
+    updatePassword(tempCode, data.password, reset);
 
   return (
     <div className={styles.container}>
@@ -116,7 +115,13 @@ export function ResetPassword() {
               )}
             </div>
 
-            <BaseButton type="submit">Confirm</BaseButton>
+            <BaseButton disabled={loading} type="submit">
+              Confirm
+            </BaseButton>
+
+            <div className={styles.status}>
+              {error && <p className={styles.error}>{errorMessage}</p>}
+            </div>
           </form>
         </div>
       </div>
