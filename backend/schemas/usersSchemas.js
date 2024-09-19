@@ -30,3 +30,7 @@ export const signinSchema = Joi.object({
     ),
   email: Joi.string().email().required(),
 });
+
+export const forgotPasswordSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
