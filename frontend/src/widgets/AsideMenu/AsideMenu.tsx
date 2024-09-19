@@ -9,9 +9,6 @@ export function AsideMenu() {
   return (
     <aside className={styles.aside_menu}>
       <nav className={styles.nav_menu}>
-        <Link className={styles.nav_links} to="/">
-          <img src={images.Logo} alt="" />
-        </Link>
         <div className={styles.main_links}>
           <Link className={styles.nav_links} to="/chat">
             <img src={images.ChatDots} alt="" />

@@ -6,10 +6,31 @@ import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { Swiper as SwiperType } from "swiper/types";
 import styles from "./Home.module.css";
 import image from "./image.png";
 
 export function Home() {
+  const handleSlideChange = (swiper: SwiperType) => {
+    const swiperWidth = swiper.width;
+    const swiperLeftEdge = swiper.translate;
+
+    swiper.slides.forEach((slide: HTMLElement) => {
+      const slideLeft = slide.offsetLeft;
+      const slideRight = slideLeft + slide.offsetWidth;
+      if (
+        slideLeft >= Math.abs(swiperLeftEdge) &&
+        slideRight <= Math.abs(swiperLeftEdge) + swiperWidth
+      ) {
+        slide.style.opacity = "1";
+        slide.style.transition = "1s all";
+      } else {
+        slide.style.transition = "1s all";
+        slide.style.opacity = "0";
+      }
+    });
+  };
+
   return (
     <div>
       <AsideMenu />
@@ -30,7 +51,9 @@ export function Home() {
               className={styles.home_page_cards}
               slidesPerView={4}
               pagination={{ clickable: true }}
-              spaceBetween={101}
+              spaceBetween={90}
+              onSlideChange={handleSlideChange}
+              onSwiper={handleSlideChange}
             >
               <SwiperSlide>
                 <HomePageCard
