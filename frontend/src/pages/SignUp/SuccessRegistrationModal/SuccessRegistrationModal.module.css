@@ -1,0 +1,37 @@
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 22px;
+  width: 500px;
+  color: var(--purple-950);
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    width: 100%;
+  }
+}
+
+.imageBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40px;
+  width: 140px;
+  height: 140px;
+  background-color: var(--purple-100);
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.text {
+  font-size: 18px;
+  font-weight: 400;
+  text-align: center;
+}
