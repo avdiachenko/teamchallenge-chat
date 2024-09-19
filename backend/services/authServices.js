@@ -28,3 +28,11 @@ export async function updateUser(filter, data) {
     return User.findOneAndUpdate(filter, data, { new: true });
   }
 }
+
+export async function recoverPassword(tempCode, data) {
+  const hashPassword = await bcrypt.hash(data.password, 10);
+  return User.findOneAndUpdate(
+    { tempCode },
+    { password: hashPassword, $unset: { tempCode } } //$unset — оператор, который удаляет указанное поле из документа
+  );
+}
