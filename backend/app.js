@@ -4,14 +4,14 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import swaggerUi from "swagger-ui-express";
-import { createServer } from 'node:http';
+import { createServer } from "node:http";
 import { Server } from "socket.io";
 
 import swaggerDocument from "./docs/swagger.json" assert { type: "json" };
 import contactsRouter from "./routes/contactsRouter.js";
 import authRouter from "./routes/authRouter.js";
 import complexRouter from "./routes/complexRouter.js";
-import * as chatControllers from "./controllers/chatControllers.js"
+import * as chatControllers from "./controllers/chatControllers.js";
 
 dotenv.config();
 
@@ -26,7 +26,7 @@ app.use(express.static("upload/images"));
 app.use("/users", authRouter);
 app.use("/api/contacts", contactsRouter);
 app.use("/api", complexRouter);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/chat", (_, res) => {
   res.send(`<script src="/socket.io/socket.io.js"></script>
@@ -53,8 +53,8 @@ app.get("/chat", (_, res) => {
     message.style.color = "blue";
     document.body.insertBefore(message, document.body.lastElement);
   })
-</script>`)
-})
+</script>`);
+});
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
@@ -69,13 +69,12 @@ const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://team-challenge-chat.netlify.app/"
-  }
+    origin: "https://team-challenge-chat.netlify.app/",
+  },
 });
 
-
-io.on('connection', (socket) => {
-  console.log('a user connected');
+io.on("connection", (socket) => {
+  console.log("a user connected");
   chatControllers.pingEventSubscribe(socket);
   chatControllers.chatMessageEventSubscribe(socket);
 });
@@ -90,7 +89,6 @@ mongoose
     server.listen(PORT, () => {
       console.log(`Server is running. Use our API on port: ${PORT}`);
     });
-
   })
   .catch((error) => {
     console.log(error.message);
