@@ -50,7 +50,7 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/reset-password",
+    path: "/update-password/:tempCode",
     lazy: async () => {
       const { ResetPassword } = await import("../pages/ResetPassword/ResetPassword");
       return { Component: ResetPassword };
