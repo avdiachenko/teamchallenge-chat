@@ -1,5 +1,7 @@
 import multer from "multer";
 import path from "path";
+import fs from "fs";
+import { uploadToCloudinary } from "../services/cloudinary.js";
 
 function makeid(length) {
     let result = '';
@@ -13,11 +15,11 @@ function makeid(length) {
     return result;
 }
 
-const uploadImage = multer({
+const uploadImageToTmp = multer({
     limits:800000,
     storage: multer.diskStorage({
         destination:(req,file,cb)=>{
-            cb(null,"upload/images")
+            cb(null,"tmp")
         },
         filename:(req,file,cb)=>{
             let ext = path.extname(file.originalname);
@@ -34,4 +36,31 @@ const uploadImage = multer({
         }
     }
 })
-export default uploadImage;
+
+const uploadImagesToCloudinary = async (req, res, next) => {
+    if(req.files.length == 0){
+        throw HttpError(400, "No images");
+    } else {
+        try {
+            for (let i = 0; i < req.files.length; i++) {
+                const file = req.files[i];
+                const url = await uploadToCloudinary(file.destination, file.filename);
+                
+                fs.unlink(file.path, (err) => {
+                    if (err) throw err;
+                    console.log('image was deleted');
+                }); 
+                file.filename = file.path = url;
+                file.destination = "";
+            }
+        } catch (error) {
+            console.log("While uploading image ", error);
+        }
+    }
+    next()
+}
+
+export default {
+    uploadImagesToTmp: uploadImageToTmp,
+    uploadImageToCloudinary: uploadImagesToCloudinary
+};

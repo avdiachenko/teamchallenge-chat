@@ -22,7 +22,11 @@ const buildingsToJSON = (req, res, next) => {
 }   
 
 // TODO lock behind auth
-complexRouter.post("/residential_complex", uploadImage.any("images"), buildingsToJSON, log, validateBody(createComplexSchema), createComplex);
+complexRouter.post("/residential_complex", 
+    uploadImage.uploadImagesToTmp.any("images"), 
+    uploadImage.uploadImageToCloudinary, 
+    buildingsToJSON, 
+    validateBody(createComplexSchema), createComplex);
 complexRouter.get("/residential_complex", getAllComplexes);
 complexRouter.get("/delete_residential_complex", deleteAllComplexes);
 
