@@ -25,6 +25,25 @@
 .nav_links:hover {
     background-color: var(--purple-color-100);
     border-radius: 16px;
+    path {
+        fill: #7D7CF3;
+    }
+}
+
+.nav_links_disabled {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    transition: .2s all;
+    margin-bottom: 14px;
+    cursor: pointer;
+    pointer-events: none;
+    path {
+        transition: .2s all;
+    }
 }
 
 .nav_links {
@@ -37,6 +56,9 @@
     transition: .2s all;
     margin-bottom: 14px;
     cursor: pointer;
+    path {
+        transition: .2s all;
+    }
 }
 
 .nav_links_logout {
