@@ -3,6 +3,10 @@ import { handleSaveError, setUpdateSetting } from "./hooks.js";
 
 const residentialComplexSchema = new Schema(
   {
+    name: {
+      type: String,
+      required: [true, "Name is required"],
+    },
     images: {
       type: String,
       required: [true, "Image(s) is required"],
@@ -39,9 +43,17 @@ const residentialComplexSchema = new Schema(
       type: String,
       default: "",
     },
+    floors: {
+      type: Number,
+      required: [true, "Floors number is required"]
+    },
+    entrances: {
+      type: Number,
+      required: [true, "Entrances number is required"]
+    },
     location: {
       type: String,
-      default: "41.40338,2.17403",
+      default: "Simferopolska, 2k, Dnipro, Dnipropetrovsk region",
     },
   },
   { versionKey: false }

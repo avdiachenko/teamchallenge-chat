@@ -5,10 +5,15 @@ const apartmentSchema = new Schema(
   {
     building_id: {
       type: String,
-      required: [true, "Residential complex is required"],
+      required: [true, "Building id is required"],
+    },
+    number: {
+      type: Number,
+      required: [true, "Apartment number is required"],
     },
     entrance: {
       type: Number,
+      required: [true, "Entrance number is required"],
     },
     services_debt: {
       type: Number,

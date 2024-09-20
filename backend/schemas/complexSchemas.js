@@ -1,6 +1,7 @@
 import Joi from "joi";
 
 export const createComplexSchema = Joi.object({
+  name: Joi.string().required(),
   parking: Joi.boolean().required(),
   security: Joi.boolean().required(),
   access_control: Joi.boolean().required(),
@@ -10,6 +11,7 @@ export const createComplexSchema = Joi.object({
   video_surveillance: Joi.boolean().required(),
   description: Joi.string().required(),
   location: Joi.string().required(),
+  floors: Joi.number().required(),
   buildings: Joi.array().items({
     address: Joi.string().required(),
     entrances: Joi.array().items({

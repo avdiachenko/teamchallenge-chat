@@ -10,8 +10,13 @@ async function createComplex(req, res) {
       for (const file of req.files) {
         images += file.filename + " ";
       }
+      let entrancesCount = 0;
+      for (const building of req.body.buildings) {
+        entrancesCount += building.entrances.length;
+      }
       const complexID = await complexServices.createComplex({
         images: images,
+        name: req.body.name,
         parking: req.body.parking,
         security: req.body.security,
         access_control: req.body.access_control,
@@ -19,6 +24,8 @@ async function createComplex(req, res) {
         playground: req.body.playground,
         closed_area: req.body.closed_area,
         video_surveillance: req.body.video_surveillance,
+        floors: req.body.floors,
+        entrances: entrancesCount,
         description: req.body.description,
         location: req.body.location
       })
@@ -36,6 +43,7 @@ async function createComplex(req, res) {
           ) {
               /*await*/ complexServices.createApartment({
                 building_id: buildingID,
+                number: apartmentNum,
                 entrance: entrance.number
               })            
           }
