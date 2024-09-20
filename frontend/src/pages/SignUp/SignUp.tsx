@@ -4,7 +4,7 @@ import Option from "@mui/joy/Option";
 import { selectClasses } from "@mui/joy/Select";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
 import { RegistrationData } from "../../entities/user/user.types";
 import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
@@ -27,14 +27,11 @@ export function SignUp() {
   const [isAgree, setIsAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const { token, regLoading, regSuccess, regError, regErrorMessage, registration, clearMessage } =
-    useUserStore();
+  const { loading, success, error, errorMessage, registration, clearMessage } = useUserStore();
 
-  useEffect(() => clearMessage(), [clearMessage]);
+  useEffect(() => () => clearMessage(), [clearMessage]);
 
   const onSubmit: SubmitHandler<RegistrationData> = async (data) => registration(data, reset);
-
-  if (token) return <Navigate to="/chat" replace />;
 
   return (
     <div className={styles.container}>
@@ -297,12 +294,12 @@ export function SignUp() {
               </div>
             </div>
 
-            <BaseButton disabled={regLoading || !isAgree} type="submit">
+            <BaseButton disabled={loading || !isAgree} type="submit">
               Sign Up
             </BaseButton>
 
             <div className={styles.status}>
-              {regError && <p className={styles.error}>{regErrorMessage}</p>}
+              {error && <p className={styles.error}>{errorMessage}</p>}
             </div>
 
             <div className={styles.text}>
@@ -315,7 +312,7 @@ export function SignUp() {
         </div>
       </div>
 
-      <SuccessRegistrationModal open={regSuccess} close={clearMessage} />
+      <SuccessRegistrationModal open={success} close={clearMessage} />
     </div>
   );
 }

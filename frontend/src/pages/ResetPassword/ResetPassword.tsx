@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Navigate, useParams } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
@@ -20,11 +20,12 @@ export function ResetPassword() {
 
   const { tempCode } = useParams();
 
-  const { token, error, errorMessage, loading, updatePassword } = useUserStore();
+  const { error, errorMessage, loading, updatePassword, clearMessage } = useUserStore();
+
+  useEffect(() => () => clearMessage(), [clearMessage]);
 
   const [showPassword, setShowPassword] = useState(false);
 
-  if (token) return <Navigate to="/chat" replace />;
   if (!tempCode) return <Navigate to="/" replace />;
 
   const onSubmit: SubmitHandler<{ password: string; repeatPassword: string }> = (data) =>

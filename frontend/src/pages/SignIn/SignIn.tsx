@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
 import { AuthData } from "../../entities/user/user.types";
 import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
@@ -20,13 +20,11 @@ export function SignIn() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const { token, loading, error, errorMessage, login, clearMessage } = useUserStore();
+  const { loading, error, errorMessage, login, clearMessage } = useUserStore();
 
-  useEffect(() => clearMessage(), [clearMessage]);
+  useEffect(() => () => clearMessage(), [clearMessage]);
 
   const onSubmit: SubmitHandler<AuthData> = (data) => login(data, reset);
-
-  if (token) return <Navigate to="/chat" replace />;
 
   return (
     <div className={styles.container}>
