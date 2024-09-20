@@ -20,11 +20,10 @@ export function ResetPassword() {
 
   const { tempCode } = useParams();
 
-  const { token, error, errorMessage, loading, updatePassword } = useUserStore();
+  const { error, errorMessage, loading, updatePassword } = useUserStore();
 
   const [showPassword, setShowPassword] = useState(false);
 
-  if (token) return <Navigate to="/chat" replace />;
   if (!tempCode) return <Navigate to="/" replace />;
 
   const onSubmit: SubmitHandler<{ password: string; repeatPassword: string }> = (data) =>

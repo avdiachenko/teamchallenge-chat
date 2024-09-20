@@ -15,7 +15,7 @@ export function Groups() {
 
       <div className={styles.wrapper}>
         {groupsArray.map((group) => (
-          <div className={styles.card}>
+          <div className={styles.card} key={group.title}>
             <img src={group.img} alt={group.title} className={styles.cardImg} />
             <div className={styles.cardInfo}>
               <span className={styles.cardTitle}>{group.title}</span>

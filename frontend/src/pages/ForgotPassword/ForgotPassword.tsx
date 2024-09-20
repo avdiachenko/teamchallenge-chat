@@ -1,5 +1,4 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Navigate } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
 import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
 import { SignSwiper } from "../../shared/components/SignSwiper/SignSwiper";
@@ -14,11 +13,9 @@ export function ForgotPassword() {
     reset,
   } = useForm<{ email: string }>();
 
-  const { token, error, errorMessage, loading, forgotPassword } = useUserStore();
+  const { error, errorMessage, loading, forgotPassword } = useUserStore();
 
   const onSubmit: SubmitHandler<{ email: string }> = (data) => forgotPassword(data.email, reset);
-
-  if (token) return <Navigate to="/chat" replace />;
 
   return (
     <div className={styles.container}>

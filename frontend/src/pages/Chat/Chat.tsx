@@ -7,18 +7,20 @@ import { PrivateMessages } from "./PrivateMessages/PrivateMessages";
 
 export function Chat() {
   return (
-    <div className={styles.container}>
-      <Header title="Chat" />
+    <div>
       <AsideMenu />
-      <div className={styles.content}>
-        <div className={styles.panel}>
-          <div className={styles.searchBox}>
-            <input className={styles.search} type="text" placeholder="Search" />
+      <Header title="Chat" />
+      <div className={styles.container}>
+        <div className={styles.content}>
+          <div className={styles.panel}>
+            <div className={styles.searchBox}>
+              <input className={styles.search} type="text" placeholder="Search" />
+            </div>
+            <Groups />
+            <PrivateMessages />
           </div>
-          <Groups />
-          <PrivateMessages />
+          <ChatWindow />
         </div>
-        <ChatWindow />
       </div>
     </div>
   );

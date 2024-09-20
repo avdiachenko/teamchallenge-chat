@@ -16,6 +16,7 @@ type Store = {
   regError: boolean;
   regErrorMessage: string;
   isInitialized: boolean;
+  isAuth: () => boolean;
   initialization: () => Promise<void>;
   updateUserInfo: () => Promise<void>;
   refresh: () => Promise<void>;
@@ -40,6 +41,14 @@ export const useUserStore = create<Store>((set, get) => ({
   regError: false,
   regErrorMessage: "",
   isInitialized: false,
+
+  isAuth: () => {
+    const { token, refreshToken, name } = get();
+
+    return (
+      !!token && !isTokenExpired(token) && !!refreshToken && !isTokenExpired(refreshToken) && !!name
+    );
+  },
 
   initialization: async () => {
     const { token, refreshToken, refresh, updateUserInfo } = get();

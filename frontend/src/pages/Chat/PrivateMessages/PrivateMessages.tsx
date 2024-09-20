@@ -16,7 +16,7 @@ export function PrivateMessages() {
 
       <div className={styles.wrapper}>
         {messagesArray.map((message) => (
-          <div className={styles.card}>
+          <div className={styles.card} key={message.name}>
             <img src={message.img} alt={message.name} className={styles.cardImg} />
             <div className={styles.cardInfo}>
               <span className={styles.cardName}>{message.name}</span>
