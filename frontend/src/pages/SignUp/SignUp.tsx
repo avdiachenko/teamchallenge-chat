@@ -27,10 +27,9 @@ export function SignUp() {
   const [isAgree, setIsAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const { regLoading, regSuccess, regError, regErrorMessage, registration, clearMessage } =
-    useUserStore();
+  const { loading, success, error, errorMessage, registration, clearMessage } = useUserStore();
 
-  useEffect(() => clearMessage(), [clearMessage]);
+  useEffect(() => () => clearMessage(), [clearMessage]);
 
   const onSubmit: SubmitHandler<RegistrationData> = async (data) => registration(data, reset);
 
@@ -295,12 +294,12 @@ export function SignUp() {
               </div>
             </div>
 
-            <BaseButton disabled={regLoading || !isAgree} type="submit">
+            <BaseButton disabled={loading || !isAgree} type="submit">
               Sign Up
             </BaseButton>
 
             <div className={styles.status}>
-              {regError && <p className={styles.error}>{regErrorMessage}</p>}
+              {error && <p className={styles.error}>{errorMessage}</p>}
             </div>
 
             <div className={styles.text}>
@@ -313,7 +312,7 @@ export function SignUp() {
         </div>
       </div>
 
-      <SuccessRegistrationModal open={regSuccess} close={clearMessage} />
+      <SuccessRegistrationModal open={success} close={clearMessage} />
     </div>
   );
 }

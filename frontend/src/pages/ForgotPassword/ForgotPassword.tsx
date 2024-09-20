@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useUserStore } from "../../entities/user/user.store";
 import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
@@ -13,7 +14,9 @@ export function ForgotPassword() {
     reset,
   } = useForm<{ email: string }>();
 
-  const { error, errorMessage, loading, forgotPassword } = useUserStore();
+  const { error, errorMessage, loading, forgotPassword, clearMessage } = useUserStore();
+
+  useEffect(() => () => clearMessage(), [clearMessage]);
 
   const onSubmit: SubmitHandler<{ email: string }> = (data) => forgotPassword(data.email, reset);
 

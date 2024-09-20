@@ -11,10 +11,7 @@ type Store = {
   loading: boolean;
   error: boolean;
   errorMessage: string;
-  regLoading: boolean;
-  regSuccess: boolean;
-  regError: boolean;
-  regErrorMessage: string;
+  success: boolean;
   isInitialized: boolean;
   isAuth: () => boolean;
   initialization: () => Promise<void>;
@@ -36,10 +33,7 @@ export const useUserStore = create<Store>((set, get) => ({
   loading: false,
   error: false,
   errorMessage: "",
-  regLoading: false,
-  regSuccess: false,
-  regError: false,
-  regErrorMessage: "",
+  success: false,
   isInitialized: false,
 
   isAuth: () => {
@@ -110,21 +104,21 @@ export const useUserStore = create<Store>((set, get) => ({
 
   registration: async (registrationData: RegistrationData, reset: () => void) => {
     try {
-      set({ regLoading: true, regSuccess: false, regError: false });
+      set({ loading: true, success: false, error: false });
 
       await api("/users/register", {
         method: "POST",
         body: JSON.stringify(registrationData),
       });
 
-      set({ regSuccess: true });
+      set({ success: true });
 
       reset();
     } catch (error) {
       console.error(error);
-      set({ regError: true, regErrorMessage: (error as Error).message });
+      set({ error: true, errorMessage: (error as Error).message });
     } finally {
-      set({ regLoading: false });
+      set({ loading: false });
     }
   },
 
@@ -177,9 +171,7 @@ export const useUserStore = create<Store>((set, get) => ({
     set({
       error: false,
       errorMessage: "",
-      regError: false,
-      regErrorMessage: "",
-      regSuccess: false,
+      success: false,
     }),
 
   forgotPassword: async (email: string, reset: () => void) => {
