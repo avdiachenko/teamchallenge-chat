@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { create } from "zustand";
 import { api } from "../../shared/api/api";
 import { BASE_URL } from "../../shared/constants/urls";
@@ -87,6 +88,7 @@ export const useUserStore = create<Store>((set, get) => ({
           Authorization: `Bearer ${refreshToken}`,
         },
       });
+
       if (!res.ok) throw new Error("Failed to refresh token");
 
       const { token, refreshToken: newRefreshToken } = await res.json();
@@ -104,7 +106,7 @@ export const useUserStore = create<Store>((set, get) => ({
 
   registration: async (registrationData: RegistrationData, reset: () => void) => {
     try {
-      set({ loading: true, success: false, error: false });
+      set({ loading: true, success: false, error: false, errorMessage: "" });
 
       await api("/users/register", {
         method: "POST",
@@ -139,6 +141,7 @@ export const useUserStore = create<Store>((set, get) => ({
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("refreshToken", data.refreshToken);
+
       reset();
     } catch (error) {
       console.error(error);
@@ -176,12 +179,14 @@ export const useUserStore = create<Store>((set, get) => ({
 
   forgotPassword: async (email: string, reset: () => void) => {
     try {
-      set({ loading: true, error: false, errorMessage: "" });
+      set({ loading: true, error: false, errorMessage: "", success: false });
 
       await api("/users/forgot-password", {
         method: "POST",
         body: JSON.stringify({ email }),
       });
+
+      set({ success: true });
 
       reset();
     } catch (error) {
@@ -194,12 +199,14 @@ export const useUserStore = create<Store>((set, get) => ({
 
   updatePassword: async (tempCode: string, newPassword: string, reset: () => void) => {
     try {
-      set({ loading: true, error: false, errorMessage: "" });
+      set({ loading: true, error: false, errorMessage: "", success: false });
 
       await api(`/users/update-password/${tempCode}`, {
         method: "POST",
         body: JSON.stringify({ newPassword }),
       });
+
+      set({ success: true });
 
       reset();
     } catch (error) {

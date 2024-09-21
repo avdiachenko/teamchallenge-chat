@@ -20,7 +20,7 @@ export function ResetPassword() {
 
   const { tempCode } = useParams();
 
-  const { error, errorMessage, loading, updatePassword, clearMessage } = useUserStore();
+  const { error, errorMessage, loading, success, updatePassword, clearMessage } = useUserStore();
 
   useEffect(() => () => clearMessage(), [clearMessage]);
 
@@ -122,6 +122,11 @@ export function ResetPassword() {
 
             <div className={styles.status}>
               {error && <p className={styles.error}>{errorMessage}</p>}
+              {success && (
+                <p className={styles.success}>
+                  Check your email and follow the instructions to reset your password
+                </p>
+              )}
             </div>
           </form>
         </div>
