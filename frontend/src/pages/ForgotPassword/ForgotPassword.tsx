@@ -14,7 +14,7 @@ export function ForgotPassword() {
     reset,
   } = useForm<{ email: string }>();
 
-  const { error, errorMessage, loading, forgotPassword, clearMessage } = useUserStore();
+  const { error, errorMessage, loading, success, forgotPassword, clearMessage } = useUserStore();
 
   useEffect(() => () => clearMessage(), [clearMessage]);
 
@@ -61,6 +61,7 @@ export function ForgotPassword() {
 
             <div className={styles.status}>
               {error && <p className={styles.error}>{errorMessage}</p>}
+              {success && <p className={styles.success}>Password updated successfully</p>}
             </div>
           </form>
         </div>
