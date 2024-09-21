@@ -122,11 +122,7 @@ export function ResetPassword() {
 
             <div className={styles.status}>
               {error && <p className={styles.error}>{errorMessage}</p>}
-              {success && (
-                <p className={styles.success}>
-                  Check your email and follow the instructions to reset your password
-                </p>
-              )}
+              {success && <p className={styles.success}>Password updated successfully</p>}
             </div>
           </form>
         </div>
