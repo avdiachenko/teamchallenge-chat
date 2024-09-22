@@ -1,6 +1,45 @@
+import { useEffect, useState } from "react";
+import io, { Socket } from "socket.io-client";
 import styles from "./ChatWindow.module.css";
 
 export function ChatWindow() {
+  const [messages, setMessages] = useState<string[]>([]);
+  const [socket, setSocket] = useState<Socket | null>(null);
+
+  useEffect(() => {
+    const newSocket = io("https://teamchallenge-chat-jmsz.onrender.com");
+
+    newSocket.on("connect", () => {
+      console.log("Connected to Socket.IO server");
+    });
+
+    newSocket.on("chat message", (message: string) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+
+    newSocket.on("disconnect", () => {
+      console.log("Disconnected from Socket.IO server");
+    });
+
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.close();
+    };
+  }, []);
+
+  const sendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const message = e.currentTarget.value;
+      console.log("Entered message: " + message);
+      if (socket) {
+        console.log("Sending message: " + message);
+        socket.emit("chat message", message);
+      }
+      e.currentTarget.value = "";
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -16,11 +55,20 @@ export function ChatWindow() {
         </div>
 
         <div className={styles.messageList}>
-          <div className={styles.message}>Hello world</div>
+          {messages.map((message, index) => (
+            <div className={styles.message} key={index}>
+              {message}
+            </div>
+          ))}
         </div>
 
         <div className={styles.chatInput}>
-          <input className={styles.input} type="text" placeholder={"Type your message here"} />
+          <input
+            className={styles.input}
+            type="text"
+            placeholder={"Type your message here"}
+            onKeyDown={sendMessage}
+          />
         </div>
       </div>
     </div>
