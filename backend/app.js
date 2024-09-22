@@ -69,7 +69,7 @@ const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://team-challenge-chat.netlify.app/",
+    origin: ["https://team-challenge-chat.netlify.app", "http://localhost:5173"],
   },
 });
 
