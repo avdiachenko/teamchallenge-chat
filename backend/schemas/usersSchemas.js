@@ -13,6 +13,7 @@ export const signupSchema = Joi.object({
         )
     ),
   residential_complex: Joi.string().required(),
+  section: Joi.string().required(),
   apartment: Joi.number().required(),
   entrance: Joi.number().required(),
   phone: Joi.string(),
