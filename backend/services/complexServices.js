@@ -35,3 +35,7 @@ export function getApartment(filter) {
 export function getComplex(filter) {
   return Complex.find(filter);
 }
+
+export function getBuilding(filter) {
+  return Building.find(filter);
+}
