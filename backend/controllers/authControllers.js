@@ -15,41 +15,47 @@ import "dotenv/config"; // Вместо этого можно:
 // dotenv.config();
 import { generateRandomCode } from "../helpers/generateRandomCode.js";
 import sendEmail from "../helpers/sendEmail.js";
-import { getApartment, getComplex } from "../services/complexServices.js";
+import {
+  getApartment,
+  getBuilding,
+  getComplex,
+} from "../services/complexServices.js";
 
 const { JWT_SECRET, DEPLOY_HOST } = process.env;
 
 const signup = async (req, res) => {
-  const { email, apartment, entrance, residential_complex } = req.body;
-  console.log(apartment);
+  const { email, apartment, entrance, residential_complex, section } = req.body;
+  const sectionWithOptionalHyphen = section.replace("-", "[-]?"); // replaces a hyphen in a string with the regular expression [-]?, which means that the hyphen may be present but is not required.
+  const regex = new RegExp(sectionWithOptionalHyphen, "i"); // 'i' makes the search case insensitive
   const user = await findUser({ email });
   if (user) {
     throw HttpError(409, "Email in use");
   }
-  // const { _id: apartment_id } = await getApartment({
-  //   number: apartment,
-  //   entrance,
-  // });
-  // const { _id: residential_complex_id } = await getComplex({
-  //   name: residential_complex,
-  // });
-  const [{ _id }] = await getComplex({
+
+  const [{ _id: residential_complex_id }] = await getComplex({
     name: residential_complex,
   });
-  console.log(_id);
-  const data = await getApartment({
+  console.log(residential_complex_id);
+  const [{ _id: building_id }] = await getBuilding({
+    residential_complex_id,
+    address: regex,
+  });
+
+  console.log(building_id);
+  const [{ _id }] = await getApartment({
     number: apartment,
     entrance,
+    building_id,
   });
   // console.log(_id);
-  // console.log(data);
-  const newUser = await register({ ...req.body, apartment_id: data[0]._id });
+
+  const newUser = await register({ ...req.body, apartment_id: _id });
   res.status(201).json({
     user: {
       name: newUser.name,
       email: newUser.email,
       residential_complex: newUser.residential_complex,
-      // apartment: newUser.apartment,
+
       apartment_id: newUser.apartment_id,
       entrance: newUser.entrance,
     },
