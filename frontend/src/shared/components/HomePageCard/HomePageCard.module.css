@@ -1,0 +1,35 @@
+.home_page_card {
+    padding: 20px;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    background-color: var(--gray-color-50);
+    border-radius: 12px;
+}
+
+.card_title {
+    margin-top: 16px;
+    font-weight: 500;
+    font-size: 18px;
+    max-width: 280px;
+}
+
+.card_subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 12px;
+    color: #666666;
+    max-width: 280px;
+}
+
+.card_info span {
+    margin: 16px 0;
+    color: #4B4A4A;
+    font-size: 14px;
+}
+
+.card_info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

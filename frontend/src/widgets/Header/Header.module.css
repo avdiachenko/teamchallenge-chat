@@ -4,7 +4,7 @@
   align-items: center;
   height: 100px;
   width: 100%;
-  padding: 30px 58px 30px 150px;
+  padding: 30px 58px 30px 21px;
   border-bottom: 1px solid #EFEFFE;
 }
 
@@ -15,6 +15,16 @@
 
 .links {
   display: flex;
+}
+
+.header_title_logo {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+.header_logo {
+  z-index: 2;
 }
 
 /* 

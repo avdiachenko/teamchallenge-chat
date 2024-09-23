@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { create } from "zustand";
 import { api } from "../../shared/api/api";
 import { BASE_URL } from "../../shared/constants/urls";
@@ -11,11 +12,9 @@ type Store = {
   loading: boolean;
   error: boolean;
   errorMessage: string;
-  regLoading: boolean;
-  regSuccess: boolean;
-  regError: boolean;
-  regErrorMessage: string;
+  success: boolean;
   isInitialized: boolean;
+  isAuth: () => boolean;
   initialization: () => Promise<void>;
   updateUserInfo: () => Promise<void>;
   refresh: () => Promise<void>;
@@ -24,6 +23,8 @@ type Store = {
   logout: () => Promise<void>;
   clearTokens: () => void;
   clearMessage: () => void;
+  forgotPassword: (email: string, reset: () => void) => Promise<void>;
+  updatePassword: (tempCode: string, password: string, reset: () => void) => Promise<void>;
 };
 
 export const useUserStore = create<Store>((set, get) => ({
@@ -33,11 +34,16 @@ export const useUserStore = create<Store>((set, get) => ({
   loading: false,
   error: false,
   errorMessage: "",
-  regLoading: false,
-  regSuccess: false,
-  regError: false,
-  regErrorMessage: "",
+  success: false,
   isInitialized: false,
+
+  isAuth: () => {
+    const { token, refreshToken, name } = get();
+
+    return (
+      !!token && !isTokenExpired(token) && !!refreshToken && !isTokenExpired(refreshToken) && !!name
+    );
+  },
 
   initialization: async () => {
     const { token, refreshToken, refresh, updateUserInfo } = get();
@@ -82,6 +88,7 @@ export const useUserStore = create<Store>((set, get) => ({
           Authorization: `Bearer ${refreshToken}`,
         },
       });
+
       if (!res.ok) throw new Error("Failed to refresh token");
 
       const { token, refreshToken: newRefreshToken } = await res.json();
@@ -99,21 +106,21 @@ export const useUserStore = create<Store>((set, get) => ({
 
   registration: async (registrationData: RegistrationData, reset: () => void) => {
     try {
-      set({ regLoading: true, regSuccess: false, regError: false });
+      set({ loading: true, success: false, error: false, errorMessage: "" });
 
       await api("/users/register", {
         method: "POST",
         body: JSON.stringify(registrationData),
       });
 
-      set({ regSuccess: true });
+      set({ success: true });
 
       reset();
     } catch (error) {
       console.error(error);
-      set({ regError: true, regErrorMessage: (error as Error).message });
+      set({ error: true, errorMessage: (error as Error).message });
     } finally {
-      set({ regLoading: false });
+      set({ loading: false });
     }
   },
 
@@ -134,6 +141,7 @@ export const useUserStore = create<Store>((set, get) => ({
 
       localStorage.setItem("token", data.token);
       localStorage.setItem("refreshToken", data.refreshToken);
+
       reset();
     } catch (error) {
       console.error(error);
@@ -166,8 +174,46 @@ export const useUserStore = create<Store>((set, get) => ({
     set({
       error: false,
       errorMessage: "",
-      regError: false,
-      regErrorMessage: "",
-      regSuccess: false,
+      success: false,
     }),
+
+  forgotPassword: async (email: string, reset: () => void) => {
+    try {
+      set({ loading: true, error: false, errorMessage: "", success: false });
+
+      await api("/users/forgot-password", {
+        method: "POST",
+        body: JSON.stringify({ email }),
+      });
+
+      set({ success: true });
+
+      reset();
+    } catch (error) {
+      console.error(error);
+      set({ error: true, errorMessage: (error as Error).message });
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  updatePassword: async (tempCode: string, newPassword: string, reset: () => void) => {
+    try {
+      set({ loading: true, error: false, errorMessage: "", success: false });
+
+      await api(`/users/update-password/${tempCode}`, {
+        method: "POST",
+        body: JSON.stringify({ newPassword }),
+      });
+
+      set({ success: true });
+
+      reset();
+    } catch (error) {
+      console.error(error);
+      set({ error: true, errorMessage: (error as Error).message });
+    } finally {
+      set({ loading: false });
+    }
+  },
 }));

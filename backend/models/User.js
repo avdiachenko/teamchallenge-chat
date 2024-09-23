@@ -21,14 +21,18 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Residential complex is required"],
     },
+    // apartment: {
+    //   type: Number,
+    //   required: [true, "Apartment nomber is required"],
+    // },
     apartment: {
-      type: Number,
-      required: [true, "Apartment nomber is required"],
+      type: Schema.Types.ObjectId,
+      ref: "apartment",
     },
-    entrance: {
-      type: Number,
-      required: [true, "Entrance nomber is required"],
-    },
+    // entrance: {
+    //   type: Number,
+    //   required: [true, "Entrance nomber is required"],
+    // },
     phone: {
       type: String,
     },
@@ -39,6 +43,9 @@ const userSchema = new Schema(
     refreshToken: {
       type: String,
       default: null,
+    },
+    tempCode: {
+      type: String,
     },
   },
   { versionKey: false }

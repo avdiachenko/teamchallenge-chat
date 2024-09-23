@@ -1,8 +1,9 @@
 import React from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import { useUserStore } from "../../entities/user/user.store";
 import styles from "./Header.module.css";
 import { UserPanel } from "./UserPanel/UserPanel";
+import * as images from '../AsideMenu/icons/index'
 // import { UserPanel } from "./UserPanel/UserPanel";
 
 type HeaderProps = {
@@ -14,7 +15,12 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 
   return (
     <header className={styles.container}>
-      <span className={styles.header_title}>{title}</span>
+      <div className={styles.header_title_logo}>
+        <Link className={styles.header_logo} to="/">
+          <img src={images.Logo} alt="" />
+        </Link>
+        <span className={styles.header_title}>{title}</span>
+      </div>
       <div className={styles.links}>
         <select name="language">
           <option value="">Eng</option>

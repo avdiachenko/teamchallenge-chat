@@ -1,21 +1,27 @@
-import { Navigate } from "react-router-dom";
-import { useUserStore } from "../../entities/user/user.store";
+import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./Chat.module.css";
-import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
+import { ChatWindow } from "./ChatWindow/ChatWindow";
+import { Groups } from "./Groups/Groups";
+import { PrivateMessages } from "./PrivateMessages/PrivateMessages";
 
 export function Chat() {
-  const { name } = useUserStore();
-
-  if (!name) {
-    return <Navigate to="/signin" replace />;
-  }
-
   return (
-    <div className={styles.container}>
+    <div>
       <AsideMenu />
       <Header title="Chat" />
-      <div className={styles.content}>Hello from Chat</div>
+      <div className={styles.container}>
+        <div className={styles.content}>
+          <div className={styles.panel}>
+            <div className={styles.searchBox}>
+              <input className={styles.search} type="text" placeholder="Search" />
+            </div>
+            <Groups />
+            <PrivateMessages />
+          </div>
+          <ChatWindow />
+        </div>
+      </div>
     </div>
   );
 }
