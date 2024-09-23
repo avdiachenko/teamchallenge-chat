@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from "react";
 import io, { Socket } from "socket.io-client";
 import styles from "./ChatWindow.module.css";
@@ -29,13 +30,11 @@ export function ChatWindow() {
   }, []);
 
   const sendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && socket) {
       const message = e.currentTarget.value;
-      console.log("Entered message: " + message);
-      if (socket) {
-        console.log("Sending message: " + message);
-        socket.emit("chat message", message);
-      }
+      socket.emit("chat message", message, () =>
+        setMessages((prevMessages) => [...prevMessages, message])
+      );
       e.currentTarget.value = "";
     }
   };
