@@ -25,14 +25,14 @@ const userSchema = new Schema(
     //   type: Number,
     //   required: [true, "Apartment nomber is required"],
     // },
-    apartment: {
+    apartment_id: {
       type: Schema.Types.ObjectId,
       ref: "apartment",
     },
-    // entrance: {
-    //   type: Number,
-    //   required: [true, "Entrance nomber is required"],
-    // },
+    entrance: {
+      type: Number,
+      required: [true, "Entrance nomber is required"],
+    },
     phone: {
       type: String,
     },
