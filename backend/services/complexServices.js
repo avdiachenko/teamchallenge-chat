@@ -31,3 +31,7 @@ export async function deleteAllComplexes() {
 export function getApartment(filter) {
   return Apartment.find(filter);
 }
+
+export function getComplex(filter) {
+  return Complex.find(filter);
+}

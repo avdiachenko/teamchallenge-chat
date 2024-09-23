@@ -15,12 +15,12 @@ import "dotenv/config"; // Вместо этого можно:
 // dotenv.config();
 import { generateRandomCode } from "../helpers/generateRandomCode.js";
 import sendEmail from "../helpers/sendEmail.js";
-import { getApartment } from "../services/complexServices.js";
+import { getApartment, getComplex } from "../services/complexServices.js";
 
 const { JWT_SECRET, DEPLOY_HOST } = process.env;
 
 const signup = async (req, res) => {
-  const { email, apartment, entrance } = req.body;
+  const { email, apartment, entrance, residential_complex } = req.body;
   console.log(apartment);
   const user = await findUser({ email });
   if (user) {
@@ -30,12 +30,19 @@ const signup = async (req, res) => {
   //   number: apartment,
   //   entrance,
   // });
+  // const { _id: residential_complex_id } = await getComplex({
+  //   name: residential_complex,
+  // });
+  const [{ _id }] = await getComplex({
+    name: residential_complex,
+  });
+  console.log(_id);
   const data = await getApartment({
     number: apartment,
     entrance,
   });
   // console.log(_id);
-  console.log(data);
+  // console.log(data);
   const newUser = await register({ ...req.body, apartment_id: data[0]._id });
   res.status(201).json({
     user: {
