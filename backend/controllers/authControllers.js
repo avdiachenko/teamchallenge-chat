@@ -49,16 +49,18 @@ const signup = async (req, res) => {
   });
   // console.log(_id);
 
-  const newUser = await register({ ...req.body, apartment_id: _id });
+  // const newUser =
+  await register({ ...req.body, apartment_id: _id });
   res.status(201).json({
-    user: {
-      name: newUser.name,
-      email: newUser.email,
-      residential_complex: newUser.residential_complex,
+    // user: {
+    //   name: newUser.name,
+    //   email: newUser.email,
+    //   residential_complex: newUser.residential_complex,
 
-      apartment_id: newUser.apartment_id,
-      entrance: newUser.entrance,
-    },
+    //   apartment_id: newUser.apartment_id,
+    //   entrance: newUser.entrance,
+    // },
+    message: "Congratulations! You have registered successfully. Please login.",
   });
 };
 
