@@ -26,7 +26,8 @@ const { JWT_SECRET, DEPLOY_HOST } = process.env;
 const signup = async (req, res) => {
   const { email, apartment, entrance, residential_complex, section } = req.body;
   // const sectionWithOptionalHyphen = section.replace("-", "[-]?"); // replaces a hyphen in a string with the regular expression [-]?, which means that the hyphen may be present but is not required.
-  const regex = new RegExp(section, "i"); // 'i' makes the search case insensitive
+  // const regex = new RegExp(section, "i"); // 'i' makes the search case insensitive
+  const adress = section.toLowerCase();
   const user = await findUser({ email });
   if (user) {
     throw HttpError(409, "Email in use");
@@ -39,7 +40,7 @@ const signup = async (req, res) => {
 
   const data = await getBuilding({
     residential_complex_id,
-    address: regex,
+    address: adress,
   });
   console.log(data);
   if (data.length === 0) {
