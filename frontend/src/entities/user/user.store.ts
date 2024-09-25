@@ -38,11 +38,9 @@ export const useUserStore = create<Store>((set, get) => ({
   isInitialized: false,
 
   isAuth: () => {
-    const { token, refreshToken, name } = get();
+    const { token, name } = get();
 
-    return (
-      !!token && !isTokenExpired(token) && !!refreshToken && !isTokenExpired(refreshToken) && !!name
-    );
+    return !!token && !isTokenExpired(token) && !!name;
   },
 
   initialization: async () => {
@@ -53,7 +51,10 @@ export const useUserStore = create<Store>((set, get) => ({
     if (!isTokenValid) {
       localStorage.removeItem("token");
       set({ token: null });
-      if (isRefreshTokenValid) await refresh();
+      if (isRefreshTokenValid) {
+        console.log(isRefreshTokenValid);
+        await refresh();
+      }
     }
     if (!isRefreshTokenValid) {
       localStorage.removeItem("refreshToken");

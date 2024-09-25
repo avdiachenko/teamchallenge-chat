@@ -7,11 +7,13 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
 import { RegistrationData } from "../../entities/user/user.types";
+import { api } from "../../shared/api/api";
 import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
 import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
 import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
 import { SignSwiper } from "../../shared/components/SignSwiper/SignSwiper";
 import { Header } from "../../widgets/Header/Header";
+import { Complex } from "./Complex.type";
 import styles from "./SignUp.module.css";
 import { SuccessRegistrationModal } from "./SuccessRegistrationModal/SuccessRegistrationModal";
 
@@ -26,8 +28,22 @@ export function SignUp() {
 
   const [isAgree, setIsAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
   const { loading, success, error, errorMessage, registration, clearMessage } = useUserStore();
+
+  const [complexes, setComplexes] = useState<string[] | null>(null);
+
+  useEffect(() => {
+    const fetchComplexes = async () => {
+      try {
+        const data = await api("/api/residential_complex");
+        setComplexes(data.map((complex: Complex) => complex.name));
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    fetchComplexes();
+  }, []);
 
   useEffect(() => () => clearMessage(), [clearMessage]);
 
@@ -175,18 +191,7 @@ export function SignUp() {
                       },
                     }}
                   >
-                    {[
-                      "Panorama",
-                      "Azure Coast",
-                      "Altair",
-                      "Sunny Quarter",
-                      "Riviera",
-                      "Radiance",
-                      "Harmony",
-                      "Northern Star",
-                      "Eco Park",
-                      "Green Island",
-                    ].map((complex) => (
+                    {complexes?.map((complex) => (
                       <Option key={complex} value={complex}>
                         {complex}
                       </Option>
@@ -200,26 +205,32 @@ export function SignUp() {
             </div>
 
             <div className={styles.wrapper}>
-              {/* <div className={styles.inputContainer}>
-                <label className={`${errors.section && styles.labelError} ${styles.label}`}>Section</label>
+              <div className={styles.inputContainer}>
+                <label className={`${errors.section && styles.labelError} ${styles.label}`}>
+                  Section
+                </label>
                 <input
-                  type="number"
+                  type="text"
                   {...register("section", {
                     required: "Section is required",
-                    min: {
+                    minLength: {
                       value: 1,
-                      message: "Number must be at least 1",
+                      message: "Minimum 1 character",
                     },
-                    max: {
-                      value: 100,
-                      message: "Number must be 100 or less",
+                    maxLength: {
+                      value: 5,
+                      message: "Maximum 5 characters",
+                    },
+                    pattern: {
+                      value: /^[a-zA-Zа-яА-Я0-9]+$/,
+                      message: "Only letters and numbers",
                     },
                   })}
-                  placeholder="Number"
+                  placeholder="String"
                   className={`${errors.section && styles.inputError} ${styles.input}`}
                 />
                 {errors.section && <p className={styles.error}>{errors.section.message}</p>}
-              </div> */}
+              </div>
 
               <div className={styles.inputContainer}>
                 <label className={`${errors.entrance && styles.labelError} ${styles.label}`}>
@@ -231,11 +242,11 @@ export function SignUp() {
                     required: "Entrance is required",
                     min: {
                       value: 1,
-                      message: "Number must be at least 1",
+                      message: "Must be at least 1",
                     },
                     max: {
-                      value: 100,
-                      message: "Number must be 100 or less",
+                      value: 999,
+                      message: "Must be 999 or less",
                     },
                   })}
                   placeholder="Number"
@@ -254,11 +265,11 @@ export function SignUp() {
                     required: "Apartment is required",
                     min: {
                       value: 1,
-                      message: "Number must be at least 1",
+                      message: "Must be at least 1",
                     },
                     max: {
-                      value: 1000,
-                      message: "Number must be 1000 or less",
+                      value: 9999,
+                      message: "Must be 9999 or less",
                     },
                   })}
                   placeholder="Number"
