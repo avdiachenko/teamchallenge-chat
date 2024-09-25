@@ -35,23 +35,27 @@ const signup = async (req, res) => {
   const [{ _id: residential_complex_id }] = await getComplex({
     name: residential_complex,
   });
-  console.log(residential_complex_id);
+  // console.log(residential_complex_id);
 
-  const [data] = await getBuilding({
+  const data = await getBuilding({
     residential_complex_id,
     address: regex,
   });
-  if (!data._id) {
-    console.log("Such a section does not exist!");
-    // throw HttpError(500, "Such a section does not exist!");
+  console.log(data);
+  if (data.length === 0) {
+    // console.log("Such a section does not exist!");
+    throw HttpError(
+      500,
+      `The section ${section} does not exist! Enter the correct section data in the format like this 1a, 2B etc.`
+    );
     return;
   }
-  console.log(building_id);
+  const [result] = data;
 
   const [{ _id }] = await getApartment({
     number: apartment,
     entrance,
-    building_id,
+    building_id: result._id,
   });
   // console.log(_id);
 
