@@ -59,6 +59,18 @@ async function getAllComplexes(req, res) {
   res.json(complexes);
 };
 
+async function getComplex(req, res) {
+  const name = req.params.name;
+  const complexes = await complexServices.getComplex({ name: name });
+  if (complexes.length != 1) {
+    // TODO: throw error
+  }
+  let complex = complexes[0]._doc;
+  complex.sections = await complexServices.getComplexBuldingCount(complex._id);
+  complex.apartments = await complexServices.getComplexApartmentCount(complex._id);  
+  res.json(complex);
+};
+
 async function deleteAllComplexes(req, res) {
   await complexServices.deleteAllComplexes();
   res.send();
@@ -67,5 +79,6 @@ async function deleteAllComplexes(req, res) {
 export default {
   createComplex: ctrlWrapper(createComplex),
   getAllComplexes: ctrlWrapper(getAllComplexes),
+  getComplex: ctrlWrapper(getComplex),
   deleteAllComplexes: ctrlWrapper(deleteAllComplexes),
 };
