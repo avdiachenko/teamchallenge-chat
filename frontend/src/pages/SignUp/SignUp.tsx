@@ -5,7 +5,10 @@ import { selectClasses } from "@mui/joy/Select";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { Complex } from "../../entities/residentialComplex/residentialComplex.types";
+import {
+  ResidentialComplex,
+  ResidentialComplexDetails,
+} from "../../entities/residentialComplex/residentialComplex.types";
 import { useUserStore } from "../../entities/user/user.store";
 import { RegistrationData } from "../../entities/user/user.types";
 import useApi from "../../shared/api/useApi";
@@ -28,16 +31,21 @@ export function SignUp() {
 
   const { loading, success, error, errorMessage, registration, clearMessage } = useUserStore();
 
-  const { data: complexes } = useApi<Complex[]>("/api/residential_complex");
+  const { data: complexes } = useApi<ResidentialComplex[]>("/api/residential_complex");
 
   const [isAgree, setIsAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedComplex, setSelectedComplex] = useState<string | null>(null);
+
+  const { data: selectedComplexData } = useApi<ResidentialComplexDetails>(
+    selectedComplex && `/api/residential_complex/${selectedComplex}`
+  );
 
   useEffect(() => () => clearMessage(), [clearMessage]);
 
   const onSubmit: SubmitHandler<RegistrationData> = async (data) => registration(data, reset);
 
-  const complexArr = complexes?.map((complex: Complex) => complex.name);
+  const complexArr = complexes?.map((complex: ResidentialComplex) => complex.name);
 
   return (
     <div className={styles.container}>
@@ -150,6 +158,7 @@ export function SignUp() {
                     indicator={<KeyboardArrowDown />}
                     onChange={(_, newValue) => {
                       field.onChange(newValue);
+                      setSelectedComplex(newValue);
                     }}
                     sx={{
                       width: "100%",
@@ -227,6 +236,7 @@ export function SignUp() {
                   Entrance
                 </label>
                 <input
+                  disabled={!selectedComplexData?.entrances}
                   type="number"
                   {...register("entrance", {
                     required: "Entrance is required",
@@ -235,8 +245,8 @@ export function SignUp() {
                       message: "Must be at least 1",
                     },
                     max: {
-                      value: 999,
-                      message: "Must be 999 or less",
+                      value: selectedComplexData?.entrances || 99,
+                      message: `Must be ${selectedComplexData?.entrances} or less`,
                     },
                   })}
                   placeholder="Number"
@@ -250,6 +260,7 @@ export function SignUp() {
                   Apartment
                 </label>
                 <input
+                  disabled={!selectedComplexData?.apartments}
                   type="number"
                   {...register("apartment", {
                     required: "Apartment is required",
@@ -258,8 +269,8 @@ export function SignUp() {
                       message: "Must be at least 1",
                     },
                     max: {
-                      value: 9999,
-                      message: "Must be 9999 or less",
+                      value: selectedComplexData?.apartments || 999,
+                      message: `Must be ${selectedComplexData?.apartments} or less`,
                     },
                   })}
                   placeholder="Number"

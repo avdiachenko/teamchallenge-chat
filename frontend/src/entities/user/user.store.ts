@@ -128,7 +128,7 @@ export const useUserStore = create<Store>((set, get) => ({
 
   login: async (loginInputs: AuthData, reset: () => void) => {
     try {
-      set({ loading: true, error: false });
+      set({ loading: true, error: false, errorMessage: "", success: false });
 
       const data = await api("/users/login", {
         method: "POST",
