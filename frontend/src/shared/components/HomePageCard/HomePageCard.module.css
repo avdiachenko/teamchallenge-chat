@@ -26,6 +26,9 @@
     margin: 16px 0;
     color: #4B4A4A;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .card_info {
