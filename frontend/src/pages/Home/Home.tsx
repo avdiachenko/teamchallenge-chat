@@ -8,9 +8,33 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Swiper as SwiperType } from "swiper/types";
 import styles from "./Home.module.css";
-import image from "./image.png";
+import { BASE_URL } from "../../shared/constants/urls";
+import { useEffect, useState } from "react";
+
+interface ResidentialComplex {
+  name: string;
+  location: string;
+  images: string;
+  security: boolean;
+  access_control: boolean;
+  concierge: boolean;
+  playground: boolean;
+  closed_area: boolean;
+  video_surveillance: boolean;
+  parking: boolean;
+  _id: string;
+}
 
 export function Home() {
+  const [complex, setComplexes] = useState<ResidentialComplex[]>([]);
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/api/residential_complex`)
+      .then((res) => res.json())
+      .then((data) => {
+        setComplexes(data);
+      });
+  }, []);
   const handleSlideChange = (swiper: SwiperType) => {
     const swiperWidth = swiper.width;
     const swiperLeftEdge = swiper.translate;
@@ -55,76 +79,24 @@ export function Home() {
               onSlideChange={handleSlideChange}
               onSwiper={handleSlideChange}
             >
-              <SwiperSlide>
-                <HomePageCard
-                  title="Residential Complex Panorama"
-                  location="Simferopolska, 2k, Dnipro, Dnipropetrovsk region "
-                  img={image}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <HomePageCard
-                  title="Residential Complex Panorama"
-                  location="Simferopolska, 2k, Dnipro, Dnipropetrovsk region "
-                  img={image}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <HomePageCard
-                  title="Residential Complex Panorama"
-                  location="Simferopolska, 2k, Dnipro, Dnipropetrovsk region "
-                  img={image}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <HomePageCard
-                  title="Residential Complex Panorama"
-                  location="Simferopolska, 2k, Dnipro, Dnipropetrovsk region "
-                  img={image}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <HomePageCard
-                  title="Residential Complex Panorama"
-                  location="Simferopolska, 2k, Dnipro, Dnipropetrovsk region "
-                  img={image}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <HomePageCard
-                  title="Residential Complex Panorama"
-                  location="Simferopolska, 2k, Dnipro, Dnipropetrovsk region "
-                  img={image}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <HomePageCard
-                  title="Residential Complex Panorama"
-                  location="Simferopolska, 2k, Dnipro, Dnipropetrovsk region "
-                  img={image}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <HomePageCard
-                  title="Residential Complex Panorama"
-                  location="Simferopolska, 2k, Dnipro, Dnipropetrovsk region "
-                  img={image}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <HomePageCard
-                  title="Residential Complex Panorama"
-                  location="Simferopolska, 2k, Dnipro, Dnipropetrovsk region "
-                  img={image}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <HomePageCard
-                  title="Residential Complex Panorama"
-                  location="Simferopolska, 2k, Dnipro, Dnipropetrovsk region "
-                  img={image}
-                />
-              </SwiperSlide>
+              {complex.map((item) => {
+                return (
+                  <SwiperSlide key={item._id}>
+                    <HomePageCard
+                      title={item.name}
+                      location={item.location}
+                      img={item.images.split(" ")[1]}
+                      parking={item.parking}
+                      security={item.security}
+                      accessControl={item.access_control}
+                      concierge={item.concierge}
+                      playground={item.playground}
+                      closedArea={item.closed_area}
+                      video={item.video_surveillance}
+                    />
+                  </SwiperSlide>
+                );
+              })}
             </Swiper>
           </div>
         </div>
