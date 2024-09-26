@@ -6,7 +6,6 @@ import styles from "./UserPanel.module.css";
 
 export function UserPanel() {
   const { name } = useUserStore();
-  // const { name, logout } = useUserStore();
 
   return (
     <div className={styles.container}>
@@ -18,10 +17,6 @@ export function UserPanel() {
             <span className={styles.name}>{name}</span>
             <span className={styles.user_status}>Registered</span>
           </div>
-
-          {/* <button onClick={logout} className={styles.logout}>
-            Log Out
-          </button> */}
         </div>
       ) : (
         <div className={styles.auth}>

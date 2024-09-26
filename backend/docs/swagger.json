@@ -324,7 +324,7 @@
         "tags": [
           "Other"
         ],
-        "summary": "Get full info about all complexes",
+        "summary": "Get short info about all complexes",
         "parameters": [],
         "responses": {
           "200": {
@@ -357,6 +357,8 @@
               "schema": {
                 "type": "object",
                 "required": [
+                  "name",
+                  "images",
                   "parking",
                   "security",
                   "access_control",
@@ -365,10 +367,14 @@
                   "closed_area",
                   "video_surveillance",
                   "description",
+                  "floors",
                   "location",
                   "buildings"
                 ],
                 "properties": {
+                  "name": {
+                    "type": "string"
+                  },
                   "images": {
                     "type": "array",
                     "items": {
@@ -399,6 +405,9 @@
                   },
                   "description": {
                     "type": "string"
+                  },
+                  "floors": {
+                    "type": "number"
                   },
                   "location": {
                     "type": "string"
@@ -443,6 +452,37 @@
           },
           "400": {
             "description": "Bad request"
+          }
+        }
+      }
+    },
+    "/api/residential_complex/{name}": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "Get full info about a complex",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Name of the complex to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "{\n\"_id\": \"66ed6047827428bc0be0bfef\",\n\"name\": \"Sunny Quarter\",\n\"images\": \"http://res.cloudinary.com/dtonpxhk7/image/upload/v1726832708/d63Bg4paJctlmRbv..png.png http://res.cloudinary.com/dtonpxhk7/image/upload/v1726832710/qfQo12Sh1frSjDWp..png.png \",\n\"parking\": true,\n\"security\": true,\n\"access_control\": true,\n\"concierge\": false,\n\"playground\": true,\n\"closed_area\": true,\n\"video_surveillance\": true,\n\"description\": \"Very cool complex\",\n\"floors\": 12,\n\"entrances\": 4,\n\"location\": \"Simferopolska, 2k, Dnipro, Dnipropetrovsk region \",\n\"sections\": 2,\n\"apartments\": 52\n}"
+                }
+              }
+            },
+            "description": "Success"
           }
         }
       }
@@ -615,6 +655,8 @@
       "PostResidentialComplex": {
         "type": "object",
         "required": [
+          "name",
+          "images",
           "parking",
           "security",
           "access_control",
@@ -623,10 +665,14 @@
           "closed_area",
           "video_surveillance",
           "description",
+          "floors",
           "location",
           "buildings"
         ],
         "properties": {
+          "name": {
+            "type": "string"
+          },
           "images": {
             "type": "array",
             "items": {
@@ -657,6 +703,9 @@
           },
           "description": {
             "type": "string"
+          },
+          "floors": {
+            "type": "number"
           },
           "location": {
             "type": "string"

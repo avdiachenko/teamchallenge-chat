@@ -25,8 +25,7 @@ const { JWT_SECRET, DEPLOY_HOST } = process.env;
 
 const signup = async (req, res) => {
   const { email, apartment, entrance, residential_complex, section } = req.body;
-  // const sectionWithOptionalHyphen = section.replace("-", "[-]?"); // replaces a hyphen in a string with the regular expression [-]?, which means that the hyphen may be present but is not required.
-  // const regex = new RegExp(section, "i"); // 'i' makes the search case insensitive
+
   const adress = section.toLowerCase();
   const user = await findUser({ email });
   if (user) {
@@ -36,7 +35,6 @@ const signup = async (req, res) => {
   const [{ _id: residential_complex_id }] = await getComplex({
     name: residential_complex,
   });
-  // console.log(residential_complex_id);
 
   const data = await getBuilding({
     residential_complex_id,
@@ -44,18 +42,13 @@ const signup = async (req, res) => {
   });
   if (data.length === 0) {
     throw HttpError(
-      500,
+      400,
       `The section ${section} does not exist! Enter the correct section data in the format like this 1a, 2B, etc.`
     );
     return;
   }
   const [result] = data;
 
-  // const [{ _id }] = await getApartment({
-  //   number: apartment,
-  //   entrance,
-  //   building_id: result._id,
-  // });
   const apartmentData = await getApartment({
     number: apartment,
     entrance,
@@ -63,24 +56,15 @@ const signup = async (req, res) => {
   });
   if (apartmentData.length === 0) {
     throw HttpError(
-      500,
+      400,
       `The entrance ${entrance} or the apartment ${apartment} does not exist! Please, enter the correct data.`
     );
   }
-  console.log(apartmentData);
+  // console.log(apartmentData);
   const [apartmentResult] = apartmentData;
 
-  // const newUser =
   await register({ ...req.body, apartment_id: apartmentResult._id });
   res.status(201).json({
-    // user: {
-    //   name: newUser.name,
-    //   email: newUser.email,
-    //   residential_complex: newUser.residential_complex,
-
-    //   apartment_id: newUser.apartment_id,
-    //   entrance: newUser.entrance,
-    // },
     message: "Congratulations! You have registered successfully. Please login.",
   });
 };

@@ -2,7 +2,7 @@ import express from "express";
 import { createComplexSchema } from "../schemas/complexSchemas.js";
 import validateBody from "../decorators/validateBody.js";
 import complexControllers from "../controllers/complexControllers.js"
-const { createComplex, getAllComplexes, deleteAllComplexes } = complexControllers;
+const { createComplex, getAllComplexes, getComplex, deleteAllComplexes } = complexControllers;
 import uploadImage from "../middlewares/uploadImage.js"
 
 const complexRouter = express.Router();
@@ -28,6 +28,7 @@ complexRouter.post("/residential_complex",
     buildingsToJSON, 
     validateBody(createComplexSchema), createComplex);
 complexRouter.get("/residential_complex", getAllComplexes);
+complexRouter.get("/residential_complex/:name", getComplex);
 complexRouter.get("/delete_residential_complex", deleteAllComplexes);
 
 export default complexRouter;
