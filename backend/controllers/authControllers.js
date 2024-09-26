@@ -42,26 +42,36 @@ const signup = async (req, res) => {
     residential_complex_id,
     address: adress,
   });
-  console.log(data);
   if (data.length === 0) {
-    // console.log("Such a section does not exist!");
     throw HttpError(
       500,
-      `The section ${section} does not exist! Enter the correct section data in the format like this 1a, 2B etc.`
+      `The section ${section} does not exist! Enter the correct section data in the format like this 1a, 2B, etc.`
     );
     return;
   }
   const [result] = data;
 
-  const [{ _id }] = await getApartment({
+  // const [{ _id }] = await getApartment({
+  //   number: apartment,
+  //   entrance,
+  //   building_id: result._id,
+  // });
+  const apartmentData = await getApartment({
     number: apartment,
     entrance,
     building_id: result._id,
   });
-  // console.log(_id);
+  if (apartmentData.length === 0) {
+    throw HttpError(
+      500,
+      `The entrance ${entrance} or the apartment ${apartment} does not exist! Please, enter the correct data.`
+    );
+  }
+  console.log(apartmentData);
+  const [apartmentResult] = apartmentData;
 
   // const newUser =
-  await register({ ...req.body, apartment_id: _id });
+  await register({ ...req.body, apartment_id: apartmentResult._id });
   res.status(201).json({
     // user: {
     //   name: newUser.name,

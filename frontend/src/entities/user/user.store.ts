@@ -14,6 +14,7 @@ type Store = {
   errorMessage: string;
   success: boolean;
   isInitialized: boolean;
+
   isAuth: () => boolean;
   initialization: () => Promise<void>;
   updateUserInfo: () => Promise<void>;

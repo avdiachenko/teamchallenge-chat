@@ -5,15 +5,15 @@ import { selectClasses } from "@mui/joy/Select";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { useResidentialComplexStore } from "../../entities/residentialComplex/residentialComplex.store";
+import { Complex } from "../../entities/residentialComplex/residentialComplex.types";
 import { useUserStore } from "../../entities/user/user.store";
 import { RegistrationData } from "../../entities/user/user.types";
-import { api } from "../../shared/api/api";
 import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
 import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
 import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
 import { SignSwiper } from "../../shared/components/SignSwiper/SignSwiper";
 import { Header } from "../../widgets/Header/Header";
-import { Complex } from "./Complex.type";
 import styles from "./SignUp.module.css";
 import { SuccessRegistrationModal } from "./SuccessRegistrationModal/SuccessRegistrationModal";
 
@@ -26,28 +26,21 @@ export function SignUp() {
     formState: { errors },
   } = useForm<RegistrationData>();
 
-  const [isAgree, setIsAgree] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const { complexes, fetchComplexes } = useResidentialComplexStore();
   const { loading, success, error, errorMessage, registration, clearMessage } = useUserStore();
 
-  const [complexes, setComplexes] = useState<string[] | null>(null);
+  const [isAgree, setIsAgree] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    const fetchComplexes = async () => {
-      try {
-        const data = await api("/api/residential_complex");
-        setComplexes(data.map((complex: Complex) => complex.name));
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
     fetchComplexes();
-  }, []);
+  }, [fetchComplexes]);
 
   useEffect(() => () => clearMessage(), [clearMessage]);
 
   const onSubmit: SubmitHandler<RegistrationData> = async (data) => registration(data, reset);
+
+  const complexArr = complexes.map((complex: Complex) => complex.name);
 
   return (
     <div className={styles.container}>
@@ -191,7 +184,7 @@ export function SignUp() {
                       },
                     }}
                   >
-                    {complexes?.map((complex) => (
+                    {complexArr.map((complex) => (
                       <Option key={complex} value={complex}>
                         {complex}
                       </Option>
