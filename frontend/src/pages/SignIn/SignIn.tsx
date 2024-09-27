@@ -22,7 +22,11 @@ export function SignIn() {
 
   const { loading, error, errorMessage, login, clearMessage } = useUserStore();
 
-  useEffect(() => () => clearMessage(), [clearMessage]);
+  useEffect(() => {
+    return () => {
+      clearMessage();
+    };
+  }, [clearMessage]);
 
   const onSubmit: SubmitHandler<AuthData> = (data) => login(data, reset);
 

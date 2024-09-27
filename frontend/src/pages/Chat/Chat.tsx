@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useChatStore } from "../../entities/chat/chat.store";
+import { useUserStore } from "../../entities/user/user.store";
 import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./Chat.module.css";
@@ -6,6 +9,17 @@ import { Groups } from "./Groups/Groups";
 import { PrivateMessages } from "./PrivateMessages/PrivateMessages";
 
 export function Chat() {
+  const { token } = useUserStore();
+  const { connectSocket, disconnectSocket } = useChatStore();
+
+  useEffect(() => {
+    if (token) connectSocket(token);
+
+    return () => {
+      disconnectSocket();
+    };
+  }, [token, connectSocket, disconnectSocket]);
+
   return (
     <div>
       <AsideMenu />

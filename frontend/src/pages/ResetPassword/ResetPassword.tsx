@@ -22,7 +22,11 @@ export function ResetPassword() {
 
   const { error, errorMessage, loading, success, updatePassword, clearMessage } = useUserStore();
 
-  useEffect(() => () => clearMessage(), [clearMessage]);
+  useEffect(() => {
+    return () => {
+      clearMessage();
+    };
+  }, [clearMessage]);
 
   const [showPassword, setShowPassword] = useState(false);
 
