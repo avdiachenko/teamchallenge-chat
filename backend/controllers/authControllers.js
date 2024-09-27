@@ -64,9 +64,12 @@ const signup = async (req, res) => {
   const [apartmentResult] = apartmentData;
 
   await register({ ...req.body, apartment_id: apartmentResult._id });
-  res.status(201).json({
-    message: "Congratulations! You have registered successfully. Please login.",
-  });
+  res.status(201).json(
+    // {
+    // message:
+    "Congratulations! You have registered successfully. Please login."
+    // }
+  );
 };
 
 const signin = async (req, res) => {
