@@ -46,7 +46,8 @@
                   "password",
                   "residential_complex",
                   "apartment",
-                  "entrance"
+                  "entrance",
+                  "section"
                 ],
                 "properties": {
                   "name": {
@@ -60,24 +61,28 @@
                   },
                   "password": {
                     "type": "string",
-                    "minLength": 8,
-                    "example": "password"
+                    "pattern":"/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/",
+                    "example": "Password"
                   },
                   "residential_complex": {
                     "type": "string",
-                    "example": "123A"
+                    "example": "Sunny Quarter"
                   },
                   "apartment": {
                     "type": "number",
                     "format": "int64",
                     "minimum": 1,
-                    "example": 11
+                    "example": 1
                   },
                   "entrance": {
                     "type": "number",
                     "format": "int64",
                     "minimum": 1,
-                    "example": 3
+                    "example": 1
+                  },
+                  "section": {
+                    "type": "string",
+                    "example": "1A"
                   },
                   "phone": {
                     "type": "string",
