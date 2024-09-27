@@ -1,43 +1,12 @@
-/* eslint-disable no-console */
-import { useEffect, useState } from "react";
-import io, { Socket } from "socket.io-client";
 import styles from "./ChatWindow.module.css";
 
-export function ChatWindow() {
-  const [messages, setMessages] = useState<string[]>([]);
-  const [socket, setSocket] = useState<Socket | null>(null);
+interface Props {
+  messages: string[];
+  sendMessage: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+}
 
-  useEffect(() => {
-    const newSocket = io("https://teamchallenge-chat-jmsz.onrender.com");
-
-    newSocket.on("connect", () => {
-      console.log("Connected to Socket.IO server");
-    });
-
-    newSocket.on("chat message", (message: string) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
-    });
-
-    newSocket.on("disconnect", () => {
-      console.log("Disconnected from Socket.IO server");
-    });
-
-    setSocket(newSocket);
-
-    return () => {
-      newSocket.close();
-    };
-  }, []);
-
-  const sendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && socket) {
-      const message = e.currentTarget.value;
-      socket.emit("chat message", message, () =>
-        setMessages((prevMessages) => [...prevMessages, message])
-      );
-      e.currentTarget.value = "";
-    }
-  };
+export function ChatWindow(props: Props) {
+  const { messages, sendMessage } = props;
 
   return (
     <div className={styles.container}>
