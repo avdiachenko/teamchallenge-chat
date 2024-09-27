@@ -52,45 +52,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "required": [
-                    "name",
-                    "email",
-                    "residential_complex",
-                    "apartment",
-                    "entrance"
-                  ],
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "example": "John Doe"
-                    },
-                    "email": {
-                      "type": "string",
-                      "format": "idn-email",
-                      "example": "example@email.com"
-                    },
-                    "residential_complex": {
-                      "type": "string",
-                      "example": "123A"
-                    },
-                    "apartment": {
-                      "type": "number",
-                      "format": "int64",
-                      "minimum": 1,
-                      "example": 11
-                    },
-                    "entrance": {
-                      "type": "number",
-                      "format": "int64",
-                      "minimum": 1,
-                      "example": 3
-                    },
-                    "phone": {
-                      "type": "string",
-                      "example": "+380123456789"
-                    }
-                  }
+                  "$ref":"#/components/schemas/SignUpResponse"
                 }
               }
             },
@@ -524,41 +486,12 @@
       "SignUpResponse": {
         "type": "object",
         "required": [
-          "name",
-          "email",
-          "residential_complex",
-          "apartment",
-          "entrance"
+          "message"
         ],
         "properties": {
-          "name": {
+          "message": {
             "type": "string",
-            "example": "John Doe"
-          },
-          "email": {
-            "type": "string",
-            "format": "idn-email",
-            "example": "example@email.com"
-          },
-          "residential_complex": {
-            "type": "string",
-            "example": "123A"
-          },
-          "apartment": {
-            "type": "number",
-            "format": "int64",
-            "minimum": 1,
-            "example": 11
-          },
-          "entrance": {
-            "type": "number",
-            "format": "int64",
-            "minimum": 1,
-            "example": 3
-          },
-          "phone": {
-            "type": "string",
-            "example": "+380123456789"
+            "example": "Congratulations! You have registered successfully. Please login."
           }
         }
       },
