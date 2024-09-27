@@ -34,61 +34,14 @@
           "Users"
         ],
         "summary": "Add a new user",
+        "description": "New user registration",
         "parameters": [],
         "requestBody": {
+          "description": "New user object",
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "name",
-                  "email",
-                  "password",
-                  "residential_complex",
-                  "apartment",
-                  "entrance",
-                  "section"
-                ],
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "example": "John Doe"
-                  },
-                  "email": {
-                    "type": "string",
-                    "format": "idn-email",
-                    "example": "example@email.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "pattern":"/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/",
-                    "example": "Password"
-                  },
-                  "residential_complex": {
-                    "type": "string",
-                    "example": "Sunny Quarter"
-                  },
-                  "apartment": {
-                    "type": "number",
-                    "format": "int64",
-                    "minimum": 1,
-                    "example": 1
-                  },
-                  "entrance": {
-                    "type": "number",
-                    "format": "int64",
-                    "minimum": 1,
-                    "example": 1
-                  },
-                  "section": {
-                    "type": "string",
-                    "example": "1A"
-                  },
-                  "phone": {
-                    "type": "string",
-                    "example": "+380123456789"
-                  }
-                }
+               "$ref":"#/components/schemas/SignUp"
               }
             }
           },
@@ -524,7 +477,8 @@
           "password",
           "residential_complex",
           "apartment",
-          "entrance"
+          "entrance",
+          "section"
         ],
         "properties": {
           "name": {
@@ -538,24 +492,28 @@
           },
           "password": {
             "type": "string",
-            "minLength": 8,
-            "example": "password"
+            "pattern":"/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/",
+            "example": "Password0"
           },
           "residential_complex": {
             "type": "string",
-            "example": "123A"
+            "example": "Sunny Quarter"
           },
           "apartment": {
             "type": "number",
             "format": "int64",
             "minimum": 1,
-            "example": 11
+            "example": 1
           },
           "entrance": {
             "type": "number",
             "format": "int64",
             "minimum": 1,
-            "example": 3
+            "example": 1
+          },
+          "section": {
+            "type": "string",
+            "example": "1A"
           },
           "phone": {
             "type": "string",
