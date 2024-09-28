@@ -41,7 +41,11 @@ export function SignUp() {
     selectedComplex && `/api/residential_complex/${selectedComplex}`
   );
 
-  useEffect(() => () => clearMessage(), [clearMessage]);
+  useEffect(() => {
+    return () => {
+      clearMessage();
+    };
+  }, [clearMessage]);
 
   const onSubmit: SubmitHandler<RegistrationData> = async (data) => registration(data, reset);
 

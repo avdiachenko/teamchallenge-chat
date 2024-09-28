@@ -67,7 +67,8 @@ async function getComplex(req, res) {
   }
   let complex = complexes[0]._doc;
   complex.sections = await complexServices.getComplexBuldingCount(complex._id);
-  complex.apartments = await complexServices.getComplexApartmentCount(complex._id);  
+  complex.apartments = await complexServices.getComplexApartmentCount(complex._id);
+  complex.sectionNames = await complexServices.getComplexBuldings(complex._id);
   res.json(complex);
 };
 

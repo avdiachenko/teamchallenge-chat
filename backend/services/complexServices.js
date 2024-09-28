@@ -37,6 +37,12 @@ export function getComplex(filter) {
   return Complex.find(filter);
 }
 
+export async function getComplexBuldings(complex_id) {
+  const addresses = await Building.where({ residential_complex_id: complex_id }).select("address -_id");
+  const addressesArray = addresses.map(a => a.address);
+  return addressesArray;
+}
+
 export function getComplexBuldingCount(complex_id) {
   return Building.where({ residential_complex_id: complex_id }).countDocuments();
 }
