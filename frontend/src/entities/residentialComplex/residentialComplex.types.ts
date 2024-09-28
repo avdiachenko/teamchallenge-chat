@@ -32,4 +32,5 @@ export interface ResidentialComplexDetails {
   location: string;
   sections: number;
   apartments: number;
+  sectionNames: string[];
 }
