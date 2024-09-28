@@ -16,7 +16,11 @@ export function ForgotPassword() {
 
   const { error, errorMessage, loading, success, forgotPassword, clearMessage } = useUserStore();
 
-  useEffect(() => () => clearMessage(), [clearMessage]);
+  useEffect(() => {
+    return () => {
+      clearMessage();
+    };
+  }, [clearMessage]);
 
   const onSubmit: SubmitHandler<{ email: string }> = (data) => forgotPassword(data.email, reset);
 

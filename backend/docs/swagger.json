@@ -41,7 +41,56 @@
           "content": {
             "application/json": {
               "schema": {
-               "$ref":"#/components/schemas/SignUp"
+                "type": "object",
+                "required": [
+                  "name",
+                  "email",
+                  "password",
+                  "residential_complex",
+                  "apartment",
+                  "entrance",
+                  "section"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "idn-email",
+                    "example": "example@email.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "pattern": "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/",
+                    "example": "Password0"
+                  },
+                  "residential_complex": {
+                    "type": "string",
+                    "example": "Sunny Quarter"
+                  },
+                  "apartment": {
+                    "type": "number",
+                    "format": "int64",
+                    "minimum": 1,
+                    "example": 1
+                  },
+                  "entrance": {
+                    "type": "number",
+                    "format": "int64",
+                    "minimum": 1,
+                    "example": 1
+                  },
+                  "section": {
+                    "type": "string",
+                    "example": "1A"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "+380123456789"
+                  }
+                }
               }
             }
           },
@@ -52,7 +101,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref":"#/components/schemas/SignUpResponse"
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Congratulations! You have registered successfully. Please login."
+                    }
+                  }
                 }
               }
             },
@@ -434,7 +492,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "example": "{\n\"_id\": \"66ed6047827428bc0be0bfef\",\n\"name\": \"Sunny Quarter\",\n\"images\": \"http://res.cloudinary.com/dtonpxhk7/image/upload/v1726832708/d63Bg4paJctlmRbv..png.png http://res.cloudinary.com/dtonpxhk7/image/upload/v1726832710/qfQo12Sh1frSjDWp..png.png \",\n\"parking\": true,\n\"security\": true,\n\"access_control\": true,\n\"concierge\": false,\n\"playground\": true,\n\"closed_area\": true,\n\"video_surveillance\": true,\n\"description\": \"Very cool complex\",\n\"floors\": 12,\n\"entrances\": 4,\n\"location\": \"Simferopolska, 2k, Dnipro, Dnipropetrovsk region \",\n\"sections\": 2,\n\"apartments\": 52\n}"
+                  "example": "{ \"_id\": \"66ed6047827428bc0be0bfef\", \"name\": \"Sunny Quarter\", \"images\": \"http://res.cloudinary.com/dtonpxhk7/image/upload/v1726832708/d63Bg4paJctlmRbv..png.png http://res.cloudinary.com/dtonpxhk7/image/upload/v1726832710/qfQo12Sh1frSjDWp..png.png \", \"parking\": true,\n\"security\": true,\n\"access_control\": true,\n\"concierge\": false,\n\"playground\": true,\n\"closed_area\": true,\n\"video_surveillance\": true,\n\"description\": \"Very cool complex\",\n\"floors\": 12,\n\"entrances\": 4,\n\"location\": \"Simferopolska, 2k, Dnipro, Dnipropetrovsk region\",\n\"sections\": 2,\n\"apartments\": 52,\n\"sectionNames\": [\"1a\",\"2a\"] }"
                 }
               }
             },
@@ -490,7 +548,7 @@
           },
           "password": {
             "type": "string",
-            "pattern":"/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/",
+            "pattern": "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/",
             "example": "Password0"
           },
           "residential_complex": {
