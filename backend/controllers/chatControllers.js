@@ -1,3 +1,7 @@
+import jwt from "jsonwebtoken";
+import { findUserById } from "../services/userServices.js";
+const { JWT_SECRET } = process.env;
+
 function ping(socket) {
   return (callback) => {
     console.log("ping");
@@ -13,8 +17,17 @@ export function pingEventSubscribe(socket) {
 }
 
 function chatMessage(socket) {
-  return (message, callback) => {
-    socket.broadcast.emit("chat message", message);
+  return async (message, callback) => {
+    const token = socket.handshake.auth.token;
+    let name;
+    if (token === undefined) {
+      name = "Anonymous";
+    } else {
+      const id = jwt.verify(token, JWT_SECRET).id;
+      const user = await findUserById(id);
+      name = user.name;
+    }
+    socket.broadcast.emit("chat message", { name, message });
     callback();
   }
 }

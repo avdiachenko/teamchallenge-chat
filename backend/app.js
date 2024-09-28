@@ -47,9 +47,9 @@ app.get("/chat", (_, res) => {
     });
   }
 
-  socket.on("chat message", (messageText) => {
+  socket.on("chat message", (messageObject) => {
     const message = document.createElement("p");
-    message.innerHTML = messageText;
+    message.innerHTML = messageObject.name + ": " + messageObject.message;
     message.style.color = "blue";
     document.body.insertBefore(message, document.body.lastElement);
   })

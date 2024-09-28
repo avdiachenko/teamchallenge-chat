@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { io, Socket } from "socket.io-client";
 import { create } from "zustand";
+import { BASE_URL } from "../../shared/constants/urls";
 
 interface Store {
   socket: Socket | null;
@@ -16,7 +17,7 @@ export const useChatStore = create<Store>((set, get) => ({
   messages: [],
 
   connectSocket: (token: string) => {
-    const newSocket = io("https://teamchallenge-chat-jmsz.onrender.com", {
+    const newSocket = io(BASE_URL, {
       auth: { token },
     });
 
@@ -24,8 +25,9 @@ export const useChatStore = create<Store>((set, get) => ({
       console.log("Connected to Socket.IO server");
     });
 
-    newSocket.on("chat message", (message: string) => {
-      set((state) => ({ messages: [...state.messages, message] }));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    newSocket.on("chat message", (res: any) => {
+      set((state) => ({ messages: [...state.messages, res.name + ": " + res.message] })); // TODO: don't use arr = [...arr, a] because it's reeeally slow
     });
 
     newSocket.on("disconnect", () => {
