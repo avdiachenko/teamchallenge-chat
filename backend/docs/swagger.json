@@ -210,7 +210,7 @@
       }
     },
     "/users/refreshCurrent": {
-      "get": {
+      "post": {
         "description": "User must provide a refresh token in the authorization header",
         "security": [
           {
@@ -235,6 +235,42 @@
           },
           "401": {
             "description": "Not authorized or not a refresh token"
+          }
+        }
+      }
+    },
+    "/users/forgot-password": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Send an email to recover the password",
+        "description": "Recover the password",
+        "parameters": [],
+        "requestBody": {
+          "description": "Email of user",
+          "content": {
+            "application/json": {
+              "schema": {
+               "$ref":"#/components/schemas/ForgotPassword"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref":"#/components/schemas/ForgotPasswordResponse"
+                }
+              }
+            },
+            "description": "Successfull sending an email"
+          },
+          "404": {
+            "description": "User not found"
           }
         }
       }
@@ -546,6 +582,27 @@
               }
             }
           }
+        }
+      },
+      "ForgotPassword":{
+        "type":"object",
+        "required": ["email"],
+        "properties":{
+          "email": {
+                "type": "string",
+                "format": "idn-email",
+                "example": "tester123@gmail.com"
+              }
+        }
+      },
+      "ForgotPasswordResponse":{
+        "type":"object",
+        "required": ["message"],
+        "properties":{
+          "message": {
+                "type": "string",
+                "example": "An email has been sent to your email address to recover your password"
+              }
         }
       },
       "PostResidentialComplex": {
