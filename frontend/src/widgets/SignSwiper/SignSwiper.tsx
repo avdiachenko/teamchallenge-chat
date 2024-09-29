@@ -1,16 +1,21 @@
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import signImage from "../../assets/images/signImage.jpg";
-import signImage1 from "../../assets/images/signImage1.jpg";
-import signImage2 from "../../assets/images/signImage2.jpg";
+import { ResidentialComplex } from "../../entities/residentialComplex/residentialComplex.types";
+import useApi from "../../shared/api/useApi";
 import ArrowLeft from "./icons/ArrowLeft.svg";
 import ArrowRight from "./icons/ArrowRight.svg";
 import styles from "./SignSwiper.module.css";
 
-export function SignSwiper() {
+export const SignSwiper = memo(() => {
+  const { data } = useApi<ResidentialComplex[]>("/api/residential_complex");
+  const imgArr = data
+    ?.map((complex) => complex.images.split(" "))
+    .flat()
+    .filter((img) => img !== "");
+
   const swiperNavNextRef = useRef(null);
   const swiperNavPrevRef = useRef(null);
 
@@ -30,16 +35,12 @@ export function SignSwiper() {
         navigation={{ prevEl: swiperNavPrevRef.current, nextEl: swiperNavNextRef.current }}
         className={styles.swiper}
       >
-        <SwiperSlide className={styles.slide}>
-          <img src={signImage} alt="complex" />
-        </SwiperSlide>
-        <SwiperSlide className={styles.slide}>
-          <img src={signImage1} alt="complex 1" />
-        </SwiperSlide>
-        <SwiperSlide className={styles.slide}>
-          <img src={signImage2} alt="complex 2" />
-        </SwiperSlide>
+        {imgArr?.map((img) => (
+          <SwiperSlide className={styles.slide} key={img}>
+            <img src={img} alt="complex" />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );
-}
+});

@@ -15,8 +15,8 @@ import useApi from "../../shared/api/useApi";
 import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
 import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
 import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
-import { SignSwiper } from "../../shared/components/SignSwiper/SignSwiper";
 import { Header } from "../../widgets/Header/Header";
+import { SignSwiper } from "../../widgets/SignSwiper/SignSwiper";
 import styles from "./SignUp.module.css";
 import { SuccessRegistrationModal } from "./SuccessRegistrationModal/SuccessRegistrationModal";
 
