@@ -30,9 +30,7 @@
   "paths": {
     "/users/register": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Add a new user",
         "description": "New user registration",
         "parameters": [],
@@ -102,9 +100,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "message"
-                  ],
+                  "required": ["message"],
                   "properties": {
                     "message": {
                       "type": "string",
@@ -127,9 +123,7 @@
     },
     "/users/login": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Authenticate, get tokens",
         "parameters": [],
         "requestBody": {
@@ -137,10 +131,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
+                "required": ["email", "password"],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -164,11 +155,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "token",
-                    "refreshToken",
-                    "user"
-                  ],
+                  "required": ["token", "refreshToken", "user"],
                   "properties": {
                     "token": {
                       "type": "string"
@@ -217,9 +204,7 @@
             "bearerAuth": []
           }
         ],
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "",
         "parameters": [],
         "responses": {
@@ -245,9 +230,7 @@
             "bearerAuth": []
           }
         ],
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Get general information about the user",
         "parameters": [],
         "responses": {
@@ -268,16 +251,14 @@
       }
     },
     "/users/refreshCurrent": {
-      "post": {
+      "get": {
         "description": "User must provide a refresh token in the authorization header",
         "security": [
           {
             "bearerAuth": []
           }
         ],
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Get new token pair",
         "parameters": [],
         "responses": {
@@ -299,9 +280,7 @@
     },
     "/users/forgot-password": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Send an email to recover the password",
         "description": "Recover the password",
         "parameters": [],
@@ -310,7 +289,7 @@
           "content": {
             "application/json": {
               "schema": {
-               "$ref":"#/components/schemas/ForgotPassword"
+                "$ref": "#/components/schemas/ForgotPassword"
               }
             }
           },
@@ -321,11 +300,53 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref":"#/components/schemas/ForgotPasswordResponse"
+                  "$ref": "#/components/schemas/ForgotPasswordResponse"
                 }
               }
             },
-            "description": "Successfull sending an email"
+            "description": "Successfully sending an email"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/update-password/{tempCode}": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Creating a new password",
+        "description": "New password",
+        "parameters": [
+          {
+            "name": "tempCode",
+            "in": "path",
+            "description": "TempCode for identification of user",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "description": "The new password of user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePassword"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePasswordResponse"
+                }
+              }
+            },
+            "description": "Successfully updating the password"
           },
           "404": {
             "description": "User not found"
@@ -335,9 +356,7 @@
     },
     "/api/residential_complex": {
       "get": {
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "summary": "Get short info about all complexes",
         "parameters": [],
         "responses": {
@@ -360,9 +379,7 @@
             "bearerAuth": []
           }
         ],
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "summary": "Create a new complex",
         "parameters": [],
         "requestBody": {
@@ -472,9 +489,7 @@
     },
     "/api/residential_complex/{name}": {
       "get": {
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "summary": "Get full info about a complex",
         "parameters": [
           {
@@ -503,9 +518,7 @@
     },
     "/api/delete_residential_complex": {
       "get": {
-        "tags": [
-          "Other"
-        ],
+        "tags": ["Other"],
         "summary": "Delete all complexes, buildings, apartments",
         "parameters": [],
         "responses": {
@@ -579,9 +592,7 @@
       },
       "SignUpResponse": {
         "type": "object",
-        "required": [
-          "message"
-        ],
+        "required": ["message"],
         "properties": {
           "message": {
             "type": "string",
@@ -591,10 +602,7 @@
       },
       "SignIn": {
         "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "properties": {
           "email": {
             "type": "string",
@@ -610,11 +618,7 @@
       },
       "SignInResponse": {
         "type": "object",
-        "required": [
-          "token",
-          "refreshToken",
-          "user"
-        ],
+        "required": ["token", "refreshToken", "user"],
         "properties": {
           "token": {
             "type": "string"
@@ -642,25 +646,46 @@
           }
         }
       },
-      "ForgotPassword":{
-        "type":"object",
+      "ForgotPassword": {
+        "type": "object",
         "required": ["email"],
-        "properties":{
+        "properties": {
           "email": {
-                "type": "string",
-                "format": "idn-email",
-                "example": "tester123@gmail.com"
-              }
+            "type": "string",
+            "format": "idn-email",
+            "example": "tester123@gmail.com"
+          }
         }
       },
-      "ForgotPasswordResponse":{
-        "type":"object",
+      "ForgotPasswordResponse": {
+        "type": "object",
         "required": ["message"],
-        "properties":{
+        "properties": {
           "message": {
-                "type": "string",
-                "example": "An email has been sent to your email address to recover your password"
-              }
+            "type": "string",
+            "example": "An email has been sent to your email address to recover your password"
+          }
+        }
+      },
+      "UpdatePassword": {
+        "type": "object",
+        "required": ["password"],
+        "properties": {
+          "password": {
+            "type": "string",
+            "pattern": "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/",
+            "example": "Password0"
+          }
+        }
+      },
+      "UpdatePasswordResponse": {
+        "type": "object",
+        "required": ["message"],
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Your password has been updated successfully"
+          }
         }
       },
       "PostResidentialComplex": {
