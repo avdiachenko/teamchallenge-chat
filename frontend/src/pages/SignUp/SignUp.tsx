@@ -47,9 +47,10 @@ export function SignUp() {
     };
   }, [clearMessage]);
 
-  const onSubmit: SubmitHandler<RegistrationData> = async (data) => registration(data, reset);
+  const onSubmit: SubmitHandler<RegistrationData> = (data) => registration(data, reset);
 
   const complexArr = complexes?.map((complex: ResidentialComplex) => complex.name);
+  const sectionsArr = selectedComplexData?.sectionNames;
 
   return (
     <div className={styles.container}>
@@ -212,25 +213,56 @@ export function SignUp() {
                 <label className={`${errors.section && styles.labelError} ${styles.label}`}>
                   Section
                 </label>
-                <input
-                  type="text"
-                  {...register("section", {
-                    required: "Section is required",
-                    minLength: {
-                      value: 1,
-                      message: "Minimum 1 character",
-                    },
-                    maxLength: {
-                      value: 5,
-                      message: "Maximum 5 characters",
-                    },
-                    pattern: {
-                      value: /^[a-zA-Zа-яА-Я0-9]+$/,
-                      message: "Only letters and numbers",
-                    },
-                  })}
-                  placeholder="String"
-                  className={`${errors.section && styles.inputError} ${styles.input}`}
+                <Controller
+                  name="section"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: "Section is required" }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      placeholder="Section"
+                      indicator={<KeyboardArrowDown />}
+                      onChange={(_, newValue) => {
+                        field.onChange(newValue);
+                      }}
+                      sx={{
+                        width: "100%",
+                        fontSize: "18px",
+                        fontWeight: 400,
+                        padding: "13px 20px",
+                        color: "var(--gray-900)",
+                        boxShadow: "none",
+                        backgroundColor: "var(--white)",
+                        border: errors.residential_complex ? "1px solid var(--error-500)" : "none",
+                        borderRadius: "20px",
+                        "&:hover": {
+                          backgroundColor: "var(--white)",
+                        },
+                        [`& .${selectClasses.indicator}`]: {
+                          transition: "0.2s",
+                          [`&.${selectClasses.expanded}`]: {
+                            transform: "rotate(-180deg)",
+                          },
+                        },
+                      }}
+                      slotProps={{
+                        listbox: {
+                          sx: {
+                            maxHeight: 220,
+                            overflow: "auto",
+                            borderRadius: "5px",
+                          },
+                        },
+                      }}
+                    >
+                      {sectionsArr?.map((complex) => (
+                        <Option key={complex} value={complex}>
+                          {complex}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
                 />
                 {errors.section && <p className={styles.error}>{errors.section.message}</p>}
               </div>
