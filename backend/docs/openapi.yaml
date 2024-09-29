@@ -1,0 +1,560 @@
+openapi: 3.0.1
+info:
+  title: Chat
+  description: API for the Team Challenge Chat project
+  version: '1.0'
+servers:
+  - url: https://teamchallenge-chat-jmsz.onrender.com
+  - url: http://localhost:4000
+tags:
+  - name: Users
+    description: User actions
+  - name: Other
+    description: Other routes
+paths:
+  /users/register:
+    post:
+      tags:
+        - Users
+      summary: Add a new user
+      description: New user registration
+      parameters: []
+      requestBody:
+        description: New user object
+        content:
+          application/json:
+            schema:
+             $ref: '#/components/schemas/SignUp'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                    example: >-
+                      Congratulations! You have registered successfully. Please
+                      login.
+          description: Successfull registration
+        '400':
+          description: Validating body failed
+        '409':
+          description: Email in use
+  /users/login:
+    post:
+      tags:
+        - Users
+      summary: Authenticate, get tokens
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: idn-email
+                  example: example@email.com
+                password:
+                  type: string
+                  minLength: 8
+                  example: password
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - token
+                  - refreshToken
+                  - user
+                properties:
+                  token:
+                    type: string
+                  refreshToken:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: John Doe
+                      email:
+                        type: string
+                        format: idn-email
+                        example: example@email.com
+                      phone:
+                        type: string
+                        example: '+380123456789'
+          description: Successfull login
+        '400':
+          description: Validating body failed
+        '401':
+          description: Email or password is wrong
+  /users/logout:
+    post:
+      description: User must be authorized
+      security:
+        - bearerAuth: []
+      tags:
+        - Users
+      summary: ''
+      parameters: []
+      responses:
+        '204':
+    
+          description: Successfull logout
+        '401':
+          description: Not authorized
+  /users/user-info:
+    get:
+      description: User must be authorized
+      security:
+        - bearerAuth: []
+      tags:
+        - Users
+      summary: Get general information about the user
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                example: >-
+                  {
+
+                  "name": "John Doe",  "email": "example@email.com",
+
+                  "residential_complex": "123A", "apartment": 11, "entrance": 3,
+                  "phone": "+380123456789" }
+          description: Success
+        '401':
+          description: Not authorized
+  /users/refreshCurrent:
+    get:
+      description: User must provide a refresh token in the authorization header
+      security:
+        - bearerAuth: []
+      tags:
+        - Users
+      summary: Get new token pair
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                example: >-
+                  { "token":
+                  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZDFiNmRhODFlNjBmNDFiNmU0NmJhMSIsImlhdCI6MTcyNTcyNjM1MCwiZXhwIjoxNzI1NzI5OTUwfQ.mhAet4ixQKHGnc-YE2h7DV1Kj-IcyLm-4WGghw0xEhk","refreshToken":
+                  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZDFiNmRhODFlNjBmNDFiNmU0NmJhMSIsImlhdCI6MTcyNTcyNjM1MCwiZXhwIjoxNzI2MzMxMTUwfQ.bZJbqkYwz7QkWf4JFfdrUX7KK83T_t7hgYFF7AJDZMU"}
+          description: Success
+        '401':
+          description: Not authorized or not a refresh token
+  /users/forgot-password:
+    post:
+      tags:
+        - Users
+      summary: Send an email to recover the password
+      description: Recover the password
+      parameters: []
+      requestBody:
+        description: Email of user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPassword'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForgotPasswordResponse'
+          description: Successfully sending an email
+        '404':
+          description: User not found
+  /users/update-password/{tempCode}:
+    post:
+      tags:
+        - Users
+      summary: Creating a new password
+      description: New password
+      parameters:
+        - name: tempCode
+          in: path
+          description: TempCode for identification of user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The new password of user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePassword'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatePasswordResponse'
+          description: Successfully updating the password
+        '404':
+          description: User not found
+  /api/residential_complex:
+    get:
+      tags:
+        - Other
+      summary: Get short info about all complexes
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                example: '[]'
+          description: Success
+    post:
+      description: User must be an admin. Must have an ARRAY of entrances
+      security:
+        - bearerAuth: []
+      tags:
+        - Other
+      summary: Create a new complex
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - name
+                - images
+                - parking
+                - security
+                - access_control
+                - concierge
+                - playground
+                - closed_area
+                - video_surveillance
+                - description
+                - floors
+                - location
+                - buildings
+              properties:
+                name:
+                  type: string
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                parking:
+                  type: boolean
+                security:
+                  type: boolean
+                access_control:
+                  type: boolean
+                concierge:
+                  type: boolean
+                playground:
+                  type: boolean
+                closed_area:
+                  type: boolean
+                video_surveillance:
+                  type: boolean
+                description:
+                  type: string
+                floors:
+                  type: number
+                location:
+                  type: string
+                buildings:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      address:
+                        type: string
+                      entrances:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            number:
+                              type: number
+                            apartment_min:
+                              type: number
+                            apartment_max:
+                              type: number
+        required: true
+      responses:
+        '201':
+          description: Success
+        '400':
+          description: Bad request
+  /api/residential_complex/{name}:
+    get:
+      tags:
+        - Other
+      summary: Get full info about a complex
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+          description: Name of the complex to get
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                example: >-
+                  { "_id": "66ed6047827428bc0be0bfef", "name": "Sunny Quarter",
+                  "images":
+                  "http://res.cloudinary.com/dtonpxhk7/image/upload/v1726832708/d63Bg4paJctlmRbv..png.png
+                  http://res.cloudinary.com/dtonpxhk7/image/upload/v1726832710/qfQo12Sh1frSjDWp..png.png
+                  ", "parking": true,
+
+                  "security": true,
+
+                  "access_control": true,
+
+                  "concierge": false,
+
+                  "playground": true,
+
+                  "closed_area": true,
+
+                  "video_surveillance": true,
+
+                  "description": "Very cool complex",
+
+                  "floors": 12,
+
+                  "entrances": 4,
+
+                  "location": "Simferopolska, 2k, Dnipro, Dnipropetrovsk
+                  region",
+
+                  "sections": 2,
+
+                  "apartments": 52,
+
+                  "sectionNames": ["1a","2a"] }
+          description: Success
+  /api/delete_residential_complex:
+    get:
+      tags:
+        - Other
+      summary: Delete all complexes, buildings, apartments
+      parameters: []
+      responses:
+        '200':
+          description: Success
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    SignUp:
+      type: object
+      required:
+        - name
+        - email
+        - password
+        - residential_complex
+        - apartment
+        - entrance
+        - section
+      properties:
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          format: idn-email
+          example: example@email.com
+        password:
+          type: string
+          pattern: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/
+          example: Password0
+        residential_complex:
+          type: string
+          example: Sunny Quarter
+        apartment:
+          type: number
+          format: int64
+          minimum: 1
+          example: 1
+        entrance:
+          type: number
+          format: int64
+          minimum: 1
+          example: 1
+        section:
+          type: string
+          example: 1A
+        phone:
+          type: string
+          example: '+380123456789'
+    SignUpResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: Congratulations! You have registered successfully. Please login.
+    SignIn:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: idn-email
+          example: example@email.com
+        password:
+          type: string
+          minLength: 8
+          example: password
+    SignInResponse:
+      type: object
+      required:
+        - token
+        - refreshToken
+        - user
+      properties:
+        token:
+          type: string
+        refreshToken:
+          type: string
+        user:
+          type: object
+          properties:
+            name:
+              type: string
+              example: John Doe
+            email:
+              type: string
+              format: idn-email
+              example: example@email.com
+            phone:
+              type: string
+              example: '+380123456789'
+    ForgotPassword:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: idn-email
+          example: tester123@gmail.com
+    ForgotPasswordResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: >-
+            An email has been sent to your email address to recover your
+            password
+    UpdatePassword:
+      type: object
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          pattern: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/
+          example: Password0
+    UpdatePasswordResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          example: Your password has been updated successfully
+    PostResidentialComplex:
+      type: object
+      required:
+        - name
+        - images
+        - parking
+        - security
+        - access_control
+        - concierge
+        - playground
+        - closed_area
+        - video_surveillance
+        - description
+        - floors
+        - location
+        - buildings
+      properties:
+        name:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+            format: binary
+        parking:
+          type: boolean
+        security:
+          type: boolean
+        access_control:
+          type: boolean
+        concierge:
+          type: boolean
+        playground:
+          type: boolean
+        closed_area:
+          type: boolean
+        video_surveillance:
+          type: boolean
+        description:
+          type: string
+        floors:
+          type: number
+        location:
+          type: string
+        buildings:
+          type: array
+          items:
+            type: object
+            properties:
+              address:
+                type: string
+              entrances:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    number:
+                      type: number
+                    apartment_min:
+                      type: number
+                    apartment_max:
+                      type: number
