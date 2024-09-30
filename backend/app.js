@@ -12,6 +12,7 @@ import contactsRouter from "./routes/contactsRouter.js";
 import authRouter from "./routes/authRouter.js";
 import complexRouter from "./routes/complexRouter.js";
 import * as chatControllers from "./controllers/chatControllers.js";
+import notificationsRouter from "./routes/notificationsRouter.js";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(express.static("upload/images"));
 
 app.use("/users", authRouter);
+app.use("/notifications", notificationsRouter);
 app.use("/api/contacts", contactsRouter);
 app.use("/api", complexRouter);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -69,7 +71,10 @@ const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["https://team-challenge-chat.netlify.app", "http://localhost:5173"],
+    origin: [
+      "https://team-challenge-chat.netlify.app",
+      "http://localhost:5173",
+    ],
   },
 });
 
