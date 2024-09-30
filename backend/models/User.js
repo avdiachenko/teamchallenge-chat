@@ -47,6 +47,9 @@ const userSchema = new Schema(
     tempCode: {
       type: String,
     },
+    role: {
+      type: String,
+    },
   },
   { versionKey: false }
 );

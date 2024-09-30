@@ -1,9 +1,10 @@
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import HttpError from "../helpers/HttpError.js";
-import { addNotification } from "../services/notificationsServices";
+import { addNotification } from "../services/notificationsServices.js";
 
 const createNotification = async (req, res) => {
   const user = req.user;
+  console.log(user.email);
   if (!user.role) {
     throw HttpError(403, "You don't have access to this action!");
   }
