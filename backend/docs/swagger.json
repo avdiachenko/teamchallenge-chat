@@ -19,6 +19,10 @@
       "description": "User actions"
     },
     {
+      "name": "Notifications",
+      "description": "Notification actions"
+    },
+    {
       "name": "Other",
       "description": "Other routes"
     }
@@ -317,6 +321,49 @@
           },
           "404": {
             "description": "User not found"
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "post": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Creating a new notification",
+        "description": "New notification",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "The new notification",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNotification"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateNotificationResponse"
+                }
+              }
+            },
+            "description": "Successfully creating the notification"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "You don't have access to this action!"
           }
         }
       }
@@ -677,6 +724,53 @@
           "message": {
             "type": "string",
             "example": "Your password has been updated successfully"
+          }
+        }
+      },
+      "CreateNotification": {
+        "type": "object",
+        "required": [
+          "text",
+          "type"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "We are the best residential complex"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "Events",
+              "Emergency"
+            ],
+            "example": "Events"
+          }
+        }
+      },
+      "CreateNotificationResponse": {
+        "type": "object",
+        "required": [
+          "text",
+          "type",
+          "updatedAt"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "We are the best residential complex"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "Events",
+              "Emergency"
+            ],
+            "example": "Events"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2024-10-01T09:38:36.240Z"
           }
         }
       },
