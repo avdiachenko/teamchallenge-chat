@@ -7,6 +7,11 @@ const notificationSchema = new Schema(
       type: String,
       required: [true, "Type text"],
     },
+    type: {
+      type: String,
+      enum: ["Events", "Emergency"],
+      required: [true, "Choose the type of notification!"],
+    },
   },
   { versionKey: false, timestamps: true }
 );
