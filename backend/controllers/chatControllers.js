@@ -17,7 +17,7 @@ export function pingEventSubscribe(socket) {
 }
 
 function chatMessage(socket) {
-  return async (message, callback) => {
+  return async (messageText, callback) => {
     const token = socket.handshake.auth.token;
     let name;
     if (token === undefined) {
@@ -27,7 +27,11 @@ function chatMessage(socket) {
       const user = await findUserById(id);
       name = user.name;
     }
-    socket.broadcast.emit("chat message", { name, message });
+    let messageObject = { name, messageText };
+    messageObject.date = Date.now();
+    messageObject.profilePicture = "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg"
+    // TODO: save to DB
+    socket.broadcast.emit("chat message", messageObject);
     callback();
   }
 }
