@@ -27,7 +27,7 @@ function chatMessage(socket) {
       const user = await findUserById(id);
       name = user.name;
     }
-    let messageObject = { name, messageText };
+    let messageObject = { name, message: messageText };
     messageObject.date = Date.now();
     messageObject.profilePicture = "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg"
     // TODO: save to DB
