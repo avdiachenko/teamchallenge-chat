@@ -1,8 +1,21 @@
+import { useEffect, useRef } from "react";
 import { useChatStore } from "../../../entities/chat/chat.store";
+import { Message } from "../Message/Message";
 import styles from "./ChatWindow.module.css";
 
 export function ChatWindow() {
   const { messages, sendMessage } = useChatStore();
+
+  const messageListContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    const containerCurrent = messageListContainerRef.current;
+    if (containerCurrent) containerCurrent.scrollTop = containerCurrent.scrollHeight;
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -26,12 +39,12 @@ export function ChatWindow() {
           <div className={styles.points}>{"..."}</div>
         </div>
 
-        <div className={styles.messageList}>
-          {messages.map((message, index) => (
-            <div className={styles.message} key={index}>
-              {message}
-            </div>
-          ))}
+        <div className={styles.messageListContainer} ref={messageListContainerRef}>
+          <div className={styles.messageList}>
+            {messages.map((message, index) => (
+              <Message key={index} message={message} />
+            ))}
+          </div>
         </div>
 
         <div className={styles.chatInput}>

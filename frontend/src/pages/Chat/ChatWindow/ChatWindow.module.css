@@ -15,9 +15,7 @@
   position: relative;
   height: 100%;
   width: 100%;
-  gap: 20px;
   background-color: var(--gray-50);
-  overflow-y: auto;
   padding: 20px 30px;
   border-radius: 20px;
 }
@@ -77,27 +75,20 @@
   transform: rotate(90deg);
 }
 
-.messageList  {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
+.messageListContainer {
   height: 100%;
   width: 100%;
-  gap: 10px;
+  overflow-y: auto;
 }
 
-.message {
+.messageList {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  font-size: 18px;
-  font-weight: 400;
-  color: var(--gray-900);
-  background-color: aqua;
-  border-radius: 20px;
-  padding: 10px 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  min-height: 100%;
+  width: 100%;
+  gap: 5px;
 }
 
 .chatInput {
