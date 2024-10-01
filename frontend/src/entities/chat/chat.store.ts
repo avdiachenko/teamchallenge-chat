@@ -2,10 +2,11 @@
 import { io, Socket } from "socket.io-client";
 import { create } from "zustand";
 import { BASE_URL } from "../../shared/constants/urls";
+import { MessageType } from "./chat.types";
 
 interface Store {
   socket: Socket | null;
-  messages: string[];
+  messages: MessageType[];
 
   connectSocket: (token: string) => void;
   disconnectSocket: () => void;
@@ -25,9 +26,8 @@ export const useChatStore = create<Store>((set, get) => ({
       console.log("Connected to Socket.IO server");
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    newSocket.on("chat message", (res: any) => {
-      set((state) => ({ messages: [...state.messages, res.name + ": " + res.message] })); // TODO: don't use arr = [...arr, a] because it's reeeally slow
+    newSocket.on("chat message", (res: MessageType) => {
+      set((state) => ({ messages: [...state.messages, res] })); // TODO: don't use arr = [...arr, a] because it's reeeally slow
     });
 
     newSocket.on("disconnect", () => {
@@ -48,7 +48,8 @@ export const useChatStore = create<Store>((set, get) => ({
     const { socket } = get();
     if (!socket) return;
     socket.emit("chat message", message, () => {
-      set((state) => ({ messages: [...state.messages, message] }));
+      const newMessage = { name: null, message, date: Date.now(), profilePicture: null };
+      set((state) => ({ messages: [...state.messages, newMessage] }));
     });
   },
 }));
