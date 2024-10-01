@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useChatStore } from "../../../entities/chat/chat.store";
 import { Message } from "../Message/Message";
+import { UserMessage } from "../UserMessage/UserMessage";
 import styles from "./ChatWindow.module.css";
 
 export function ChatWindow() {
@@ -42,7 +43,9 @@ export function ChatWindow() {
         <div className={styles.messageListContainer} ref={messageListContainerRef}>
           <div className={styles.messageList}>
             {messages.map((message, index) => (
-              <Message key={index} message={message} />
+              <div key={index} className={styles.messageWrapper}>
+                {message.name ? <Message message={message} /> : <UserMessage message={message} />}
+              </div>
             ))}
           </div>
         </div>
