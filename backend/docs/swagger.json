@@ -330,7 +330,7 @@
         "tags": [
           "Notifications"
         ],
-        "summary": "Creating a new notification",
+        "summary": "Creating a new notification (Only for admin)",
         "description": "New notification",
         "security": [
           {
