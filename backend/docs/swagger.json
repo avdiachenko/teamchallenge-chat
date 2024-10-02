@@ -753,6 +753,7 @@
         "required": [
           "text",
           "type",
+          "residential_complex",
           "updatedAt"
         ],
         "properties": {
@@ -767,6 +768,10 @@
               "Emergency"
             ],
             "example": "Events"
+          },
+          "residential_complex": {
+            "type": "string",
+            "example": "Sunny Quarter"
           },
           "updatedAt": {
             "type": "string",
