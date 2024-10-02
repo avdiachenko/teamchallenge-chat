@@ -12,6 +12,10 @@ const notificationSchema = new Schema(
       enum: ["Events", "Emergency"],
       required: [true, "Choose the type of notification!"],
     },
+    residential_complex: {
+      type: String,
+      // ref: "user",
+    },
   },
   { versionKey: false, timestamps: true }
 );

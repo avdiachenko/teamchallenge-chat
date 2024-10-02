@@ -21,10 +21,6 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Residential complex is required"],
     },
-    // apartment: {
-    //   type: Number,
-    //   required: [true, "Apartment nomber is required"],
-    // },
     apartment_id: {
       type: Schema.Types.ObjectId,
       ref: "apartment",

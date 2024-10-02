@@ -4,11 +4,12 @@ import { addNotification } from "../services/notificationsServices.js";
 
 const createNotification = async (req, res) => {
   const user = req.user;
-  console.log(user.email);
+  const { residential_complex } = user;
+  console.log(user);
   if (!user.role) {
     throw HttpError(403, "You don't have access to this action!");
   }
-  const result = await addNotification(req.body);
+  const result = await addNotification({ ...req.body, residential_complex });
   res.status(201).json(result);
 };
 
