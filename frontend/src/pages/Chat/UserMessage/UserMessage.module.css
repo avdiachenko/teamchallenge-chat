@@ -1,0 +1,43 @@
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 400px;
+  background-color: var(--purple-600);
+  color: var(--white);
+  border-radius: 12px 12px 0 12px;
+  padding: 12px 50px 20px 12px;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.cardText {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: var(--black);
+}
+
+.cardDate {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+}

@@ -1,0 +1,68 @@
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 32px;
+  padding-left: 65px;
+}
+
+.avatar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 400px;
+  background-color: var(--gray-100);
+  border-radius: 12px 12px 12px 0;
+  padding: 12px 50px 20px 12px;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.cardName {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--purple-800);
+}
+
+.cardText {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: var(--black);
+}
+
+.cardDate {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+  color: var(--gray-600);
+}
