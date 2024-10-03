@@ -20,12 +20,14 @@ const getNotifications = async (req, res) => {
   console.log(req.query);
   const user = req.user;
   const { residential_complex } = user;
-  const { page = 1, limit = 20 } = req.query;
+  const { page = 1, limit = 20, type = "" } = req.query;
   const skip = (page - 1) * limit;
-  const result = await listNotificationsByFilter(
-    { residential_complex },
-    { skip, limit }
-  );
+  const result = type
+    ? await listNotificationsByFilter(
+        { residential_complex, type },
+        { skip, limit }
+      )
+    : await listNotificationsByFilter({ residential_complex }, { skip, limit });
 
   res.json(result);
 };
