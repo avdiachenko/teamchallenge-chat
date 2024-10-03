@@ -8,7 +8,7 @@ const residentialComplexSchema = new Schema(
       required: [true, "Name is required"],
     },
     images: {
-      type: Array[String],
+      type: Array,
       required: [true, "Image(s) is required"],
     },
     parking: {
