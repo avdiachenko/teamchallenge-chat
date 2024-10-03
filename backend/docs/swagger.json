@@ -331,7 +331,7 @@
           "Notifications"
         ],
         "summary": "Creating a new notification (Only for admin)",
-        "description": "New notification",
+        "description": "New notification. User must be authorized",
         "security": [
           {
             "bearerAuth": []
@@ -364,6 +364,65 @@
           },
           "403": {
             "description": "You don't have access to this action!"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Get notifications",
+        "description": "The opportunity to choose notifications by type. User must be authorized",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of items on the page",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CreateNotificationResponse"
+                  }
+                }
+              }
+            },
+            "description": "Successfully receiving the notifications"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
