@@ -11,10 +11,7 @@ import styles from "./SignSwiper.module.css";
 
 export const SignSwiper = memo(() => {
   const { data } = useApi<ResidentialComplex[]>("/api/residential_complex");
-  const imgArr = data
-    ?.map((complex) => complex.images.split(" "))
-    .flat()
-    .filter((img) => img !== "");
+  const imgArr = data?.map((complex) => complex.images).flat();
 
   const swiperNavNextRef = useRef(null);
   const swiperNavPrevRef = useRef(null);
