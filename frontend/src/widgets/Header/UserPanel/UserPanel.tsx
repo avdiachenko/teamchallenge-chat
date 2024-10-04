@@ -1,20 +1,20 @@
 import { Link } from "react-router-dom";
 import { useUserStore } from "../../../entities/user/user.store";
-import avatar from './userAvatar.png'
-import nofiticationIcon from './nofiticationIcon.svg'
+import nofiticationIcon from "./nofiticationIcon.svg";
+import avatar from "./userAvatar.png";
 import styles from "./UserPanel.module.css";
 
 export function UserPanel() {
-  const { name } = useUserStore();
+  const { user } = useUserStore();
 
   return (
     <div className={styles.container}>
-      {name ? (
+      {user?.name ? (
         <div className={styles.user}>
           <img className={styles.nofitication} src={nofiticationIcon} alt="" />
           <img src={avatar} className={styles.avatar} alt="user avatar" />
           <div className={styles.user_name_status}>
-            <span className={styles.name}>{name}</span>
+            <span className={styles.name}>{user.name}</span>
             <span className={styles.user_status}>Registered</span>
           </div>
         </div>

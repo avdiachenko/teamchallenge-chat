@@ -1,10 +1,17 @@
+export interface User {
+  name: string;
+  email: string;
+  residential_complex?: string;
+  entrance?: number;
+  apartment?: number;
+  section?: string;
+  phone?: string;
+}
+
 export interface LoginData {
   token: string;
   refreshToken: string;
-  user: {
-    name: string;
-    email: string;
-  };
+  user: User;
 }
 
 export interface AuthData {
