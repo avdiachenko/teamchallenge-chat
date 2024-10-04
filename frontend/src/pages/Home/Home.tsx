@@ -1,4 +1,5 @@
 import { HomePageCard } from "../../shared/components/HomePageCard/HomePageCard";
+import { Link } from "react-router-dom";
 import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
 import { Header } from "../../widgets/Header/Header";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,6 +11,7 @@ import { Swiper as SwiperType } from "swiper/types";
 import styles from "./Home.module.css";
 import { BASE_URL } from "../../shared/constants/urls";
 import { useEffect, useState } from "react";
+import { ResidentComplexInfo } from "../ResidentComplexInfo/ResidentComplexInfo"
 
 interface ResidentialComplex {
   name: string;
@@ -82,18 +84,20 @@ export function Home() {
               {complex.map((item) => {
                 return (
                   <SwiperSlide key={item._id}>
-                    <HomePageCard
-                      title={item.name}
-                      location={item.location}
-                      img={item.images.split(" ")[1]}
-                      parking={item.parking}
-                      security={item.security}
-                      accessControl={item.access_control}
-                      concierge={item.concierge}
-                      playground={item.playground}
-                      closedArea={item.closed_area}
-                      video={item.video_surveillance}
-                    />
+                    <Link to={`/ResidentComplexInfo${item.name}`}>
+                      <HomePageCard
+                        title={item.name}
+                        location={item.location}
+                        img={item.images[0]}
+                        parking={item.parking}
+                        security={item.security}
+                        accessControl={item.access_control}
+                        concierge={item.concierge}
+                        playground={item.playground}
+                        closedArea={item.closed_area}
+                        video={item.video_surveillance}
+                      />
+                    </Link>
                   </SwiperSlide>
                 );
               })}
