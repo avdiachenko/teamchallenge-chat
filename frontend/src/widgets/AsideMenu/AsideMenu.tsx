@@ -3,11 +3,11 @@ import styles from "./AsideMenu.module.css";
 import { AsideMenuNav } from "./AsideMenuNav/AsideMenuNav.tsx";
 
 export function AsideMenu() {
-  const { name } = useUserStore();
+  const { user } = useUserStore();
 
   return (
     <aside className={styles.aside_menu}>
-      {name ? <AsideMenuNav login={true} /> : <AsideMenuNav login={false} />}
+      {user?.name ? <AsideMenuNav login={true} /> : <AsideMenuNav login={false} />}
     </aside>
   );
 }

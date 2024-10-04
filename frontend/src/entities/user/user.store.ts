@@ -2,13 +2,13 @@
 import { create } from "zustand";
 import { api } from "../../shared/api/api";
 import { BASE_URL } from "../../shared/constants/urls";
-import { AuthData, RegistrationData } from "./user.types";
+import { AuthData, RegistrationData, User } from "./user.types";
 import { isTokenExpired } from "./user.utils";
 
 type Store = {
   token: string | null;
   refreshToken: string | null;
-  name: string | null;
+  user: User | null;
   loading: boolean;
   error: boolean;
   errorMessage: string;
@@ -31,7 +31,7 @@ type Store = {
 export const useUserStore = create<Store>((set, get) => ({
   token: localStorage.getItem("token"),
   refreshToken: localStorage.getItem("refreshToken"),
-  name: null,
+  user: null,
   loading: false,
   error: false,
   errorMessage: "",
@@ -39,9 +39,9 @@ export const useUserStore = create<Store>((set, get) => ({
   isInitialized: false,
 
   isAuth: () => {
-    const { token, name } = get();
+    const { token, user } = get();
 
-    return !!token && !isTokenExpired(token) && !!name;
+    return !!token && !isTokenExpired(token) && !!user;
   },
 
   initialization: async () => {
@@ -72,7 +72,7 @@ export const useUserStore = create<Store>((set, get) => ({
 
       if (!data) throw new Error("Failed to fetch user info");
 
-      if (data.name) set({ name: data.name });
+      if (data.name) set({ user: data });
     } catch (error) {
       console.error(error);
     }
@@ -135,10 +135,12 @@ export const useUserStore = create<Store>((set, get) => ({
         body: JSON.stringify(loginInputs),
       });
 
+      console.log(data);
+
       set({
         token: data.token,
         refreshToken: data.refreshToken,
-        name: data.user.name,
+        user: data.user,
       });
 
       localStorage.setItem("token", data.token);
@@ -166,7 +168,7 @@ export const useUserStore = create<Store>((set, get) => ({
   },
 
   clearTokens: () => {
-    set({ token: null, refreshToken: null, name: null });
+    set({ token: null, refreshToken: null, user: null });
 
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
