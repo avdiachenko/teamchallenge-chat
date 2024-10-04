@@ -1,6 +1,10 @@
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import HttpError from "../helpers/HttpError.js";
-import { getBuilding, getComplex } from "../services/complexServices.js";
+import {
+  getApartment,
+  getBuilding,
+  getComplex,
+} from "../services/complexServices.js";
 import {
   addNotification,
   listNotificationsByFilter,
@@ -38,15 +42,34 @@ const createNotification = async (req, res) => {
 const getNotifications = async (req, res) => {
   console.log(req.query);
   const user = req.user;
-  const { residential_complex } = user;
-  const { page = 1, limit = 20, type = "" } = req.query;
+  const { residential_complex, apartment_id } = user;
+  const { page = 1, limit = 20, type = "", building = false } = req.query;
   const skip = (page - 1) * limit;
-  const result = type
+  let _id;
+  if (building) {
+    const [{ building_id }] = await getApartment(apartment_id);
+    _id = building_id;
+  }
+
+  const result = building
+    ? type
+      ? await listNotificationsByFilter(
+          { residential_complex, type, building_id: _id },
+          { skip, limit }
+        )
+      : await listNotificationsByFilter(
+          { residential_complex, building_id: _id },
+          { skip, limit }
+        )
+    : type
     ? await listNotificationsByFilter(
-        { residential_complex, type },
+        { residential_complex, type, building_id: { $exists: false } },
         { skip, limit }
       )
-    : await listNotificationsByFilter({ residential_complex }, { skip, limit });
+    : await listNotificationsByFilter(
+        { residential_complex, building_id: { $exists: false } },
+        { skip, limit }
+      );
 
   res.json(result);
 };
