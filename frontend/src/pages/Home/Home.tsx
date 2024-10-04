@@ -1,5 +1,5 @@
 import { HomePageCard } from "../../shared/components/HomePageCard/HomePageCard";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
 import { Header } from "../../widgets/Header/Header";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,7 +11,7 @@ import { Swiper as SwiperType } from "swiper/types";
 import styles from "./Home.module.css";
 import { BASE_URL } from "../../shared/constants/urls";
 import { useEffect, useState } from "react";
-import { ResidentComplexInfo } from "../ResidentComplexInfo/ResidentComplexInfo"
+// import { ResidentComplexInfo } from "../ResidentComplexInfo/ResidentComplexInfo"
 
 interface ResidentialComplex {
   name: string;
@@ -84,7 +84,7 @@ export function Home() {
               {complex.map((item) => {
                 return (
                   <SwiperSlide key={item._id}>
-                    <Link to={`/ResidentComplexInfo${item.name}`}>
+                    {/* <Link to={`/ResidentComplexInfo${item.name}`}> */}
                       <HomePageCard
                         title={item.name}
                         location={item.location}
@@ -97,7 +97,7 @@ export function Home() {
                         closedArea={item.closed_area}
                         video={item.video_surveillance}
                       />
-                    </Link>
+                    {/* </Link> */}
                   </SwiperSlide>
                 );
               })}
