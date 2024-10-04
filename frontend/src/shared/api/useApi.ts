@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { api } from "./api";
 
 const useApi = <T>(
@@ -7,7 +7,6 @@ const useApi = <T>(
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const hasFetched = useRef(false);
 
   const fetchData = useCallback(async () => {
     if (!path) {
@@ -29,14 +28,12 @@ const useApi = <T>(
   }, [path]);
 
   useEffect(() => {
-    if (!hasFetched.current && path) {
+    if (path) {
       fetchData();
-      hasFetched.current = true;
     }
   }, [path, fetchData]);
 
   const refetch = () => {
-    hasFetched.current = false;
     fetchData();
   };
 
