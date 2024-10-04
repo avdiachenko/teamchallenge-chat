@@ -16,6 +16,10 @@ const notificationSchema = new Schema(
       type: String,
       // ref: "user",
     },
+    building_id: {
+      type: String,
+      // ref: "user",
+    },
   },
   { versionKey: false, timestamps: true }
 );

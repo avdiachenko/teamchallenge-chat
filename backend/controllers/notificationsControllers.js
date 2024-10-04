@@ -1,5 +1,6 @@
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import HttpError from "../helpers/HttpError.js";
+import { getBuilding, getComplex } from "../services/complexServices.js";
 import {
   addNotification,
   listNotificationsByFilter,
@@ -8,11 +9,29 @@ import {
 const createNotification = async (req, res) => {
   const user = req.user;
   const { residential_complex } = user;
-  console.log(user);
+  const { text, type, section } = req.body;
+  let building_id;
+
   if (!user.role) {
     throw HttpError(403, "You don't have access to this action!");
   }
-  const result = await addNotification({ ...req.body, residential_complex });
+  if (section) {
+    const adress = section.toLowerCase();
+    const [{ _id: residential_complex_id }] = await getComplex({
+      name: residential_complex,
+    });
+
+    const [{ _id }] = await getBuilding({
+      residential_complex_id,
+      address: adress,
+    });
+
+    building_id = _id;
+  }
+
+  const result = section
+    ? await addNotification({ text, type, residential_complex, building_id })
+    : await addNotification({ text, type, residential_complex });
   res.status(201).json(result);
 };
 
