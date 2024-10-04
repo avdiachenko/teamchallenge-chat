@@ -30,7 +30,7 @@ export const HomePageCard: React.FC<HomePageCardProps> = ({
   return (
     <div className={styles.home_page_card}>
       <div>
-        <img src={img} alt="" />
+        <img className={styles.card_img} src={img} alt="" />
         <h1 className={styles.card_title}>{title}</h1>
         <h2 className={styles.card_subtitle}>Location:{location}</h2>
       </div>

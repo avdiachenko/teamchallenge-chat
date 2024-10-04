@@ -6,9 +6,9 @@ async function createComplex(req, res) {
     if(req.files.length == 0){
         throw HttpError(400, "No images");
     } else {
-      let images = "";
+      let images = [];
       for (const file of req.files) {
-        images += file.filename + " ";
+        images.push(file.filename);
       }
       let entrancesCount = 0;
       for (const building of req.body.buildings) {
