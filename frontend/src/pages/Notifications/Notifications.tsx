@@ -1,7 +1,6 @@
-/* eslint-disable no-console */
-import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
 import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
 import { Header } from "../../widgets/Header/Header";
+import { NewsMenu } from "../../widgets/NewsMenu/NewsMenu";
 import { NotificationCard } from "./NotificationCard/NotificationCard";
 import styles from "./Notifications.module.css";
 import { Notification } from "./notifications.types";
@@ -74,28 +73,22 @@ export function Notifications() {
       <Header title="Notifications" />
       <div className={styles.container}>
         <div className={styles.content}>
-          <div className={styles.notifications}>
-            <div className={styles.wrapper}>
-              <div className={styles.menu}>
-                <BaseButton variant="quaternary">Notifications</BaseButton>
-                <BaseButton variant="quaternary">Voting</BaseButton>
-                <BaseButton variant="quaternary">News</BaseButton>
-              </div>
+          <NewsMenu />
 
-              <div className={styles.notificationList}>
-                {notifications.map((notification, index) => (
-                  <NotificationCard key={index} notification={notification} />
-                ))}
-              </div>
+          <div className={styles.wrapper}>
+            <div className={styles.notificationList}>
+              {notifications.map((notification, index) => (
+                <NotificationCard key={index} notification={notification} />
+              ))}
+            </div>
 
-              <div className={styles.inputContainer}>
-                <input
-                  className={styles.input}
-                  type="text"
-                  placeholder={"Type your message here"}
-                  onKeyDown={handleSendMessage}
-                />
-              </div>
+            <div className={styles.inputContainer}>
+              <input
+                className={styles.input}
+                type="text"
+                placeholder={"Type your message here"}
+                onKeyDown={handleSendMessage}
+              />
             </div>
           </div>
         </div>
