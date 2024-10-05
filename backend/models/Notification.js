@@ -17,8 +17,8 @@ const notificationSchema = new Schema(
       // ref: "user",
     },
     building_id: {
-      type: String,
-      // ref: "user",
+      type: Schema.Types.ObjectId,
+      ref: "building",
     },
   },
   { versionKey: false, timestamps: true }
