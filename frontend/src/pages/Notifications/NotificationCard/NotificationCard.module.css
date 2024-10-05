@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 20px;
+  width: 100%;
+  background-color: var(--white);
+  gap: 10px;
+}
+
+.imgBox {
+  padding-top: 10px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.type {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--gray-700);
+}
+
+.payments {
+  color: var(--green-500);
+  border-color: var(--green-500);
+}
+
+.emergency {
+  color: var(--error-500);
+  border-color: var(--error-500);
+}
+
+.events {
+  color: var(--purple-900);
+  border-color: var(--purple-900);
+}
