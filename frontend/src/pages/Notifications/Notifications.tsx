@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
 import { Header } from "../../widgets/Header/Header";
 import { NewsMenu } from "../../widgets/NewsMenu/NewsMenu";
-import SendIcon from "./Icons/SendIcon.svg";
 import { NotificationCard } from "./NotificationCard/NotificationCard";
+import { NotificationInput } from "./NotificationInput/NotificationInput";
 import styles from "./Notifications.module.css";
 import { Notification } from "./notifications.types";
 
@@ -61,16 +61,17 @@ const notifications: Notification[] = [
 export function Notifications() {
   // const { data: notifications } = useApi<Notification[]>("/notifications");
 
-  const [inputValue, setInputValue] = useState("");
+  const notificationListRef = useRef<HTMLDivElement>(null);
 
-  const sendMessage = () => {
-    alert(inputValue);
-    setInputValue("");
+  const scrollToBottom = () => {
+    const notificationListCurrent = notificationListRef.current;
+    if (notificationListCurrent)
+      notificationListCurrent.scrollTop = notificationListCurrent.scrollHeight;
   };
 
-  const handleKeySendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") sendMessage();
-  };
+  useEffect(() => {
+    scrollToBottom();
+  }, []);
 
   return (
     <>
@@ -81,29 +82,13 @@ export function Notifications() {
           <NewsMenu />
 
           <div className={styles.wrapper}>
-            <div className={styles.notificationList}>
+            <div className={styles.notificationList} ref={notificationListRef}>
               {notifications.map((notification, index) => (
                 <NotificationCard key={index} notification={notification} />
               ))}
             </div>
 
-            <div className={styles.inputContainer}>
-              <input
-                className={styles.input}
-                type="text"
-                placeholder={"Type your message here"}
-                onKeyDown={handleKeySendMessage}
-                onChange={(e) => setInputValue(e.target.value)}
-                value={inputValue}
-              />
-
-              <img
-                className={styles.sendIcon}
-                onClick={sendMessage}
-                src={SendIcon}
-                alt="send icon"
-              />
-            </div>
+            <NotificationInput />
           </div>
         </div>
       </div>
