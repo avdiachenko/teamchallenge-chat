@@ -71,7 +71,7 @@ const signup = async (req, res) => {
 
 const signin = async (req, res) => {
   const { email, password } = req.body;
-  const user = await findUser({ email });
+  let user = await findUser({ email });
   if (!user) {
     throw HttpError(401, "Email or password is wrong");
   }
@@ -90,14 +90,19 @@ const signin = async (req, res) => {
   });
 
   await setTokens(user.id, token, refreshToken);
+  const userRes = { ...user };
+  delete userRes._doc.password;
+  console.log(userRes._doc);
+  user = userRes._doc;
   res.json({
     token,
     refreshToken,
-    user: {
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-    },
+    // user: {
+    //   name: user.name,
+    //   email: user.email,
+    //   phone: user.phone,
+    // },
+    user,
   });
 };
 
