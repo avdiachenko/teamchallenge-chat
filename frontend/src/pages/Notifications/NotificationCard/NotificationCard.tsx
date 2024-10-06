@@ -1,6 +1,6 @@
-import BsCashCoin from "../icons/BsCashCoin.svg";
-import BsFillExclamation from "../icons/BsFillExclamation.svg";
-import EventIcon from "../icons/EventIcon.svg";
+import BsCashCoin from "../Icons/BsCashCoin.svg";
+import BsFillExclamation from "../Icons/BsFillExclamation.svg";
+import EventIcon from "../Icons/EventIcon.svg";
 import { Notification } from "../notifications.types";
 import styles from "./NotificationCard.module.css";
 
