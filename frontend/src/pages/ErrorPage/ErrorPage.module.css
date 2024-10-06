@@ -3,24 +3,12 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
   height: 100dvh;
   width: 100%;
 }
 
 .text {
-  font-size: 30px;
-  color: var(--primary-color);
-}
-
-.link {
-  background-color: var(--primary-color);
-  color: white;
-  padding: 10px 20px;
-  font-weight: bold;
   font-size: 20px;
-}
-
-.link:hover {
-  background-color: var(--secondary-color);
+  color: var(--error-500);
 }
