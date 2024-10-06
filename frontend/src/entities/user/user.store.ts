@@ -53,7 +53,6 @@ export const useUserStore = create<Store>((set, get) => ({
       localStorage.removeItem("token");
       set({ token: null });
       if (isRefreshTokenValid) {
-        console.log(isRefreshTokenValid);
         await refresh();
       }
     }

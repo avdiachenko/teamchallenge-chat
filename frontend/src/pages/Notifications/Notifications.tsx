@@ -1,7 +1,9 @@
+import { useEffect, useRef } from "react";
 import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
 import { Header } from "../../widgets/Header/Header";
 import { NewsMenu } from "../../widgets/NewsMenu/NewsMenu";
 import { NotificationCard } from "./NotificationCard/NotificationCard";
+import { NotificationInput } from "./NotificationInput/NotificationInput";
 import styles from "./Notifications.module.css";
 import { Notification } from "./notifications.types";
 
@@ -59,13 +61,17 @@ const notifications: Notification[] = [
 export function Notifications() {
   // const { data: notifications } = useApi<Notification[]>("/notifications");
 
-  const handleSendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      const message = e.currentTarget.value;
-      console.log(message);
-      e.currentTarget.value = "";
-    }
+  const notificationListRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    const notificationListCurrent = notificationListRef.current;
+    if (notificationListCurrent)
+      notificationListCurrent.scrollTop = notificationListCurrent.scrollHeight;
   };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, []);
 
   return (
     <>
@@ -76,20 +82,13 @@ export function Notifications() {
           <NewsMenu />
 
           <div className={styles.wrapper}>
-            <div className={styles.notificationList}>
+            <div className={styles.notificationList} ref={notificationListRef}>
               {notifications.map((notification, index) => (
                 <NotificationCard key={index} notification={notification} />
               ))}
             </div>
 
-            <div className={styles.inputContainer}>
-              <input
-                className={styles.input}
-                type="text"
-                placeholder={"Type your message here"}
-                onKeyDown={handleSendMessage}
-              />
-            </div>
+            <NotificationInput />
           </div>
         </div>
       </div>
