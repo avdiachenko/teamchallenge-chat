@@ -104,14 +104,18 @@ const signin = async (req, res) => {
 const getCurrent = async (req, res) => {
   const { name, email, residential_complex, apartment, entrance, phone } =
     req.user;
-  res.json({
-    name,
-    email,
-    residential_complex,
-    apartment,
-    entrance,
-    phone,
-  });
+  console.log(req.user);
+  res.json(
+    //   {
+    //   name,
+    //   email,
+    //   residential_complex,
+    //   apartment,
+    //   entrance,
+    //   phone,
+    // }
+    req.user
+  );
 };
 
 const getrefreshCurrent = async (req, res) => {
