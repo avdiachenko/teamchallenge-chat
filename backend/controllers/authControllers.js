@@ -107,8 +107,11 @@ const signin = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-  const { name, email, residential_complex, apartment, entrance, phone } =
-    req.user;
+  // const { name, email, residential_complex, apartment, entrance, phone } =
+  //   req.user;
+  const userRes = { ...req.user };
+  delete userRes._doc.password;
+  const user = userRes._doc;
   console.log(req.user);
   res.json(
     //   {
@@ -119,7 +122,7 @@ const getCurrent = async (req, res) => {
     //   entrance,
     //   phone,
     // }
-    req.user
+    user
   );
 };
 
