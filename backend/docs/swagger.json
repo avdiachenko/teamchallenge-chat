@@ -19,12 +19,16 @@
       "description": "User actions"
     },
     {
+      "name": "Notifications",
+      "description": "Notification actions"
+    },
+    {
       "name": "Other",
       "description": "Other routes"
     },
     {
       "name": "Chat",
-      "description": "Chat REST routes and async messages"
+      "description": "Chat REST and async routes"
     }
   ],
   "paths": {
@@ -321,6 +325,108 @@
           },
           "404": {
             "description": "User not found"
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "post": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Creating a new notification (Only for admin)",
+        "description": "New notification. User must be authorized",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "The new notification",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNotification"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateNotificationResponse"
+                }
+              }
+            },
+            "description": "Successfully creating the notification"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "You don't have access to this action!"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Get notifications",
+        "description": "The opportunity to choose notifications by type. User must be authorized",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of items on the page",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CreateNotificationResponse"
+                  }
+                }
+              }
+            },
+            "description": "Successfully receiving the notifications"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -726,6 +832,58 @@
           "message": {
             "type": "string",
             "example": "Your password has been updated successfully"
+          }
+        }
+      },
+      "CreateNotification": {
+        "type": "object",
+        "required": [
+          "text",
+          "type"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "We are the best residential complex"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "Events",
+              "Emergency"
+            ],
+            "example": "Events"
+          }
+        }
+      },
+      "CreateNotificationResponse": {
+        "type": "object",
+        "required": [
+          "text",
+          "type",
+          "residential_complex",
+          "updatedAt"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "We are the best residential complex"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "Events",
+              "Emergency"
+            ],
+            "example": "Events"
+          },
+          "residential_complex": {
+            "type": "string",
+            "example": "Sunny Quarter"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2024-10-01T09:38:36.240Z"
           }
         }
       },
