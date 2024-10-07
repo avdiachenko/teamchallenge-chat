@@ -16,7 +16,7 @@ const createNotification = async (req, res) => {
   const { text, type, section } = req.body;
   let building_id;
 
-  if (!user.role) {
+  if (user.role !== "moderator" && user.role !== "administrator") {
     throw HttpError(403, "You don't have access to this action!");
   }
   if (section) {
