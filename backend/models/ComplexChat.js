@@ -40,6 +40,6 @@ complexChatSchema.post("save", handleSaveError);
 complexChatSchema.pre("findOneAndUpdate", setUpdateSetting);
 complexChatSchema.post("findOneAndUpdate", handleSaveError);
 
-const complexChat = model("residential_complex_chat", complexChatSchema);
+const ComplexChat = model("residential_complex_chat", complexChatSchema);
 
-export default complexChat;
+export default ComplexChat;

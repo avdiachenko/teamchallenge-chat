@@ -18,3 +18,15 @@ export async function createMessage(message, chat) {
 export function getMessageById(id) {
   return Message.find({ _id: id });
 }
+
+export async function getChatMessages(id, count) {
+  console.log("ID: ", id);
+    
+  let last_message = await Message.findById(id);
+  let last_messages = await Message.find({ chat_type: last_message.chat_type, chat_id: last_message.chat_id })
+    .lt("createdAt", last_message.createdAt)
+    .sort()
+    .limit(count);
+    
+  return last_messages;
+}

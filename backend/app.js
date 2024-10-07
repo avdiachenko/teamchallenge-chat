@@ -14,6 +14,7 @@ import complexRouter from "./routes/complexRouter.js";
 import * as chatControllers from "./controllers/chatControllers.js";
 import notificationsRouter from "./routes/notificationsRouter.js";
 import complexChat from "./models/ComplexChat.js";
+import chatRouter from "./routes/chatRouter.js";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use("/notifications", notificationsRouter);
 app.use("/api/contacts", contactsRouter);
 app.use("/api", complexRouter);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/chat", chatRouter);
 
 app.get("/chat", (_, res) => {
   res.send(`<script src="/socket.io/socket.io.js"></script>

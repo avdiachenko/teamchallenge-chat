@@ -11,6 +11,8 @@ tags:
     description: User actions
   - name: Other
     description: Other routes
+  - name: Chat
+    description: Chat REST routes and async messages
 paths:
   /users/register:
     post:
@@ -365,6 +367,57 @@ paths:
       parameters: []
       responses:
         '200':
+          description: Success
+  /chat/last_messages:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Chat
+      summary: get last N messages
+      parameters: 
+        - in: query
+          name: last_message_id
+          schema:
+            type: string
+          required: true
+          description: Id of the last message
+        - in: query
+          name: message_count
+          schema:
+            type: number
+          required: true
+          description: Count of messages to load
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                example: >-
+                  [
+                    {
+                      "_id": "6704370fe40bf1b76f1d4fbe",
+                      "user_id": "670047e6815e371daab8ea6e",
+                      "text": "HIIIII",
+                      "images": [],
+                      "chat_type": "residential_complex_chat",
+                      "chat_id": "6704362330ad47b9a1403848",
+                      "reactions": [],
+                      "createdAt": "2024-10-07T19:31:27.414Z",
+                      "updatedAt": "2024-10-07T19:31:27.414Z"
+                    },
+                    {
+                      "_id": "670437544f799f6600c66634",
+                      "user_id": "670047e6815e371daab8ea6e",
+                      "text": "HIIIIIIIIIIII",
+                      "images": [],
+                      "chat_type": "residential_complex_chat",
+                      "chat_id": "6704362330ad47b9a1403848",
+                      "reactions": [],
+                      "createdAt": "2024-10-07T19:32:36.838Z",
+                      "updatedAt": "2024-10-07T19:32:36.838Z"
+                    }
+                  ]
           description: Success
 components:
   securitySchemes:

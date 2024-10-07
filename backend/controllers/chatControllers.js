@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
-import { createMessage, getMessageById } from "../services/chatServices.js";
+import { createMessage, getChatMessages, getMessageById } from "../services/chatServices.js";
 import { findUserById } from "../services/userServices.js";
+import ctrlWrapper from "../decorators/ctrlWrapper.js";
 const { JWT_SECRET } = process.env;
 
 function ping(socket) {
@@ -49,3 +50,16 @@ export function chatMessageEventSubscribe(socket) {
   socket.on("chat message", processor);
   return processor;
 }
+
+async function getLastChatMessages(req, res) {
+  const _id = req.query.last_message_id;
+  const count = req.query.message_count;
+  
+  const messages = await getChatMessages(_id, count);
+  
+  res.json(messages);
+}
+
+export default {
+  getLastChatMessages: ctrlWrapper(getLastChatMessages),
+};
