@@ -30,6 +30,50 @@ export function SignIn() {
 
   const onSubmit: SubmitHandler<AuthData> = (data) => login(data, reset);
 
+  // TEST LOGIN DELETE AFTER FINISH DEVELOPMENT ---------------------------------------
+  const testLogin = (string: string) => {
+    if (string === "admin") {
+      login(
+        {
+          email: "menome333@abatido.com",
+          password: "123456Ab",
+        },
+        reset
+      );
+    }
+
+    if (string === "moder") {
+      login(
+        {
+          email: "lokaf94657@asaud.com",
+          password: "123456Ab",
+        },
+        reset
+      );
+    }
+
+    if (string === "verified") {
+      login(
+        {
+          email: "mm123456@gmail.com",
+          password: "Mm123456",
+        },
+        reset
+      );
+    }
+
+    if (string === "not_verified") {
+      login(
+        {
+          email: "nn123456@gmail.com",
+          password: "Nn123456",
+        },
+        reset
+      );
+    }
+  };
+  // TEST LOGIN DELETE AFTER FINISH DEVELOPMENT ---------------------------------------
+
   return (
     <div className={styles.container}>
       <Header title="Sign In" />
@@ -109,6 +153,21 @@ export function SignIn() {
                 Sign Up
               </Link>
             </div>
+
+            {/* TEST LOGIN DELETE AFTER FINISH DEVELOPMENT --------------------------------------- */}
+            <span>
+              TEST LOGIN
+              {" | "}
+              <button onClick={() => testLogin("admin")}>Admin</button>
+              {" | "}
+              <button onClick={() => testLogin("moder")}>Moder</button>
+              {" | "}
+              <button onClick={() => testLogin("verified")}>Verified</button>
+              {" | "}
+              <button onClick={() => testLogin("not_verified")}>Not verified</button>
+              {" | "}
+            </span>
+            {/* TEST LOGIN DELETE AFTER FINISH DEVELOPMENT --------------------------------------- */}
           </form>
         </div>
       </div>
