@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { createMessage, getMessageById } from "../services/chatServices.js";
 import { findUserById } from "../services/userServices.js";
 const { JWT_SECRET } = process.env;
 
@@ -20,17 +21,24 @@ function chatMessage(socket) {
   return async (messageText, callback) => {
     const token = socket.handshake.auth.token;
     let name;
+    let user_id;
     if (token === undefined) {
       name = "Anonymous";
+      user_id = 0;
     } else {
-      const id = jwt.verify(token, JWT_SECRET).id;
-      const user = await findUserById(id);
+      user_id = jwt.verify(token, JWT_SECRET).id;
+      const user = await findUserById(user_id);
       name = user.name;
     }
     let messageObject = { name, message: messageText };
-    messageObject.date = Date.now();
+    // TODO: change the mock chat
+    let {createdAt, _id} = (await createMessage(
+        {text: messageText, user_id: user_id }, 
+        { type: "residential_complex_chat", id: "6704362330ad47b9a1403848" })
+      );
+    messageObject.date = createdAt;
+    messageObject.id = _id;
     messageObject.profilePicture = "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg"
-    // TODO: save to DB
     socket.broadcast.emit("chat message", messageObject);
     callback();
   }

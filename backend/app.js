@@ -13,6 +13,7 @@ import authRouter from "./routes/authRouter.js";
 import complexRouter from "./routes/complexRouter.js";
 import * as chatControllers from "./controllers/chatControllers.js";
 import notificationsRouter from "./routes/notificationsRouter.js";
+import complexChat from "./models/ComplexChat.js";
 
 dotenv.config();
 
