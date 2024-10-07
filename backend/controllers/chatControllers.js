@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { createMessage, getChatMessages, getMessageById } from "../services/chatServices.js";
+import { createMessage, getChatMessagesByMessage, getMessageById } from "../services/chatServices.js";
 import { findUserById } from "../services/userServices.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 const { JWT_SECRET } = process.env;
@@ -55,7 +55,7 @@ async function getLastChatMessages(req, res) {
   const _id = req.query.last_message_id;
   const count = req.query.message_count;
   
-  const messages = await getChatMessages(_id, count);
+  const messages = await getChatMessagesByMessage(_id, count);
   
   res.json(messages);
 }

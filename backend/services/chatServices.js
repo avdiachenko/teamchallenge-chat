@@ -19,14 +19,21 @@ export function getMessageById(id) {
   return Message.find({ _id: id });
 }
 
-export async function getChatMessages(id, count) {
-  console.log("ID: ", id);
-    
+export async function getChatMessagesByMessage(id, count) {    
   let last_message = await Message.findById(id);
   let last_messages = await Message.find({ chat_type: last_message.chat_type, chat_id: last_message.chat_id })
     .lt("createdAt", last_message.createdAt)
-    .sort()
+    .sort({createdAt: -1})
     .limit(count);
     
   return last_messages;
 }
+
+// export async function getChatsWithLastMessages(user_id, role) { 
+//     if (role == ) {
+        
+//     }     
+//     const chats_with_last_messages = await 
+      
+//     return chats_with_last_messages;
+//   }
