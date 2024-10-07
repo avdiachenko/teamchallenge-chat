@@ -4,6 +4,7 @@ import {
   signinSchema,
   forgotPasswordSchema,
   updatePasswordSchema,
+  updateRoleSchema,
 } from "../schemas/usersSchemas.js";
 import validateBody from "../decorators/validateBody.js";
 import authControllers from "../controllers/authControllers.js";
@@ -20,6 +21,7 @@ const {
   logout,
   forgotPassword,
   updatePassword,
+  verify,
 } = authControllers;
 
 authRouter.post("/register", validateBody(signupSchema), signup);
@@ -36,6 +38,12 @@ authRouter.post(
   "/update-password/:tempCode",
   validateBody(updatePasswordSchema),
   updatePassword
+);
+authRouter.patch(
+  "/verify/:role/:_id",
+  authtenticate,
+  validateBody(updateRoleSchema),
+  verify
 );
 
 export default authRouter;

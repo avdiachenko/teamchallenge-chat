@@ -74,6 +74,47 @@ const getNotifications = async (req, res) => {
   res.json(result);
 };
 
+const getNotificationsByRole = async (req, res) => {
+  console.log(req.query);
+  const user = req.user;
+  const { residential_complex } = user;
+  const { page = 1, limit = 20, type = "", section = "" } = req.query;
+  const skip = (page - 1) * limit;
+  let _id;
+  if (section) {
+    const adress = section.toLowerCase();
+    const { _id: residential_complex_id } = getComplex({
+      name: residential_complex,
+    });
+    const [{ _id }] = await getBuilding({
+      residential_complex_id,
+      address: adress,
+    });
+  }
+
+  const result = building
+    ? type
+      ? await listNotificationsByFilter(
+          { residential_complex, type, building_id: _id },
+          { skip, limit }
+        )
+      : await listNotificationsByFilter(
+          { residential_complex, building_id: _id },
+          { skip, limit }
+        )
+    : type
+    ? await listNotificationsByFilter(
+        { residential_complex, type, building_id: { $exists: false } },
+        { skip, limit }
+      )
+    : await listNotificationsByFilter(
+        { residential_complex, building_id: { $exists: false } },
+        { skip, limit }
+      );
+
+  res.json(result);
+};
+
 export default {
   createNotification: ctrlWrapper(createNotification),
   getNotifications: ctrlWrapper(getNotifications),

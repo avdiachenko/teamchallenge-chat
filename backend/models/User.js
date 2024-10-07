@@ -45,6 +45,8 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
+      enum: ["not_verified", "verified", "moderator", "administrator"],
+      default: "not_verified",
     },
   },
   { versionKey: false }

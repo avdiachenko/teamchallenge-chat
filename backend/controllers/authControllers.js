@@ -9,7 +9,7 @@ import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import HttpError from "../helpers/HttpError.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { findUser } from "../services/userServices.js";
+import { findUser, updateByFilter } from "../services/userServices.js";
 import "dotenv/config"; // Вместо этого можно:
 // import dotenv from "dotenv";
 // dotenv.config();
@@ -201,6 +201,25 @@ const updatePassword = async (req, res) => {
   });
 };
 
+const verify = async (req, res) => {
+  const { role, _id } = req.params;
+  const admin = req.user;
+  console.log(role, _id);
+  console.log(admin.role);
+
+  if (
+    (admin.role !== "moderator" && admin.role !== "administrator") ||
+    (admin.role === "moderator" && role === "moderator")
+  ) {
+    throw HttpError(403, "You don't have access to this action!");
+  }
+  await updateByFilter({ _id }, { role });
+
+  res.json({
+    message: "Verification successful",
+  });
+};
+
 export default {
   signup: ctrlWrapper(signup),
   signin: ctrlWrapper(signin),
@@ -209,4 +228,5 @@ export default {
   logout: ctrlWrapper(logout),
   forgotPassword: ctrlWrapper(forgotPassword),
   updatePassword: ctrlWrapper(updatePassword),
+  verify: ctrlWrapper(verify),
 };
