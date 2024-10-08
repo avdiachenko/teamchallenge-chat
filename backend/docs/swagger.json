@@ -25,6 +25,10 @@
     {
       "name": "Other",
       "description": "Other routes"
+    },
+    {
+      "name": "Chat",
+      "description": "Chat REST and async routes"
     }
   ],
   "paths": {
@@ -604,6 +608,51 @@
         "parameters": [],
         "responses": {
           "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/chat/last_messages": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Chat"
+        ],
+        "summary": "get last N messages",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "last_message_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Id of the last message"
+          },
+          {
+            "in": "query",
+            "name": "message_count",
+            "schema": {
+              "type": "number"
+            },
+            "required": true,
+            "description": "Count of messages to load"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": "[\n  {\n    \"_id\": \"6704370fe40bf1b76f1d4fbe\",\n    \"user_id\": \"670047e6815e371daab8ea6e\",\n    \"text\": \"HIIIII\",\n    \"images\": [],\n    \"chat_type\": \"residential_complex_chat\",\n    \"chat_id\": \"6704362330ad47b9a1403848\",\n    \"reactions\": [],\n    \"createdAt\": \"2024-10-07T19:31:27.414Z\",\n    \"updatedAt\": \"2024-10-07T19:31:27.414Z\"\n  },\n  {\n    \"_id\": \"670437544f799f6600c66634\",\n    \"user_id\": \"670047e6815e371daab8ea6e\",\n    \"text\": \"HIIIIIIIIIIII\",\n    \"images\": [],\n    \"chat_type\": \"residential_complex_chat\",\n    \"chat_id\": \"6704362330ad47b9a1403848\",\n    \"reactions\": [],\n    \"createdAt\": \"2024-10-07T19:32:36.838Z\",\n    \"updatedAt\": \"2024-10-07T19:32:36.838Z\"\n  }\n]"
+                }
+              }
+            },
             "description": "Success"
           }
         }
