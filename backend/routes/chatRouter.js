@@ -9,8 +9,9 @@ const chatRouter = express.Router();
 chatRouter.use(authtenticate);
 chatRouter.use(authorizeForRole("verified"));
 
-const { getLastChatMessages } = chatControllers;
+const { getLastChatMessages, getChats } = chatControllers;
 
 chatRouter.get("/last_messages", getLastChatMessages);
+chatRouter.get("/", getChats);
 
 export default chatRouter;

@@ -613,6 +613,26 @@
         }
       }
     },
+    "/chat": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Chat"
+        ],
+        "summary": "get chats with last messages",
+        "description": "Should be done AFTER connecting to Socket.io, or messages will be lost",
+        "parameters": null,
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/chat/last_messages": {
       "get": {
         "security": [
@@ -631,6 +651,7 @@
             "schema": {
               "type": "string"
             },
+            "example": "670569fe2fc292a206bf64a5",
             "required": true,
             "description": "Id of the last message"
           },
@@ -640,6 +661,7 @@
             "schema": {
               "type": "number"
             },
+            "example": 10,
             "required": true,
             "description": "Count of messages to load"
           }

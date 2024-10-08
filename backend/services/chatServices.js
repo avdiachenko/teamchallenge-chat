@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import Message from "../models/Message.js";
 import complexChat from "../models/ComplexChat.js";
+import User from "../models/User.js";
+import ComplexChat from "../models/ComplexChat.js";
 
 export async function createMessage(message, chat) {
   const res = await Message.create(
@@ -29,11 +31,26 @@ export async function getChatMessagesByMessage(id, count) {
   return last_messages;
 }
 
-// export async function getChatsWithLastMessages(user_id, role) { 
-//     if (role == ) {
-        
-//     }     
-//     const chats_with_last_messages = await 
-      
-//     return chats_with_last_messages;
-//   }
+export async function getUserChatsWithLastMessages(user_id, role) {    
+  let user = await User.findById(user_id)
+    .populate("apartment_id");
+  await user.populate("apartment_id.building_id");
+  await user.populate("apartment_id.building_id.residential_complex_id");
+
+  const residential_chats = await ComplexChat.aggregate().match({ 
+    residential_complex_id: new mongoose.Types.ObjectId(
+      user.apartment_id.building_id.residential_complex_id
+    )
+  });
+  for (const chat of residential_chats) {
+    chat.lastMessage = (await Message.find(
+      { chat_type: "residential_complex_chat", chat_id: chat._id }
+    ).sort({createdAt: -1}).limit(1))[0];
+  }
+
+  // TODO: add building chats
+
+
+  
+  return residential_chats;
+}

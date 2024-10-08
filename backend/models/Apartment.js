@@ -6,6 +6,7 @@ const apartmentSchema = new Schema(
     building_id: {
       type: String,
       required: [true, "Building id is required"],
+      ref: "building",
     },
     number: {
       type: Number,
