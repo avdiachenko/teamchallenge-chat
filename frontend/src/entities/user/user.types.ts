@@ -1,4 +1,6 @@
 export interface User {
+  _id: string;
+  role: "administrator" | "moderator" | "verified" | "not_verified";
   name: string;
   email: string;
   residential_complex?: string;
