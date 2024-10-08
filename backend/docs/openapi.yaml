@@ -9,8 +9,12 @@ servers:
 tags:
   - name: Users
     description: User actions
+  - name: Notifications
+    description: Notification actions
   - name: Other
     description: Other routes
+  - name: Chat
+    description: Chat REST and async routes
 paths:
   /users/register:
     post:
@@ -24,7 +28,7 @@ paths:
         content:
           application/json:
             schema:
-             $ref: '#/components/schemas/SignUp'
+              $ref: '#/components/schemas/SignUp'
         required: true
       responses:
         '201':
@@ -113,7 +117,6 @@ paths:
       parameters: []
       responses:
         '204':
-    
           description: Successfull logout
         '401':
           description: Not authorized
@@ -214,6 +217,69 @@ paths:
           description: Successfully updating the password
         '404':
           description: User not found
+  /notifications:
+    post:
+      tags:
+        - Notifications
+      summary: Creating a new notification (Only for admin)
+      description: New notification. User must be authorized
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The new notification
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNotification'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateNotificationResponse'
+          description: Successfully creating the notification
+        '401':
+          description: Unauthorized
+        '403':
+          description: You don't have access to this action!
+    get:
+      tags:
+        - Notifications
+      summary: Get notifications
+      description: The opportunity to choose notifications by type. User must be authorized
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: number
+        - name: limit
+          in: query
+          description: Number of items on the page
+          required: false
+          schema:
+            type: number
+        - name: type
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreateNotificationResponse'
+          description: Successfully receiving the notifications
+        '401':
+          description: Unauthorized
   /api/residential_complex:
     get:
       tags:
@@ -366,6 +432,57 @@ paths:
       responses:
         '200':
           description: Success
+  /chat/last_messages:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Chat
+      summary: get last N messages
+      parameters: 
+        - in: query
+          name: last_message_id
+          schema:
+            type: string
+          required: true
+          description: Id of the last message
+        - in: query
+          name: message_count
+          schema:
+            type: number
+          required: true
+          description: Count of messages to load
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                example: >-
+                  [
+                    {
+                      "_id": "6704370fe40bf1b76f1d4fbe",
+                      "user_id": "670047e6815e371daab8ea6e",
+                      "text": "HIIIII",
+                      "images": [],
+                      "chat_type": "residential_complex_chat",
+                      "chat_id": "6704362330ad47b9a1403848",
+                      "reactions": [],
+                      "createdAt": "2024-10-07T19:31:27.414Z",
+                      "updatedAt": "2024-10-07T19:31:27.414Z"
+                    },
+                    {
+                      "_id": "670437544f799f6600c66634",
+                      "user_id": "670047e6815e371daab8ea6e",
+                      "text": "HIIIIIIIIIIII",
+                      "images": [],
+                      "chat_type": "residential_complex_chat",
+                      "chat_id": "6704362330ad47b9a1403848",
+                      "reactions": [],
+                      "createdAt": "2024-10-07T19:32:36.838Z",
+                      "updatedAt": "2024-10-07T19:32:36.838Z"
+                    }
+                  ]
+          description: Success
 components:
   securitySchemes:
     bearerAuth:
@@ -496,6 +613,44 @@ components:
         message:
           type: string
           example: Your password has been updated successfully
+    CreateNotification:
+      type: object
+      required:
+        - text
+        - type
+      properties:
+        text:
+          type: string
+          example: We are the best residential complex
+        type:
+          type: string
+          enum:
+            - Events
+            - Emergency
+          example: Events
+    CreateNotificationResponse:
+      type: object
+      required:
+        - text
+        - type
+        - residential_complex
+        - updatedAt
+      properties:
+        text:
+          type: string
+          example: We are the best residential complex
+        type:
+          type: string
+          enum:
+            - Events
+            - Emergency
+          example: Events
+        residential_complex:
+          type: string
+          example: Sunny Quarter
+        updatedAt:
+          type: string
+          example: '2024-10-01T09:38:36.240Z'
     PostResidentialComplex:
       type: object
       required:
