@@ -79,31 +79,36 @@ const getNotifications = async (req, res) => {
 };
 
 const getNotificationsByRole = async (req, res) => {
-  console.log(req.query);
   const user = req.user;
-  const { residential_complex } = user;
+  const { residential_complex, role } = user;
   const { page = 1, limit = 20, type = "", section = "" } = req.query;
   const skip = (page - 1) * limit;
-  let _id;
+  if (role !== "moderator" && role !== "administrator") {
+    throw HttpError(403, "You don't have access to this action!");
+  }
+  let id;
   if (section) {
     const adress = section.toLowerCase();
-    const { _id: residential_complex_id } = getComplex({
+
+    const [{ _id: residential_complex_id }] = await getComplex({
       name: residential_complex,
     });
+
     const [{ _id }] = await getBuilding({
       residential_complex_id,
       address: adress,
     });
+    id = _id;
   }
 
-  const result = building
+  const result = section
     ? type
       ? await listNotificationsByFilter(
-          { residential_complex, type, building_id: _id },
+          { residential_complex, type, building_id: id },
           { skip, limit }
         )
       : await listNotificationsByFilter(
-          { residential_complex, building_id: _id },
+          { residential_complex, building_id: id },
           { skip, limit }
         )
     : type
@@ -122,4 +127,5 @@ const getNotificationsByRole = async (req, res) => {
 export default {
   createNotification: ctrlWrapper(createNotification),
   getNotifications: ctrlWrapper(getNotifications),
+  getNotificationsByRole: ctrlWrapper(getNotificationsByRole),
 };
