@@ -11,7 +11,7 @@ export async function createMessage(message, chat) {
       chat_id: chat.id,
     }
   );
-  console.log(res);
+
   return { id: res.id, createdAt: res.createdAt };
 }
 

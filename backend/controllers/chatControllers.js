@@ -20,17 +20,8 @@ export function pingEventSubscribe(socket) {
 
 function chatMessage(socket) {
   return async (messageText, callback) => {
-    const token = socket.handshake.auth.token;
-    let name;
-    let user_id;
-    if (token === undefined) {
-      name = "Anonymous";
-      user_id = 0;
-    } else {
-      user_id = jwt.verify(token, JWT_SECRET).id;
-      const user = await findUserById(user_id);
-      name = user.name;
-    }
+    let name = socket.user.name;
+    let user_id = socket.user._id;
     let messageObject = { name, message: messageText };
     // TODO: change the mock chat
     let {createdAt, _id} = (await createMessage(

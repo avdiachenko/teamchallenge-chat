@@ -15,6 +15,8 @@ import * as chatControllers from "./controllers/chatControllers.js";
 import notificationsRouter from "./routes/notificationsRouter.js";
 import complexChat from "./models/ComplexChat.js";
 import chatRouter from "./routes/chatRouter.js";
+import authtenticate, { authenticateSocket } from "./middlewares/authenticate.js";
+import { authorizeSocketForRole } from "./middlewares/authorize.js";
 
 dotenv.config();
 
@@ -81,8 +83,11 @@ const io = new Server(server, {
   },
 });
 
+io.use(authenticateSocket);
+io.use(authorizeSocketForRole("verified"));
+
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  // console.log("a user connected");
   chatControllers.pingEventSubscribe(socket);
   chatControllers.chatMessageEventSubscribe(socket);
 });
