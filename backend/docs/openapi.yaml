@@ -432,6 +432,18 @@ paths:
       responses:
         '200':
           description: Success
+  /chat:
+    get:
+      security:
+        - bearerAuth: []
+      tags:
+        - Chat
+      summary: get chats with last messages
+      description: Should be done AFTER connecting to Socket.io, or messages will be lost
+      parameters: []
+      responses:
+        '200':
+          description: Success
   /chat/last_messages:
     get:
       security:
@@ -439,17 +451,19 @@ paths:
       tags:
         - Chat
       summary: get last N messages
-      parameters: 
+      parameters:
         - in: query
           name: last_message_id
           schema:
             type: string
+          example: 670569fe2fc292a206bf64a5
           required: true
           description: Id of the last message
         - in: query
           name: message_count
           schema:
             type: number
+          example: 10
           required: true
           description: Count of messages to load
       responses:
@@ -457,7 +471,7 @@ paths:
           content:
             application/json:
               schema:
-                example: >-
+                example: |-
                   [
                     {
                       "_id": "6704370fe40bf1b76f1d4fbe",

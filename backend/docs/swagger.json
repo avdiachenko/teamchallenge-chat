@@ -625,7 +625,7 @@
         ],
         "summary": "get chats with last messages",
         "description": "Should be done AFTER connecting to Socket.io, or messages will be lost",
-        "parameters": null,
+        "parameters": [],
         "responses": {
           "200": {
             "description": "Success"
