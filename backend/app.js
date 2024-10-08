@@ -15,6 +15,8 @@ import * as chatControllers from "./controllers/chatControllers.js";
 import notificationsRouter from "./routes/notificationsRouter.js";
 import complexChat from "./models/ComplexChat.js";
 import chatRouter from "./routes/chatRouter.js";
+import authtenticate, { authenticateSocket } from "./middlewares/authenticate.js";
+import { authorizeSocketForRole } from "./middlewares/authorize.js";
 
 dotenv.config();
 
@@ -33,33 +35,33 @@ app.use("/api", complexRouter);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/chat", chatRouter);
 
-app.get("/chat", (_, res) => {
-  res.send(`<script src="/socket.io/socket.io.js"></script>
-<input type="text" id="chatInput">
-<script>
-  const socket = io(); // put URL as a parameter
-  socket.emit("ping", ()=>{console.log("pong delivered to server")});
-  socket.on("pong", ()=>{console.log("pong")});
+// app.get("/chat", (_, res) => {
+//   res.send(`<script src="/socket.io/socket.io.js"></script>
+// <input type="text" id="chatInput">
+// <script>
+//   const socket = io(); // put URL as a parameter
+//   socket.emit("ping", ()=>{console.log("pong delivered to server")});
+//   socket.on("pong", ()=>{console.log("pong")});
 
-  const input = document.getElementById("chatInput");
-  input.onchange = () => {
-    console.log(input.value);
-    const message = document.createElement("p");
-    message.innerHTML = input.value;
-    document.body.insertBefore(message, document.body.lastElement);
-    socket.emit("chat message", input.value, ()=>{
-      console.log("chat message delivered")
-    });
-  }
+//   const input = document.getElementById("chatInput");
+//   input.onchange = () => {
+//     console.log(input.value);
+//     const message = document.createElement("p");
+//     message.innerHTML = input.value;
+//     document.body.insertBefore(message, document.body.lastElement);
+//     socket.emit("chat message", input.value, ()=>{
+//       console.log("chat message delivered")
+//     });
+//   }
 
-  socket.on("chat message", (messageObject) => {
-    const message = document.createElement("p");
-    message.innerHTML = messageObject.name + ": " + messageObject.message;
-    message.style.color = "blue";
-    document.body.insertBefore(message, document.body.lastElement);
-  })
-</script>`);
-});
+//   socket.on("chat message", (messageObject) => {
+//     const message = document.createElement("p");
+//     message.innerHTML = messageObject.name + ": " + messageObject.message;
+//     message.style.color = "blue";
+//     document.body.insertBefore(message, document.body.lastElement);
+//   })
+// </script>`);
+// });
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
@@ -81,8 +83,11 @@ const io = new Server(server, {
   },
 });
 
+io.use(authenticateSocket);
+io.use(authorizeSocketForRole("verified"));
+
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  // console.log("a user connected");
   chatControllers.pingEventSubscribe(socket);
   chatControllers.chatMessageEventSubscribe(socket);
 });
