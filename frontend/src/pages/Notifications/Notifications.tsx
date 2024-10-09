@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useUserStore } from "../../entities/user/user.store";
 import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
 import { Header } from "../../widgets/Header/Header";
 import { NewsMenu } from "../../widgets/NewsMenu/NewsMenu";
@@ -6,6 +7,7 @@ import { NotificationCard } from "./NotificationCard/NotificationCard";
 import { NotificationInput } from "./NotificationInput/NotificationInput";
 import styles from "./Notifications.module.css";
 import { Notification } from "./notifications.types";
+import { NotificationsSelector } from "./NotificationsSelector/NotificationsSelector";
 
 const notifications: Notification[] = [
   {
@@ -59,6 +61,12 @@ const notifications: Notification[] = [
 ];
 
 export function Notifications() {
+  const { user } = useUserStore();
+  const [selectedComplex, setSelectedComplex] = useState<string | null>(null);
+  const [selectedSection, setSelectedSection] = useState<string | null>(null);
+
+  console.log({ selectedComplex, selectedSection });
+
   // const { data: notifications } = useApi<Notification[]>("/notifications");
 
   const notificationListRef = useRef<HTMLDivElement>(null);
@@ -78,6 +86,12 @@ export function Notifications() {
       <AsideMenu />
       <Header title="Notifications" />
       <div className={styles.container}>
+        <NotificationsSelector
+          selectedComplex={selectedComplex}
+          selectedSection={selectedSection}
+          setSelectedComplex={setSelectedComplex}
+          setSelectedSection={setSelectedSection}
+        />
         <div className={styles.content}>
           <NewsMenu />
 
@@ -88,7 +102,9 @@ export function Notifications() {
               ))}
             </div>
 
-            <NotificationInput />
+            {(user?.role === "administrator" || user?.role === "moderator") && (
+              <NotificationInput />
+            )}
           </div>
         </div>
       </div>

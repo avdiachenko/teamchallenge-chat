@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
-import { createMessage, getChatMessagesByMessage, getMessageById } from "../services/chatServices.js";
+import { createMessage, getChatMessagesByMessage, getMessageById, getUserChatsWithLastMessages } from "../services/chatServices.js";
 import { findUserById } from "../services/userServices.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
+import Roles from "../helpers/Roles.js";
 const { JWT_SECRET } = process.env;
 
 function ping(socket) {
@@ -20,17 +21,8 @@ export function pingEventSubscribe(socket) {
 
 function chatMessage(socket) {
   return async (messageText, callback) => {
-    const token = socket.handshake.auth.token;
-    let name;
-    let user_id;
-    if (token === undefined) {
-      name = "Anonymous";
-      user_id = 0;
-    } else {
-      user_id = jwt.verify(token, JWT_SECRET).id;
-      const user = await findUserById(user_id);
-      name = user.name;
-    }
+    let name = socket.user.name;
+    let user_id = socket.user._id;
     let messageObject = { name, message: messageText };
     // TODO: change the mock chat
     let {createdAt, _id} = (await createMessage(
@@ -60,6 +52,23 @@ async function getLastChatMessages(req, res) {
   res.json(messages);
 }
 
+async function getChats(req, res) {
+  const user = req.user;
+  let chats;  
+  if (Roles.compareRoles("verified", user.role) == 0) {
+    chats = await getUserChatsWithLastMessages(user._id);
+  } else if (Roles.compareRoles("moderator", user.role) == 0) {
+    chats = await getModeratorChatsWithLastMessages(user._id);
+  } else if (Roles.compareRoles("administrator", user.role) == 0) {
+    chats = await getAdministratorChatsWithLastMessages();
+  } else {
+    throw new Error("getChats role not supported");
+  }
+  
+  res.json(chats);
+}
+
 export default {
   getLastChatMessages: ctrlWrapper(getLastChatMessages),
+  getChats: ctrlWrapper(getChats),
 };
