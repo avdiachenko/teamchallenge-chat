@@ -30,7 +30,9 @@
   "paths": {
     "/users/register": {
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Add a new user",
         "description": "New user registration",
         "parameters": [],
@@ -51,7 +53,9 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["message"],
+                  "required": [
+                    "message"
+                  ],
                   "properties": {
                     "message": {
                       "type": "string",
@@ -74,7 +78,9 @@
     },
     "/users/login": {
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Authenticate, get tokens",
         "parameters": [],
         "requestBody": {
@@ -82,7 +88,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["email", "password"],
+                "required": [
+                  "email",
+                  "password"
+                ],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -106,7 +115,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["token", "refreshToken", "user"],
+                  "required": [
+                    "token",
+                    "refreshToken",
+                    "user"
+                  ],
                   "properties": {
                     "token": {
                       "type": "string"
@@ -155,7 +168,9 @@
             "bearerAuth": []
           }
         ],
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "",
         "parameters": [],
         "responses": {
@@ -176,7 +191,9 @@
             "bearerAuth": []
           }
         ],
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Get general information about the user",
         "parameters": [],
         "responses": {
@@ -204,7 +221,9 @@
             "bearerAuth": []
           }
         ],
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Get new token pair",
         "parameters": [],
         "responses": {
@@ -226,7 +245,9 @@
     },
     "/users/forgot-password": {
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Send an email to recover the password",
         "description": "Recover the password",
         "parameters": [],
@@ -260,7 +281,9 @@
     },
     "/users/update-password/{tempCode}": {
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Creating a new password",
         "description": "New password",
         "parameters": [
@@ -304,9 +327,11 @@
     },
     "/notifications": {
       "post": {
-        "tags": ["Notifications"],
+        "tags": [
+          "Notifications"
+        ],
         "summary": "Creating a new notification (Only for admin)",
-        "description": "New notification. The user must be authorized and has rights of an administrator or a moderator",
+        "description": "New notification. The user must be authorized and has the  rights of an administrator or a moderator",
         "security": [
           {
             "bearerAuth": []
@@ -343,7 +368,9 @@
         }
       },
       "get": {
-        "tags": ["Notifications"],
+        "tags": [
+          "Notifications"
+        ],
         "summary": "Get notifications",
         "description": "The opportunity to choose notifications by type. User must be authorized and verified",
         "parameters": [
@@ -412,9 +439,84 @@
         }
       }
     },
+    "/notifications/role": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "Get notifications by an administrator or a moderator",
+        "description": "The opportunity to choose notifications by type and section. User must be an administrator or a moderator",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of items on the page",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Type of a notification",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "section",
+            "in": "query",
+            "description": "Number of section",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CreateNotificationResponse"
+                  }
+                }
+              }
+            },
+            "description": "Successfully receiving the notifications"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "You don't have access to this action!"
+          }
+        }
+      }
+    },
     "/api/residential_complex": {
       "get": {
-        "tags": ["Other"],
+        "tags": [
+          "Other"
+        ],
         "summary": "Get short info about all complexes",
         "parameters": [],
         "responses": {
@@ -437,7 +539,9 @@
             "bearerAuth": []
           }
         ],
-        "tags": ["Other"],
+        "tags": [
+          "Other"
+        ],
         "summary": "Create a new complex",
         "parameters": [],
         "requestBody": {
@@ -547,7 +651,9 @@
     },
     "/api/residential_complex/{name}": {
       "get": {
-        "tags": ["Other"],
+        "tags": [
+          "Other"
+        ],
         "summary": "Get full info about a complex",
         "parameters": [
           {
@@ -576,74 +682,13 @@
     },
     "/api/delete_residential_complex": {
       "get": {
-        "tags": ["Other"],
+        "tags": [
+          "Other"
+        ],
         "summary": "Delete all complexes, buildings, apartments",
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/chat": {
-      "get": {
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "tags": ["Chat"],
-        "summary": "get chats with last messages",
-        "description": "Should be done AFTER connecting to Socket.io, or messages will be lost",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/chat/last_messages": {
-      "get": {
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "tags": ["Chat"],
-        "summary": "get last N messages",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "last_message_id",
-            "schema": {
-              "type": "string"
-            },
-            "example": "670569fe2fc292a206bf64a5",
-            "required": true,
-            "description": "Id of the last message"
-          },
-          {
-            "in": "query",
-            "name": "message_count",
-            "schema": {
-              "type": "number"
-            },
-            "example": 10,
-            "required": true,
-            "description": "Count of messages to load"
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "example": "[\n  {\n    \"_id\": \"6704370fe40bf1b76f1d4fbe\",\n    \"user_id\": \"670047e6815e371daab8ea6e\",\n    \"text\": \"HIIIII\",\n    \"images\": [],\n    \"chat_type\": \"residential_complex_chat\",\n    \"chat_id\": \"6704362330ad47b9a1403848\",\n    \"reactions\": [],\n    \"createdAt\": \"2024-10-07T19:31:27.414Z\",\n    \"updatedAt\": \"2024-10-07T19:31:27.414Z\"\n  },\n  {\n    \"_id\": \"670437544f799f6600c66634\",\n    \"user_id\": \"670047e6815e371daab8ea6e\",\n    \"text\": \"HIIIIIIIIIIII\",\n    \"images\": [],\n    \"chat_type\": \"residential_complex_chat\",\n    \"chat_id\": \"6704362330ad47b9a1403848\",\n    \"reactions\": [],\n    \"createdAt\": \"2024-10-07T19:32:36.838Z\",\n    \"updatedAt\": \"2024-10-07T19:32:36.838Z\"\n  }\n]"
-                }
-              }
-            },
             "description": "Success"
           }
         }
@@ -713,7 +758,9 @@
       },
       "SignUpResponse": {
         "type": "object",
-        "required": ["message"],
+        "required": [
+          "message"
+        ],
         "properties": {
           "message": {
             "type": "string",
@@ -723,7 +770,10 @@
       },
       "SignIn": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -739,7 +789,11 @@
       },
       "SignInResponse": {
         "type": "object",
-        "required": ["token", "refreshToken", "user"],
+        "required": [
+          "token",
+          "refreshToken",
+          "user"
+        ],
         "properties": {
           "token": {
             "type": "string"
@@ -769,7 +823,9 @@
       },
       "ForgotPassword": {
         "type": "object",
-        "required": ["email"],
+        "required": [
+          "email"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -780,7 +836,9 @@
       },
       "ForgotPasswordResponse": {
         "type": "object",
-        "required": ["message"],
+        "required": [
+          "message"
+        ],
         "properties": {
           "message": {
             "type": "string",
@@ -790,7 +848,9 @@
       },
       "UpdatePassword": {
         "type": "object",
-        "required": ["password"],
+        "required": [
+          "password"
+        ],
         "properties": {
           "password": {
             "type": "string",
@@ -801,7 +861,9 @@
       },
       "UpdatePasswordResponse": {
         "type": "object",
-        "required": ["message"],
+        "required": [
+          "message"
+        ],
         "properties": {
           "message": {
             "type": "string",
@@ -811,7 +873,10 @@
       },
       "CreateNotification": {
         "type": "object",
-        "required": ["text", "type"],
+        "required": [
+          "text",
+          "type"
+        ],
         "properties": {
           "text": {
             "type": "string",
@@ -819,7 +884,10 @@
           },
           "type": {
             "type": "string",
-            "enum": ["Events", "Emergency"],
+            "enum": [
+              "Events",
+              "Emergency"
+            ],
             "example": "Events"
           },
           "section": {
@@ -830,7 +898,13 @@
       },
       "CreateNotificationResponse": {
         "type": "object",
-        "required": ["text", "type", "residential_complex", "updatedAt"],
+        "required": [
+          "_id",
+          "text",
+          "type",
+          "residential_complex",
+          "updatedAt"
+        ],
         "properties": {
           "_id": {
             "type": "string",
@@ -842,7 +916,10 @@
           },
           "type": {
             "type": "string",
-            "enum": ["Events", "Emergency"],
+            "enum": [
+              "Events",
+              "Emergency"
+            ],
             "example": "Events"
           },
           "residential_complex": {
