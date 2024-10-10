@@ -1,9 +1,6 @@
-import jwt from "jsonwebtoken";
-import { createMessage, getChatMessagesByMessage, getMessageById, getUserChatsWithLastMessages } from "../services/chatServices.js";
-import { findUserById } from "../services/userServices.js";
+import { createMessage, getAdministratorChatsWithLastMessages, getChatMessagesByMessage, getModeratorChatsWithLastMessages, getUserChatsWithLastMessages } from "../services/chatServices.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import Roles from "../helpers/Roles.js";
-const { JWT_SECRET } = process.env;
 
 function ping(socket) {
   return (callback) => {
