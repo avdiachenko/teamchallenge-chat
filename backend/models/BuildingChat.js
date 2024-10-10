@@ -16,7 +16,7 @@ const readUntilSchema = new Schema({
   }
 });
 
-const complexChatSchema = new Schema(
+const buildingSchema = new Schema(
   {
     name: {
       type: String,
@@ -25,22 +25,22 @@ const complexChatSchema = new Schema(
     picture: {
       type: String,
     },
-    residential_complex_id: {
+    building_id: {
       type: Schema.Types.ObjectId,
-      ref: "residential_complex",
-      required: [true, "Choose the message of ReadUntil"],
+      ref: "building",
+      required: [true, "Choose chat's building"],
     },
     user_read_until: [readUntilSchema]
   },
   { versionKey: false }
 );
 
-// TODO: unique name for 
+// TODO: unique name for chats in a building, using an index
 
-complexChatSchema.post("save", handleSaveError);
-complexChatSchema.pre("findOneAndUpdate", setUpdateSetting);
-complexChatSchema.post("findOneAndUpdate", handleSaveError);
+buildingSchema.post("save", handleSaveError);
+buildingSchema.pre("findOneAndUpdate", setUpdateSetting);
+buildingSchema.post("findOneAndUpdate", handleSaveError);
 
-const ComplexChat = model("residential_complex_chat", complexChatSchema);
+const BuildingChat = model("building_chat", buildingSchema);
 
-export default ComplexChat;
+export default BuildingChat;

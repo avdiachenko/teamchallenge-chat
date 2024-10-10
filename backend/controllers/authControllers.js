@@ -60,7 +60,7 @@ const signup = async (req, res) => {
       `The entrance ${entrance} or the apartment ${apartment} does not exist! Please, enter the correct data.`
     );
   }
-  // console.log(apartmentData);
+
   const [apartmentResult] = apartmentData;
 
   await register({ ...req.body, apartment_id: apartmentResult._id });
@@ -92,7 +92,7 @@ const signin = async (req, res) => {
   await setTokens(user.id, token, refreshToken);
   const userRes = { ...user };
   delete userRes._doc.password;
-  console.log(userRes._doc);
+
   user = userRes._doc;
   res.json({
     token,
@@ -107,8 +107,6 @@ const signin = async (req, res) => {
 };
 
 const getCurrent = async (req, res) => {
-  // const { name, email, residential_complex, apartment, entrance, phone } =
-  //   req.user;
   const userRes = { ...req.user };
   delete userRes._doc.password;
   const user = userRes._doc;
