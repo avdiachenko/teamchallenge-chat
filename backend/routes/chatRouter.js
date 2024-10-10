@@ -11,6 +11,7 @@ chatRouter.use(authorizeForRole("verified"));
 
 const { getLastChatMessages, getChats } = chatControllers;
 
+// TODO: give access only to chats where user is registered
 chatRouter.get("/last_messages", getLastChatMessages);
 chatRouter.get("/", getChats);
 
