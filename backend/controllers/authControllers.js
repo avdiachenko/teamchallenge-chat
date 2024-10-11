@@ -88,26 +88,16 @@ const signin = async (req, res) => {
   const refreshToken = jwt.sign(payload, JWT_SECRET, {
     expiresIn: "7d",
   });
-  // console.log(user.id);
-  // console.log(user._id);
-  await setTokens(user.id, token, refreshToken);
-  const loggedInUser = await findUser({ _id: user._id });
-  console.log(loggedInUser);
-  const userRes = { ...user };
-  console.log(userRes);
-  delete userRes._doc.password;
-  delete loggedInUser.password;
 
-  user = userRes._doc;
+  await setTokens(user.id, token, refreshToken);
+  const loggedInUser = await findUser({ _id: user._id }, "-password");
+  console.log(loggedInUser);
+
+  user = loggedInUser;
   res.json({
     token,
     refreshToken,
-    // user: {
-    //   name: user.name,
-    //   email: user.email,
-    //   phone: user.phone,
-    // },
-    loggedInUser,
+    user,
   });
 };
 
