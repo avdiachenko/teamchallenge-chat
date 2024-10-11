@@ -12,7 +12,7 @@ export function setToken(id, token = "") {
   return User.findByIdAndUpdate(id, { token });
 }
 export function setTokens(id, token = "", refreshToken = "") {
-  return User.findByIdAndUpdate(id, { token, refreshToken });
+  return User.findByIdAndUpdate(id, { token, refreshToken }, { new: true });
 }
 
 export async function updateUser(filter, data) {
