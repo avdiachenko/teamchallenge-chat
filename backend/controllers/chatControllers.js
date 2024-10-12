@@ -24,6 +24,8 @@ function chatMessage(socket) {
         {text: messageText, user_id: user_id }, 
         { type: "residential_complex_chat", id: "6704362330ad47b9a1403848" })
       );
+    messageObject.name = socket.user.name;
+    messageObject.profilePicture = socket.user.profile_picture || "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg";
     socket.broadcast.emit("chat message", messageObject);
     callback();
   }
