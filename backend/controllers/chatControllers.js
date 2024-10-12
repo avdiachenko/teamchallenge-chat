@@ -18,17 +18,12 @@ export function pingEventSubscribe(socket) {
 
 function chatMessage(socket) {
   return async (messageText, callback) => {
-    let name = socket.user.name;
     let user_id = socket.user._id;
-    let messageObject = { name, message: messageText };
     // TODO: change the mock chat
-    let {createdAt, _id} = (await createMessage(
+    let messageObject = (await createMessage(
         {text: messageText, user_id: user_id }, 
         { type: "residential_complex_chat", id: "6704362330ad47b9a1403848" })
       );
-    messageObject.date = createdAt;
-    messageObject.id = _id;
-    messageObject.profilePicture = "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg"
     socket.broadcast.emit("chat message", messageObject);
     callback();
   }

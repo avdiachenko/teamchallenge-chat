@@ -7,6 +7,9 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Name is required"],
     },
+    profile_picture: {
+      type: String,
+    },
     email: {
       type: String,
       required: [true, "Email is required"],
