@@ -106,17 +106,7 @@ const getCurrent = async (req, res) => {
   delete userRes._doc.password;
   const user = userRes._doc;
   console.log(req.user);
-  res.json(
-    //   {
-    //   name,
-    //   email,
-    //   residential_complex,
-    //   apartment,
-    //   entrance,
-    //   phone,
-    // }
-    user
-  );
+  res.json(user);
 };
 
 const getrefreshCurrent = async (req, res) => {
