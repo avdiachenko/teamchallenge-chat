@@ -37,7 +37,6 @@ export function ChatList() {
               <img src={chat.picture} alt={chat.name} className={styles.cardImg} />
               <div className={styles.cardInfo}>
                 <span className={styles.cardTitle}>{chat.name}</span>
-                <span className={styles.cardMembers}>235 members</span>
               </div>
             </div>
           ))}

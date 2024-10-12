@@ -39,7 +39,6 @@ export function ChatWindow() {
               />
               <div className={styles.cardInfo}>
                 <span className={styles.cardName}>{selectedChat?.name}</span>
-                <span className={styles.cardStatus}>{"Online"}</span>
               </div>
             </div>
             <div className={styles.points}>{"..."}</div>

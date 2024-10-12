@@ -60,12 +60,6 @@
   font-weight: 500;
 }
 
-.cardMembers {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--gray-700);
-}
-
 .cardName {
   font-size: 18px;
   font-weight: 500;
