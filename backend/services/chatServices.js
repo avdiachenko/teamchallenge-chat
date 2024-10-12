@@ -32,7 +32,7 @@ export async function getChatMessagesByMessage(id, count) {
     .lean();
 
   for (const message of last_messages) {
-    user_id = message.user_id;
+    const user_id = message.user_id;
     const user = User.findById(user_id);
     message.profilePicture = user.profile_picture || "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg";
     message.name = user.name;
