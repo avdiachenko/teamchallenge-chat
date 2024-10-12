@@ -2,12 +2,14 @@
 import { io, Socket } from "socket.io-client";
 import { create } from "zustand";
 import { BASE_URL } from "../../shared/constants/urls";
-import { MessageType } from "./chat.types";
+import { ChatType, MessageType } from "./chat.types";
 
 interface Store {
   socket: Socket | null;
   messages: MessageType[];
+  selectedChat: ChatType | null;
 
+  setSelectedChat: (chat: ChatType | null) => void;
   connectSocket: (token: string) => void;
   disconnectSocket: () => void;
   sendMessage: (message: string) => void;
@@ -16,6 +18,14 @@ interface Store {
 export const useChatStore = create<Store>((set, get) => ({
   socket: null,
   messages: [],
+  selectedChat: null,
+
+  setSelectedChat: (chat: ChatType | null) => {
+    set({ selectedChat: chat });
+
+    if (!chat) return;
+    // set({ messages: chat.lastMessage });
+  },
 
   connectSocket: (token: string) => {
     const newSocket = io(BASE_URL, {

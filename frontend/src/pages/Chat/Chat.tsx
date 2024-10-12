@@ -4,9 +4,8 @@ import { useUserStore } from "../../entities/user/user.store";
 import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
 import { Header } from "../../widgets/Header/Header";
 import styles from "./Chat.module.css";
+import { ChatList } from "./ChatList/ChatList";
 import { ChatWindow } from "./ChatWindow/ChatWindow";
-import { Groups } from "./Groups/Groups";
-import { PrivateMessages } from "./PrivateMessages/PrivateMessages";
 
 export function Chat() {
   const { token } = useUserStore();
@@ -30,8 +29,7 @@ export function Chat() {
             <div className={styles.searchBox}>
               <input className={styles.search} type="text" placeholder="Search" />
             </div>
-            <Groups />
-            <PrivateMessages />
+            <ChatList />
           </div>
           <ChatWindow />
         </div>

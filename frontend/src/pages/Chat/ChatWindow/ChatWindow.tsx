@@ -5,7 +5,7 @@ import { UserMessage } from "../UserMessage/UserMessage";
 import styles from "./ChatWindow.module.css";
 
 export function ChatWindow() {
-  const { messages, sendMessage } = useChatStore();
+  const { messages, sendMessage, selectedChat } = useChatStore();
 
   const messageListContainerRef = useRef<HTMLDivElement>(null);
 
@@ -29,16 +29,22 @@ export function ChatWindow() {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <div className={styles.chatHeader}>
-          <div className={styles.card}>
-            <img src={"img.png"} alt={"John Doe"} className={styles.cardImg} />
-            <div className={styles.cardInfo}>
-              <span className={styles.cardName}>{"John Doe"}</span>
-              <span className={styles.cardStatus}>{"Online"}</span>
+        {selectedChat && (
+          <div className={styles.chatHeader}>
+            <div className={styles.card}>
+              <img
+                src={selectedChat?.picture}
+                alt={selectedChat?.name}
+                className={styles.cardImg}
+              />
+              <div className={styles.cardInfo}>
+                <span className={styles.cardName}>{selectedChat?.name}</span>
+                <span className={styles.cardStatus}>{"Online"}</span>
+              </div>
             </div>
+            <div className={styles.points}>{"..."}</div>
           </div>
-          <div className={styles.points}>{"..."}</div>
-        </div>
+        )}
 
         <div className={styles.messageListContainer} ref={messageListContainerRef}>
           <div className={styles.messageList}>
@@ -50,14 +56,16 @@ export function ChatWindow() {
           </div>
         </div>
 
-        <div className={styles.chatInput}>
-          <input
-            className={styles.input}
-            type="text"
-            placeholder={"Type your message here"}
-            onKeyDown={handleSendMessage}
-          />
-        </div>
+        {selectedChat && (
+          <div className={styles.chatInput}>
+            <input
+              className={styles.input}
+              type="text"
+              placeholder={"Type your message here"}
+              onKeyDown={handleSendMessage}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
