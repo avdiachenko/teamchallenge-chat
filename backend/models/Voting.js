@@ -37,10 +37,6 @@ const votingSchema = new Schema(
     isAnonymous: {
       type: boolean,
     },
-    // owner: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "user",
-    // },
   },
   { versionKey: false }
 );
