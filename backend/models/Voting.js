@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import { handleSaveError, setUpdateSetting } from "./hooks.js";
-import { boolean } from "joi";
 
 const votingSchema = new Schema(
   {
@@ -17,25 +16,37 @@ const votingSchema = new Schema(
       required: [true, "Choose the type of voting!"],
     },
     options: {
-      type: String,
-      enum: ["Up", "Down", "Abstained"],
-      required: [true, "Make your choice!"],
+      up: {
+        type: Number,
+        default: 0,
+      },
+      down: {
+        type: Number,
+        default: 0,
+      },
+      abstained: {
+        type: Number,
+        default: 0,
+      },
+      //   type: String,
+      //   enum: ["Up", "Down", "Abstained"],
+      //   required: [true, "Make your choice!"],
     },
     startDate: {
       type: Date,
-      enum: ["Up", "Down", "Abstained"],
-      required: [true, "Make your choice!"],
+      required: [true, "Specify start date"],
     },
     endDate: {
       type: Date,
     },
     displayType: {
       type: String,
-      enum: ["Up", "Down", "Abstained"],
+      enum: ["Percentages", "Number"],
       required: [true, "Make your choice!"],
     },
     isAnonymous: {
-      type: boolean,
+      type: Boolean,
+      default: true,
     },
   },
   { versionKey: false }
