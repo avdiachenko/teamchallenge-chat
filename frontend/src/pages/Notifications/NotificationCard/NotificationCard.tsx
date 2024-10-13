@@ -4,6 +4,12 @@ import EventIcon from "../Icons/EventIcon.svg";
 import { Notification } from "../notifications.types";
 import styles from "./NotificationCard.module.css";
 
+const cardTypeMap = {
+  Payments: "Payments",
+  Emergency: "Emergency messages",
+  Events: "Events",
+};
+
 interface Props {
   notification: Notification;
 }
@@ -15,19 +21,22 @@ export function NotificationCard(props: Props) {
     <div
       className={`${styles.container}
       ${notification.type === "Payments" && styles.payments}
-      ${notification.type === "Emergency messages" && styles.emergency}
+      ${notification.type === "Emergency" && styles.emergency}
       ${notification.type === "Events" && styles.events}`}
     >
       <div className={styles.imgBox}>
         {notification.type === "Payments" && <img src={BsCashCoin} alt="payment icon" />}
-        {notification.type === "Emergency messages" && (
+        {notification.type === "Emergency" && (
           <img src={BsFillExclamation} alt="emergency messages icon" />
         )}
         {notification.type === "Events" && <img src={EventIcon} alt="event icon" />}
       </div>
 
       <div className={styles.content}>
-        <span className={styles.type}>{notification.type}</span>
+        <div className={styles.title}>
+          <span className={styles.type}>{cardTypeMap[notification.type]}</span>
+          <span className={styles.date}>{new Date(notification.createdAt).toLocaleString()}</span>
+        </div>
 
         <span className={styles.text}>{notification.text}</span>
       </div>
