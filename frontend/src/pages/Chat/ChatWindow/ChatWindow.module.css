@@ -59,12 +59,6 @@
   font-weight: 500;
 }
 
-.cardStatus {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--gray-700);
-}
-
 .points {
   height: 25px;
   width: 25px;
