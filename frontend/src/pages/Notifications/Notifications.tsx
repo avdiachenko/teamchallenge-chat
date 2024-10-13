@@ -18,8 +18,12 @@ export function Notifications() {
   const [limit, setLimit] = useState(7);
   const [isInited, setIsInited] = useState(false);
 
+  console.log(selectedComplex);
+  console.log(selectedSection);
+
+  const url = `/notifications?limit=${limit}&page=1${selectedSection ? "&building=true" : ""}`;
   const { data: notifications, isLoading } = useApi<Notification[]>(
-    `/notifications?limit=${limit}&page=1`
+    selectedSection || selectedComplex ? url : null
   );
 
   const notificationListRef = useRef<HTMLDivElement>(null);
@@ -37,15 +41,17 @@ export function Notifications() {
   };
 
   useEffect(() => {
+    setLimit(7);
+  }, [selectedComplex, selectedSection]);
+
+  useEffect(() => {
     if (notifications && !isInited) {
       scrollToBottom();
       setIsInited(true);
-      console.log("scroll to bottom");
     }
 
     if (notifications && isInited) {
       scrollToBottom(150);
-      console.log("scroll to 100");
     }
   }, [isInited, notifications]);
 
