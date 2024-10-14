@@ -5,7 +5,7 @@ const useApi = <T>(
   path: string | null
 ): { data: T | null; isLoading: boolean; error: Error | null; refetch: () => void } => {
   const [data, setData] = useState<T | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
   const fetchData = useCallback(async () => {
