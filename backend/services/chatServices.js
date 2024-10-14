@@ -15,8 +15,7 @@ export async function createMessage(message, chat) {
       chat_id: chat.id,
     }
   );
-
-  return { id: res.id, createdAt: res.createdAt };
+  return res.toObject();
 }
 
 export function getMessageById(id) {
