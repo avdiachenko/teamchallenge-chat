@@ -17,15 +17,16 @@ export function pingEventSubscribe(socket) {
 }
 
 function chatMessage(socket) {
-  return async (messageText, callback) => {
+  return async (incomingMessageObject, callback) => {
+    const messageText = incomingMessageObject.message;
     let user_id = socket.user._id;
-    // TODO: change the mock chat
     let messageObject = (await createMessage(
         {text: messageText, user_id: user_id }, 
-        { type: "residential_complex_chat", id: "6704362330ad47b9a1403848" })
+        { type: incomingMessageObject.chat_type, id: incomingMessageObject.chat_id })
       );
     messageObject.name = socket.user.name;
     messageObject.profilePicture = socket.user.profile_picture || "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg";
+    // TODO: send message into a room
     socket.broadcast.emit("chat message", messageObject);
     callback();
   }

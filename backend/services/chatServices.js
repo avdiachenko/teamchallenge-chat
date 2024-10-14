@@ -33,7 +33,7 @@ export async function getChatMessagesByMessage(id, count) {
 
   for (const message of last_messages) {
     const user_id = message.user_id;
-    const user = User.findById(user_id);
+    const user = await User.findById(user_id);
     message.profilePicture = user.profile_picture || "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg";
     message.name = user.name;
   }
@@ -114,7 +114,11 @@ async function populateChatsWithLastMessages(chats, chatsType) {
   for (const chat of chats) {
     chat.lastMessage = (await Message.find(
       { chat_type: chatsType, chat_id: chat._id }
-    ).sort({createdAt: -1}).limit(1))[0];
+    ).sort({createdAt: -1}).limit(1).lean())[0];
+    const user_id = chat.lastMessage.user_id;
+    const user = await User.findById(user_id).lean();
+    chat.lastMessage.profilePicture = user.profile_picture || "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg";
+    chat.lastMessage.name = user.name;
   }
 }
 
