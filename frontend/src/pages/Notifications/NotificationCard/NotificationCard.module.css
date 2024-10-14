@@ -19,12 +19,27 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  width: 100%;
+}
+
+.title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .type {
   font-weight: 400;
   font-size: 16px;
   line-height: 26px;
+}
+
+.date {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--gray-500);
 }
 
 .text {
