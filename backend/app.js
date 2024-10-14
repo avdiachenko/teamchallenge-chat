@@ -15,8 +15,11 @@ import * as chatControllers from "./controllers/chatControllers.js";
 import notificationsRouter from "./routes/notificationsRouter.js";
 import complexChat from "./models/ComplexChat.js";
 import chatRouter from "./routes/chatRouter.js";
-import authtenticate, { authenticateSocket } from "./middlewares/authenticate.js";
+import authtenticate, {
+  authenticateSocket,
+} from "./middlewares/authenticate.js";
 import { authorizeSocketForRole } from "./middlewares/authorize.js";
+import votingsRouter from "./routes/votingsRouter.js";
 
 dotenv.config();
 
@@ -34,6 +37,7 @@ app.use("/api/contacts", contactsRouter);
 app.use("/api", complexRouter);
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/chat", chatRouter);
+app.use("/votings", votingsRouter);
 
 // app.get("/chat", (_, res) => {
 //   res.send(`<script src="/socket.io/socket.io.js"></script>
