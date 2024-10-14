@@ -23,8 +23,11 @@ export const useChatStore = create<Store>((set, get) => ({
   setSelectedChat: (chat: ChatType | null) => {
     set({ selectedChat: chat });
 
-    if (!chat) return;
-    // set({ messages: chat.lastMessage });
+    if (chat?.lastMessage) {
+      set({ messages: [chat.lastMessage] });
+    } else {
+      set({ messages: [] });
+    }
   },
 
   connectSocket: (token: string) => {
@@ -37,7 +40,7 @@ export const useChatStore = create<Store>((set, get) => ({
     });
 
     newSocket.on("chat message", (res: MessageType) => {
-      set((state) => ({ messages: [...state.messages, res] })); // TODO: don't use arr = [...arr, a] because it's reeeally slow
+      set((state) => ({ messages: [...state.messages, res] }));
     });
 
     newSocket.on("disconnect", () => {
@@ -55,11 +58,20 @@ export const useChatStore = create<Store>((set, get) => ({
   },
 
   sendMessage: (message: string) => {
-    const { socket } = get();
+    const { socket, selectedChat } = get();
     if (!socket) return;
-    socket.emit("chat message", message, () => {
-      const newMessage = { name: null, message, date: Date.now(), profilePicture: null };
-      set((state) => ({ messages: [...state.messages, newMessage] }));
-    });
+    socket.emit(
+      "chat message",
+      { message, chat_id: selectedChat?._id, chat_type: selectedChat?.chatType },
+      () => {
+        const newMessage = {
+          name: null,
+          message,
+          date: Date.now(),
+          profilePicture: null,
+        };
+        set((state) => ({ messages: [...state.messages, newMessage] }));
+      }
+    );
   },
 }));
