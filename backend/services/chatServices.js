@@ -114,10 +114,12 @@ async function populateChatsWithLastMessages(chats, chatsType) {
     chat.lastMessage = (await Message.find(
       { chat_type: chatsType, chat_id: chat._id }
     ).sort({createdAt: -1}).limit(1).lean())[0];
-    const user_id = chat.lastMessage.user_id;
-    const user = await User.findById(user_id).lean();
-    chat.lastMessage.profilePicture = user.profile_picture || "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg";
-    chat.lastMessage.name = user.name;
+    if (chat.lastMessage) {
+      const user_id = chat.lastMessage.user_id;
+      const user = await User.findById(user_id).lean();
+      chat.lastMessage.profilePicture = user.profile_picture || "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg";
+      chat.lastMessage.name = user.name;
+    }
   }
 }
 

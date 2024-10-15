@@ -1,6 +1,7 @@
 import { createMessage, getAdministratorChatsWithLastMessages, getChatMessagesByMessage, getModeratorChatsWithLastMessages, getUserChatsWithLastMessages } from "../services/chatServices.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import Roles from "../helpers/Roles.js";
+import HttpError from "../helpers/HttpError.js";
 
 function ping(socket) {
   return (callback) => {
@@ -57,7 +58,7 @@ async function getChats(req, res) {
   } else if (Roles.compareRoles("administrator", user.role) == 0) {
     chats = await getAdministratorChatsWithLastMessages();
   } else {
-    throw new Error("getChats role not supported");
+    throw new HttpError(500, "getChats role not supported");
   }
   
   res.json(chats);
