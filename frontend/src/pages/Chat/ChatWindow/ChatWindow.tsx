@@ -1,11 +1,16 @@
 import { useEffect, useRef } from "react";
 import { useChatStore } from "../../../entities/chat/chat.store";
+import { useUserStore } from "../../../entities/user/user.store";
 import { Message } from "../Message/Message";
 import { UserMessage } from "../UserMessage/UserMessage";
 import styles from "./ChatWindow.module.css";
 
 export function ChatWindow() {
   const { messages, sendMessage, selectedChat } = useChatStore();
+  const { user } = useUserStore();
+
+  console.log("messages: ", messages);
+  console.log("user: ", user);
 
   const messageListContainerRef = useRef<HTMLDivElement>(null);
 
@@ -21,7 +26,8 @@ export function ChatWindow() {
   const handleSendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       const message = e.currentTarget.value;
-      sendMessage(message);
+      if (!message || !user) return;
+      sendMessage(message, user);
       e.currentTarget.value = "";
     }
   };
@@ -49,7 +55,11 @@ export function ChatWindow() {
           <div className={styles.messageList}>
             {messages.map((message, index) => (
               <div key={index} className={styles.messageWrapper}>
-                {message.name ? <Message message={message} /> : <UserMessage message={message} />}
+                {message.user_id === user?._id ? (
+                  <UserMessage message={message} />
+                ) : (
+                  <Message message={message} />
+                )}
               </div>
             ))}
           </div>

@@ -4,7 +4,7 @@ export interface MessageType {
   images: string[];
   chat_type: string;
   chat_id: string;
-  _id: string;
+  _id: string | null;
   reactions: string[];
   createdAt: string;
   updatedAt: string;
