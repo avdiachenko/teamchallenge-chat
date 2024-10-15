@@ -14,7 +14,7 @@ const notificationSchema = new Schema(
     },
     residential_complex: {
       type: String,
-      // ref: "user",
+      required: [true, "Choose the residential complex!"],
     },
     building_id: {
       type: Schema.Types.ObjectId,
