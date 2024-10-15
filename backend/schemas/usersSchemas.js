@@ -12,12 +12,17 @@ export const signupSchema = Joi.object({
           "The password may contain at least one upper case, one lower case English letter, one digit, and have a length of at least 8 characters"
         )
     ),
-  residential_complex: Joi.string().required(),
+  role: Joi.string(),
+  // residential_complex: Joi.string().required(),
+  residential_complex: Joi.string().when("role", {
+    is: "administrator",
+    then: Joi.string().optional(), // if the condition is met
+    otherwise: Joi.string().required(),
+  }),
   section: Joi.string().required(),
   apartment: Joi.number().required(),
   entrance: Joi.number().required(),
   phone: Joi.string(),
-  role: Joi.string(),
 });
 
 export const signinSchema = Joi.object({
