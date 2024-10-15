@@ -64,11 +64,18 @@ export const useChatStore = create<Store>((set, get) => ({
       "chat message",
       { message, chat_id: selectedChat?._id, chat_type: selectedChat?.chatType },
       () => {
-        const newMessage = {
-          name: null,
-          message,
-          date: Date.now(),
-          profilePicture: null,
+        const newMessage: MessageType = {
+          user_id: "",
+          text: message,
+          images: [],
+          chat_type: selectedChat?.chatType || "",
+          chat_id: selectedChat?._id || "",
+          _id: "",
+          reactions: [],
+          createdAt: Date.now().toString(),
+          updatedAt: Date.now().toString(),
+          name: "",
+          profilePicture: "",
         };
         set((state) => ({ messages: [...state.messages, newMessage] }));
       }

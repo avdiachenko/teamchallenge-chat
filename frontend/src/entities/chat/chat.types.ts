@@ -1,17 +1,15 @@
 export interface MessageType {
-  name?: string | null;
-  message?: string;
-  date?: number;
-  profilePicture?: string | null;
-  _id?: string;
-  user_id?: string;
-  text?: string;
-  images?: string[];
-  chat_type?: string;
-  chat_id?: string;
-  reactions?: string[];
-  createdAt?: string;
-  updatedAt?: string;
+  user_id: string;
+  text: string;
+  images: string[];
+  chat_type: string;
+  chat_id: string;
+  _id: string;
+  reactions: string[];
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+  profilePicture: string;
 }
 
 export interface ChatType {

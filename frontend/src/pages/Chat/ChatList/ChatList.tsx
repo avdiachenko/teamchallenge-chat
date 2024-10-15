@@ -19,8 +19,6 @@ export function ChatList() {
 
   const { data: chatList, isLoading } = useApi<ChatType[]>(token ? `/chat` : null);
 
-  console.log(chatList);
-
   if (isLoading) return <Spinner />;
   if (!chatList || !chatList.length) return null;
 

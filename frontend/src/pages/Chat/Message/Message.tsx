@@ -17,10 +17,10 @@ export function Message(props: Props) {
         <div className={styles.card}>
           <div className={styles.cardContent}>
             <span className={styles.cardName}>{message.name}</span>
-            <span className={styles.cardText}>{message.message}</span>
+            <span className={styles.cardText}>{message.text}</span>
           </div>
           <span className={styles.cardDate}>
-            {new Date(message.date).toLocaleTimeString([], {
+            {new Date(message.createdAt).toLocaleTimeString([], {
               hour: "2-digit",
               minute: "2-digit",
             })}
