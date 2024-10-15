@@ -11,3 +11,10 @@ export const setUpdateSetting = function (next) {
   this.options.runValidators = true;
   next();
 };
+
+export const setRole = function (next) {
+  if (!this.role) {
+    this.role = "not_verified"; // Устанавливаем значение по умолчанию, если не задано
+  }
+  next();
+};
