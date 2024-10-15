@@ -12,8 +12,15 @@ import {
 
 const createNotification = async (req, res) => {
   const user = req.user;
-  const { residential_complex } = user;
+  let complex;
+  const { residential_complex: complexAdmin } = req.query;
+  const { residential_complex: complexModerator } = user;
   const { text, type, section } = req.body;
+  if (complexAdmin) {
+    complex = complexAdmin;
+  } else {
+    complex = complexModerator;
+  }
   let building_id;
 
   if (user.role !== "moderator" && user.role !== "administrator") {
@@ -22,7 +29,7 @@ const createNotification = async (req, res) => {
   if (section) {
     const adress = section.toLowerCase();
     const [{ _id: residential_complex_id }] = await getComplex({
-      name: residential_complex,
+      name: complex,
     });
 
     const [{ _id }] = await getBuilding({
@@ -34,8 +41,13 @@ const createNotification = async (req, res) => {
   }
 
   const result = section
-    ? await addNotification({ text, type, residential_complex, building_id })
-    : await addNotification({ text, type, residential_complex });
+    ? await addNotification({
+        text,
+        type,
+        residential_complex: complex,
+        building_id,
+      })
+    : await addNotification({ text, type, residential_complex: complex });
   res.status(201).json(result);
 };
 
