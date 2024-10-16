@@ -1,6 +1,10 @@
 import { Schema, model } from "mongoose";
 import { handleSaveError, setUpdateSetting } from "./hooks.js";
 
+const condidion = function () {
+  return this.rights !== "administrator"; //required if role !== "administrator"
+};
+
 const userSchema = new Schema(
   {
     name: {
@@ -22,11 +26,17 @@ const userSchema = new Schema(
       enum: ["not_verified", "verified", "moderator", "administrator"],
       default: "not_verified",
     },
+    rights: {
+      type: String,
+      enum: ["administrator"],
+      unique: true,
+    },
     residential_complex: {
       type: String,
-      required: function () {
-        return this.role !== "administrator";
-      },
+      required: condidion,
+      // required: function () {
+      //   return this.role !== "administrator"; //required if role !== "administrator"
+      // },
     },
     // residential_complex: {
     //   type: String,
