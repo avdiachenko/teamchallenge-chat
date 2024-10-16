@@ -24,19 +24,30 @@ import {
 const { JWT_SECRET, DEPLOY_HOST } = process.env;
 
 const signup = async (req, res) => {
-  const { email, apartment, entrance, residential_complex, section, role } =
+  const { email, apartment, entrance, residential_complex, section, rights } =
     req.body;
+  // const { email, apartment, entrance, residential_complex, section, role } =
+  //   req.body;
 
   const user = await findUser({ email });
   if (user) {
     throw HttpError(409, "Email in use");
   }
 
-  if (role === "administrator") {
+  if (rights) {
+    console.log(rights);
+    const admin = await findUser({ rights });
+    console.log(admin);
+    if (admin) {
+      throw HttpError(
+        409,
+        "You can't be an administrator. The administrator already exists"
+      );
+    }
     await register({ ...req.body });
     res.status(201).json({
       message:
-        "Congratulations! You have registered successfully. Please login.",
+        "Congratulations! You have registered successfully with the rights of administrator. Please login.",
     });
   } else {
     const adress = section.toLowerCase();

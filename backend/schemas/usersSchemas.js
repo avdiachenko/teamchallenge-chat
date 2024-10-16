@@ -1,5 +1,12 @@
 import Joi from "joi";
 
+const condition = (field) =>
+  Joi.string().when("rights", {
+    is: "administrator",
+    then: Joi.string().optional(), // if the condition is met
+    otherwise: Joi.string().required(),
+  });
+
 export const signupSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
@@ -13,12 +20,14 @@ export const signupSchema = Joi.object({
         )
     ),
   role: Joi.string(),
+  rights: Joi.string().valid("administrator"),
   // residential_complex: Joi.string().required(),
-  residential_complex: Joi.string().when("role", {
-    is: "administrator",
-    then: Joi.string().optional(), // if the condition is met
-    otherwise: Joi.string().required(),
-  }),
+  residential_complex: condition("residential_complex"),
+  // residential_complex: Joi.string().when("role", {
+  //   is: "administrator",
+  //   then: Joi.string().optional(), // if the condition is met
+  //   otherwise: Joi.string().required(),
+  // }),
   section: Joi.string().required(),
   apartment: Joi.number().required(),
   entrance: Joi.number().required(),
