@@ -35,9 +35,8 @@ const signup = async (req, res) => {
   }
 
   if (rights) {
-    console.log(rights);
     const admin = await findUser({ rights });
-    console.log(admin);
+
     if (admin) {
       throw HttpError(
         409,

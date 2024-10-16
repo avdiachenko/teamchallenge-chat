@@ -21,13 +21,7 @@ export const signupSchema = Joi.object({
     ),
   role: Joi.string(),
   rights: Joi.string().valid("administrator"),
-  // residential_complex: Joi.string().required(),
   residential_complex: condition("residential_complex"),
-  // residential_complex: Joi.string().when("role", {
-  //   is: "administrator",
-  //   then: Joi.string().optional(), // if the condition is met
-  //   otherwise: Joi.string().required(),
-  // }),
   section: Joi.string().required(),
   apartment: Joi.number().required(),
   entrance: Joi.number().required(),
