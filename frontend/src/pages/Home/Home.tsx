@@ -1,5 +1,5 @@
 import { HomePageCard } from "../../shared/components/HomePageCard/HomePageCard";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
 import { Header } from "../../widgets/Header/Header";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -84,7 +84,7 @@ export function Home() {
               {complex.map((item) => {
                 return (
                   <SwiperSlide key={item._id}>
-                    {/* <Link to={`/ResidentComplexInfo${item.name}`}> */}
+                    <Link to={`/ResidentComplexInfo/${item.name}`}>
                       <HomePageCard
                         title={item.name}
                         location={item.location}
@@ -97,7 +97,7 @@ export function Home() {
                         closedArea={item.closed_area}
                         video={item.video_surveillance}
                       />
-                    {/* </Link> */}
+                    </Link>
                   </SwiperSlide>
                 );
               })}

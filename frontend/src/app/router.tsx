@@ -100,4 +100,14 @@ export const router = createBrowserRouter([
     path: "*",
     element: <ErrorPage />,
   },
+  {
+    path: "/ResidentComplexInfo/:name",
+    lazy: async () => {
+      const { ResidentComplexInfo } = await import(
+        "../pages/ResidentComplexInfo/ResidentComplexInfo"
+      );
+      return { Component: ResidentComplexInfo };
+    },
+    errorElement: <ErrorPage />,
+  }
 ]);
