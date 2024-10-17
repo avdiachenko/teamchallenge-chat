@@ -27,10 +27,10 @@
 
 .main_page_info {
   font-size: 18px;
-  color: var(--color-gray-900);
+  color: var(--gray-900);
   padding: 20px 30px;
   margin-bottom: 54px;
-  background-color: #FAFAFF;
+  background-color: var(--purple-50);
 }
 
 .swiper-slide-visible {
