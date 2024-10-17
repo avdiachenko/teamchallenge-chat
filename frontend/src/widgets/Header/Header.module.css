@@ -10,7 +10,7 @@
 
 .header_title {
   font-size: 32px;
-  color: #414141;
+  color: var(--gray-700);
 }
 
 .links {
