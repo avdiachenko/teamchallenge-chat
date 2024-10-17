@@ -58,32 +58,66 @@ const getNotifications = async (req, res) => {
   if (user.role === "not_verified") {
     throw HttpError(403, "You don't have access to this action!");
   }
-  const { residential_complex, apartment_id } = user;
-  const { page = 1, limit = 20, type = "", building = false } = req.query;
+  const { residential_complex: complexModerator, apartment_id, role } = user;
+  // const { page = 1, limit = 20, type = "", building = false } = req.query;
+  const {
+    page = 1,
+    limit = 20,
+    type = "",
+    section = "",
+    residential_complex: complexAdmin,
+  } = req.query;
   const skip = (page - 1) * limit;
-  let _id;
-  if (building) {
-    const [{ building_id }] = await getApartment(apartment_id);
-    _id = building_id;
+  let complex = complexAdmin ? complexAdmin : complexModerator;
+  // let _id;
+  let id;
+  if (section && role === "verified") {
+    const addressfromQuery = section.toLowerCase();
+    const [{ building_id: _id }] = await getApartment(apartment_id);
+    // _id = building_id;
+    const [{ address }] = await getBuilding(_id);
+    if (addressfromQuery !== address) {
+      throw HttpError(
+        403,
+        "You don't have access to this action! Please choose your section"
+      );
+    } else {
+      id = _id;
+    }
+  } else if (section && role === "moderator") {
+    const addressfromQuery = section.toLowerCase();
+    const [{ _id: residential_complex_id }] = await getComplex({
+      name: complexModerator,
+    });
+
+    const [{ _id }] = await getBuilding({
+      residential_complex_id,
+      address: addressfromQuery,
+    });
+    id = _id;
   }
+  // if (building) {
+  //   const [{ building_id }] = await getApartment(apartment_id);
+  //   _id = building_id;
+  // }
 
   const result = building
     ? type
       ? await listNotificationsByFilter(
-          { residential_complex, type, building_id: _id },
+          { residential_complex: complex, type, building_id: _id },
           { skip, limit }
         )
       : await listNotificationsByFilter(
-          { residential_complex, building_id: _id },
+          { residential_complex: complex, building_id: _id },
           { skip, limit }
         )
     : type
     ? await listNotificationsByFilter(
-        { residential_complex, type, building_id: { $exists: false } },
+        { residential_complex: complex, type, building_id: { $exists: false } },
         { skip, limit }
       )
     : await listNotificationsByFilter(
-        { residential_complex, building_id: { $exists: false } },
+        { residential_complex: complex, building_id: { $exists: false } },
         { skip, limit }
       );
 
