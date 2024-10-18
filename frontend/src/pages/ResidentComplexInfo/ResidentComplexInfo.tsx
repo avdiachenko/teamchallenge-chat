@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css"; // Не забудь импортировать стили Swiper
 import { Swiper as SwiperClass } from "swiper/types";
@@ -60,8 +60,8 @@ export const ResidentComplexInfo: React.FC = () => {
           <div className={style.resident_complex}>
             <div className={style.resident_complex_gallery_block}>
               <Swiper
-                modules={[FreeMode, Navigation, Thumbs]}
-                thumbs={thumbsSwiper ? { swiper: thumbsSwiper } : undefined}
+                modules={[Thumbs]}
+                thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
                 style={{ width: "600px", height: "361px" }}
               >
                 {complexData.images.map((image, index) => (
@@ -76,7 +76,7 @@ export const ResidentComplexInfo: React.FC = () => {
               </Swiper>
 
               <Swiper
-                modules={[FreeMode, Navigation, Thumbs]}
+                modules={[Thumbs]}
                 onSwiper={setThumbsSwiper}
                 watchSlidesProgress
                 slidesPerView={6}
