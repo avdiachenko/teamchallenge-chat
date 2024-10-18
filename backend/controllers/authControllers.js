@@ -24,49 +24,70 @@ import {
 const { JWT_SECRET, DEPLOY_HOST } = process.env;
 
 const signup = async (req, res) => {
-  const { email, apartment, entrance, residential_complex, section } = req.body;
+  const { email, apartment, entrance, residential_complex, section, rights } =
+    req.body;
+  // const { email, apartment, entrance, residential_complex, section, role } =
+  //   req.body;
 
-  const adress = section.toLowerCase();
   const user = await findUser({ email });
   if (user) {
     throw HttpError(409, "Email in use");
   }
 
-  const [{ _id: residential_complex_id }] = await getComplex({
-    name: residential_complex,
-  });
+  if (rights) {
+    const admin = await findUser({ rights });
 
-  const data = await getBuilding({
-    residential_complex_id,
-    address: adress,
-  });
-  if (data.length === 0) {
-    throw HttpError(
-      400,
-      `The section ${section} does not exist! Enter the correct section data in the format like this 1a, 2B, etc.`
-    );
-    return;
+    if (admin) {
+      throw HttpError(
+        409,
+        "You can't be an administrator. The administrator already exists"
+      );
+    }
+    await register({ ...req.body });
+    res.status(201).json({
+      message:
+        "Congratulations! You have registered successfully with the rights of administrator. Please login.",
+    });
+  } else {
+    const adress = section.toLowerCase();
+    console.log(residential_complex);
+    const [{ _id: residential_complex_id }] = await getComplex({
+      name: residential_complex,
+    });
+
+    const data = await getBuilding({
+      residential_complex_id,
+      address: adress,
+    });
+    if (data.length === 0) {
+      throw HttpError(
+        400,
+        `The section ${section} does not exist! Enter the correct section data in the format like this 1a, 2B, etc.`
+      );
+      return;
+    }
+    const [result] = data;
+
+    const apartmentData = await getApartment({
+      number: apartment,
+      entrance,
+      building_id: result._id,
+    });
+    if (apartmentData.length === 0) {
+      throw HttpError(
+        400,
+        `The entrance ${entrance} or the apartment ${apartment} does not exist! Please, enter the correct data.`
+      );
+    }
+
+    const [apartmentResult] = apartmentData;
+
+    await register({ ...req.body, apartment_id: apartmentResult._id });
+    res.status(201).json({
+      message:
+        "Congratulations! You have registered successfully. Please login.",
+    });
   }
-  const [result] = data;
-
-  const apartmentData = await getApartment({
-    number: apartment,
-    entrance,
-    building_id: result._id,
-  });
-  if (apartmentData.length === 0) {
-    throw HttpError(
-      400,
-      `The entrance ${entrance} or the apartment ${apartment} does not exist! Please, enter the correct data.`
-    );
-  }
-
-  const [apartmentResult] = apartmentData;
-
-  await register({ ...req.body, apartment_id: apartmentResult._id });
-  res.status(201).json({
-    message: "Congratulations! You have registered successfully. Please login.",
-  });
 };
 
 const signin = async (req, res) => {

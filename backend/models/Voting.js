@@ -1,6 +1,17 @@
 import { Schema, model } from "mongoose";
 import { handleSaveError, setUpdateSetting } from "./hooks.js";
 
+const optionSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    default: 0,
+  },
+});
+
 const votingSchema = new Schema(
   {
     headline: {
@@ -15,23 +26,24 @@ const votingSchema = new Schema(
       enum: ["Single", "Multiple"],
       required: [true, "Choose the type of voting!"],
     },
-    options: {
-      up: {
-        type: Number,
-        default: 0,
-      },
-      down: {
-        type: Number,
-        default: 0,
-      },
-      abstained: {
-        type: Number,
-        default: 0,
-      },
-      //   type: String,
-      //   enum: ["Up", "Down", "Abstained"],
-      //   required: [true, "Make your choice!"],
-    },
+    options: [optionSchema],
+    // {
+    //   up: {
+    //     type: Number,
+    //     default: 0,
+    //   },
+    //   down: {
+    //     type: Number,
+    //     default: 0,
+    //   },
+    //   abstained: {
+    //     type: Number,
+    //     default: 0,
+    //   },
+    //   type: String,
+    //   enum: ["Up", "Down", "Abstained"],
+    //   required: [true, "Make your choice!"],
+    // },
     startDate: {
       type: Date,
       required: [true, "Specify start date"],
