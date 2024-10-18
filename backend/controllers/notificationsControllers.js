@@ -74,8 +74,10 @@ const getNotifications = async (req, res) => {
   if (section && role === "verified") {
     const addressfromQuery = section.toLowerCase();
     const [{ building_id: _id }] = await getApartment(apartment_id);
+    console.log(_id);
     // _id = building_id;
-    const [{ address }] = await getBuilding(_id);
+    const [{ address }] = await getBuilding({ _id });
+    console.log(address);
     if (addressfromQuery !== address) {
       throw HttpError(
         403,
@@ -101,14 +103,14 @@ const getNotifications = async (req, res) => {
   //   _id = building_id;
   // }
 
-  const result = building
+  const result = section
     ? type
       ? await listNotificationsByFilter(
-          { residential_complex: complex, type, building_id: _id },
+          { residential_complex: complex, type, building_id: id },
           { skip, limit }
         )
       : await listNotificationsByFilter(
-          { residential_complex: complex, building_id: _id },
+          { residential_complex: complex, building_id: id },
           { skip, limit }
         )
     : type
