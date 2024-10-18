@@ -68,6 +68,17 @@ const getNotifications = async (req, res) => {
     residential_complex: complexAdmin,
   } = req.query;
   const skip = (page - 1) * limit;
+  console.log(complexAdmin, complexModerator);
+  if (
+    role !== "administrator" &&
+    complexAdmin &&
+    complexAdmin !== complexModerator
+  ) {
+    throw HttpError(
+      403,
+      "You don't have access to this action! Please choose your residential complex"
+    );
+  }
   let complex = complexAdmin ? complexAdmin : complexModerator;
   // let _id;
   let id;
