@@ -6,11 +6,16 @@ import { UserMessage } from "../UserMessage/UserMessage";
 import styles from "./ChatWindow.module.css";
 
 export function ChatWindow() {
-  const { messages, sendMessage, selectedChat } = useChatStore();
+  const { messages, sendMessage, selectedChat, getLastMessages } = useChatStore();
   const { user } = useUserStore();
 
-  console.log("messages: ", messages);
-  console.log("user: ", user);
+  console.log(messages);
+
+  useEffect(() => {
+    if (selectedChat) {
+      getLastMessages();
+    }
+  }, [getLastMessages, selectedChat]);
 
   const messageListContainerRef = useRef<HTMLDivElement>(null);
 
@@ -22,6 +27,25 @@ export function ChatWindow() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    const containerCurrent = messageListContainerRef.current;
+    const onScrollToTopReqest = () => {
+      if (containerCurrent && containerCurrent.scrollTop === 0) {
+        getLastMessages();
+      }
+    };
+
+    if (containerCurrent) {
+      containerCurrent.addEventListener("scroll", onScrollToTopReqest);
+    }
+
+    return () => {
+      if (containerCurrent) {
+        containerCurrent.removeEventListener("scroll", onScrollToTopReqest);
+      }
+    };
+  }, []);
 
   const handleSendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {

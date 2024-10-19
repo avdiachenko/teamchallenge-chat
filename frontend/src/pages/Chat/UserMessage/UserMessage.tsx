@@ -14,12 +14,7 @@ export function UserMessage(props: Props) {
         <div className={styles.cardContent}>
           <span className={styles.cardText}>{message.text}</span>
         </div>
-        <span className={styles.cardDate}>
-          {new Date(message.createdAt).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </span>
+        <span className={styles.cardDate}>{new Date(message.createdAt).toLocaleString()}</span>
       </div>
     </div>
   );
