@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { io, Socket } from "socket.io-client";
 import { create } from "zustand";
+import { api } from "../../shared/api/api";
 import { BASE_URL } from "../../shared/constants/urls";
 import { User } from "../user/user.types";
 import { ChatType, MessageType } from "./chat.types";
@@ -11,6 +12,7 @@ interface Store {
   selectedChat: ChatType | null;
 
   setSelectedChat: (chat: ChatType | null) => void;
+  getLastMessages: () => void;
   connectSocket: (token: string) => void;
   disconnectSocket: () => void;
   sendMessage: (message: string, user: User) => void;
@@ -20,6 +22,20 @@ export const useChatStore = create<Store>((set, get) => ({
   socket: null,
   messages: [],
   selectedChat: null,
+
+  getLastMessages: async () => {
+    const { messages } = get();
+
+    const data = await api(
+      `/chat/last_messages?last_message_id=${messages[0]?._id}&message_count=10`
+    );
+
+    if (data) {
+      set((state) => ({
+        messages: [...data.reverse(), ...state.messages],
+      }));
+    }
+  },
 
   setSelectedChat: (chat: ChatType | null) => {
     set({ selectedChat: chat });
