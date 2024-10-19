@@ -1,6 +1,7 @@
 import { createMessage, getAdministratorChatsWithLastMessages, getChatMessagesByMessage, getModeratorChatsWithLastMessages, getUserChatsWithLastMessages } from "../services/chatServices.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import Roles from "../helpers/Roles.js";
+import HttpError from "../helpers/HttpError.js";
 
 function ping(socket) {
   return (callback) => {
@@ -17,18 +18,16 @@ export function pingEventSubscribe(socket) {
 }
 
 function chatMessage(socket) {
-  return async (messageText, callback) => {
-    let name = socket.user.name;
+  return async (incomingMessageObject, callback) => {
+    const messageText = incomingMessageObject.message;
     let user_id = socket.user._id;
-    let messageObject = { name, message: messageText };
-    // TODO: change the mock chat
-    let {createdAt, _id} = (await createMessage(
+    let messageObject = (await createMessage(
         {text: messageText, user_id: user_id }, 
-        { type: "residential_complex_chat", id: "6704362330ad47b9a1403848" })
+        { type: incomingMessageObject.chat_type, id: incomingMessageObject.chat_id })
       );
-    messageObject.date = createdAt;
-    messageObject.id = _id;
-    messageObject.profilePicture = "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg"
+    messageObject.name = socket.user.name;
+    messageObject.profilePicture = socket.user.profile_picture || "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg";
+    // TODO: send message into a room
     socket.broadcast.emit("chat message", messageObject);
     callback();
   }
@@ -59,7 +58,7 @@ async function getChats(req, res) {
   } else if (Roles.compareRoles("administrator", user.role) == 0) {
     chats = await getAdministratorChatsWithLastMessages();
   } else {
-    throw new Error("getChats role not supported");
+    throw new HttpError(500, "getChats role not supported");
   }
   
   res.json(chats);

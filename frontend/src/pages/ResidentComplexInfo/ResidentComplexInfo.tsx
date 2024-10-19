@@ -1,21 +1,21 @@
-import { Header } from "../../widgets/Header/Header";
-import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
-import style from "./ResidentComplexInfo.module.css";
-import floors from "./floors.svg";
-import entrances from "./entrances.svg";
-import sections from "./sections.svg";
-import apartments from "./apartments.svg";
-import accept from "./Tick.svg";
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Swiper as SwiperClass } from "swiper/types";
-import { Thumbs } from "swiper/modules";
-import "swiper/swiper-bundle.css"; // Не забудь импортировать стили Swiper
+import { useParams } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { Thumbs } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.css"; // Не забудь импортировать стили Swiper
+import { Swiper as SwiperClass } from "swiper/types";
 import { Spinner } from "../../shared/components/Spinner/Spinner";
+import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
+import { Header } from "../../widgets/Header/Header";
+import apartments from "./apartments.svg";
+import entrances from "./entrances.svg";
+import floors from "./floors.svg";
+import style from "./ResidentComplexInfo.module.css";
+import sections from "./sections.svg";
+import accept from "./Tick.svg";
 
 export const ResidentComplexInfo: React.FC = () => {
   type complexData = {
@@ -61,7 +61,7 @@ export const ResidentComplexInfo: React.FC = () => {
             <div className={style.resident_complex_gallery_block}>
               <Swiper
                 modules={[Thumbs]}
-                thumbs={thumbsSwiper ? { swiper: thumbsSwiper } : undefined}
+                thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
                 style={{ width: "600px", height: "361px" }}
               >
                 {complexData.images.map((image, index) => (

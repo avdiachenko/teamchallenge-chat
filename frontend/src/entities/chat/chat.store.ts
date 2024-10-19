@@ -2,6 +2,7 @@
 import { io, Socket } from "socket.io-client";
 import { create } from "zustand";
 import { BASE_URL } from "../../shared/constants/urls";
+import { User } from "../user/user.types";
 import { ChatType, MessageType } from "./chat.types";
 
 interface Store {
@@ -12,7 +13,7 @@ interface Store {
   setSelectedChat: (chat: ChatType | null) => void;
   connectSocket: (token: string) => void;
   disconnectSocket: () => void;
-  sendMessage: (message: string) => void;
+  sendMessage: (message: string, user: User) => void;
 }
 
 export const useChatStore = create<Store>((set, get) => ({
@@ -23,8 +24,11 @@ export const useChatStore = create<Store>((set, get) => ({
   setSelectedChat: (chat: ChatType | null) => {
     set({ selectedChat: chat });
 
-    if (!chat) return;
-    // set({ messages: chat.lastMessage });
+    if (chat?.lastMessage) {
+      set({ messages: [chat.lastMessage] });
+    } else {
+      set({ messages: [] });
+    }
   },
 
   connectSocket: (token: string) => {
@@ -37,7 +41,7 @@ export const useChatStore = create<Store>((set, get) => ({
     });
 
     newSocket.on("chat message", (res: MessageType) => {
-      set((state) => ({ messages: [...state.messages, res] })); // TODO: don't use arr = [...arr, a] because it's reeeally slow
+      set((state) => ({ messages: [...state.messages, res] }));
     });
 
     newSocket.on("disconnect", () => {
@@ -50,16 +54,35 @@ export const useChatStore = create<Store>((set, get) => ({
   disconnectSocket: () => {
     const { socket } = get();
     if (!socket) return;
+
     socket.close();
     set({ socket: null });
   },
 
-  sendMessage: (message: string) => {
-    const { socket } = get();
-    if (!socket) return;
-    socket.emit("chat message", message, () => {
-      const newMessage = { name: null, message, date: Date.now(), profilePicture: null };
-      set((state) => ({ messages: [...state.messages, newMessage] }));
-    });
+  sendMessage: (message: string, user: User) => {
+    const { socket, selectedChat } = get();
+    if (!socket || !selectedChat) return;
+
+    socket.emit(
+      "chat message",
+      { message, chat_id: selectedChat?._id, chat_type: selectedChat?.chatType },
+      () => {
+        const newMessage: MessageType = {
+          user_id: user._id,
+          text: message,
+          images: [],
+          chat_type: selectedChat?.chatType,
+          chat_id: selectedChat?._id,
+          _id: null,
+          reactions: [],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          name: user.name,
+          profilePicture: "",
+        };
+
+        set((state) => ({ messages: [...state.messages, newMessage] }));
+      }
+    );
   },
 }));
