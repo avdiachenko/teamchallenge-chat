@@ -52,14 +52,13 @@ const createNotification = async (req, res) => {
 };
 
 const getNotifications = async (req, res) => {
-  console.log(req.query);
   const user = req.user;
-  console.log(user.role);
+
   if (user.role === "not_verified") {
     throw HttpError(403, "You don't have access to this action!");
   }
   const { residential_complex: complexModerator, apartment_id, role } = user;
-  // const { page = 1, limit = 20, type = "", building = false } = req.query;
+
   const {
     page = 1,
     limit = 20,
@@ -68,7 +67,7 @@ const getNotifications = async (req, res) => {
     residential_complex: complexAdmin,
   } = req.query;
   const skip = (page - 1) * limit;
-  console.log(complexAdmin, complexModerator);
+
   if (
     role !== "administrator" &&
     complexAdmin &&
@@ -80,15 +79,14 @@ const getNotifications = async (req, res) => {
     );
   }
   let complex = complexAdmin ? complexAdmin : complexModerator;
-  // let _id;
+
   let id;
   if (section && role === "verified") {
     const addressfromQuery = section.toLowerCase();
     const [{ building_id: _id }] = await getApartment(apartment_id);
-    console.log(_id);
-    // _id = building_id;
+
     const [{ address }] = await getBuilding({ _id });
-    console.log(address);
+
     if (addressfromQuery !== address) {
       throw HttpError(
         403,
@@ -109,10 +107,6 @@ const getNotifications = async (req, res) => {
     });
     id = _id;
   }
-  // if (building) {
-  //   const [{ building_id }] = await getApartment(apartment_id);
-  //   _id = building_id;
-  // }
 
   const result = section
     ? type
