@@ -45,7 +45,7 @@ export function ChatWindow() {
         containerCurrent.removeEventListener("scroll", onScrollToTopReqest);
       }
     };
-  }, []);
+  }, [getLastMessages]);
 
   const handleSendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
