@@ -1,38 +1,52 @@
 import { useEffect, useRef } from "react";
 import { useChatStore } from "../../../entities/chat/chat.store";
 import { useUserStore } from "../../../entities/user/user.store";
+import { Spinner } from "../../../shared/components/Spinner/Spinner";
 import { Message } from "../Message/Message";
 import { UserMessage } from "../UserMessage/UserMessage";
 import styles from "./ChatWindow.module.css";
 
 export function ChatWindow() {
-  const { messages, sendMessage, selectedChat, getLastMessages } = useChatStore();
+  const { messages, sendMessage, selectedChat, getLastMessages, isLoading } = useChatStore();
   const { user } = useUserStore();
 
-  console.log(messages);
-
-  useEffect(() => {
-    if (selectedChat) {
-      getLastMessages();
-    }
-  }, [getLastMessages, selectedChat]);
-
   const messageListContainerRef = useRef<HTMLDivElement>(null);
+  const previousHeightRef = useRef<number>(0);
 
   const scrollToBottom = () => {
     const containerCurrent = messageListContainerRef.current;
     if (containerCurrent) containerCurrent.scrollTop = containerCurrent.scrollHeight;
   };
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+  const handleSendMessage = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const message = e.currentTarget.value;
+      if (!message || !user) return;
+      sendMessage(message, user);
+      e.currentTarget.value = "";
+      setTimeout(() => scrollToBottom(), 100);
+    }
+  };
 
+  // load messages on scrollTop
   useEffect(() => {
     const containerCurrent = messageListContainerRef.current;
-    const onScrollToTopReqest = () => {
+
+    const onScrollToTopReqest = async () => {
       if (containerCurrent && containerCurrent.scrollTop === 0) {
-        getLastMessages();
+        // save previous height
+        const previousHeight = containerCurrent.scrollHeight;
+        previousHeightRef.current = previousHeight;
+
+        // load new messages
+        await getLastMessages();
+
+        // calculate new height
+        const newHeight = containerCurrent.scrollHeight;
+        const heightDifference = newHeight - previousHeight;
+
+        // scroll to top
+        containerCurrent.scrollTop = heightDifference;
       }
     };
 
@@ -47,14 +61,13 @@ export function ChatWindow() {
     };
   }, [getLastMessages]);
 
-  const handleSendMessage = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      const message = e.currentTarget.value;
-      if (!message || !user) return;
-      sendMessage(message, user);
-      e.currentTarget.value = "";
-    }
-  };
+  // initial load messages
+  useEffect(() => {
+    (async () => {
+      await getLastMessages();
+      scrollToBottom();
+    })();
+  }, [getLastMessages, selectedChat]);
 
   return (
     <div className={styles.container}>
@@ -77,6 +90,11 @@ export function ChatWindow() {
 
         <div className={styles.messageListContainer} ref={messageListContainerRef}>
           <div className={styles.messageList}>
+            {isLoading && (
+              <div className={styles.spinnerContainer}>
+                <Spinner />
+              </div>
+            )}
             {messages.map((message, index) => (
               <div key={index} className={styles.messageWrapper}>
                 {message.user_id === user?._id ? (
