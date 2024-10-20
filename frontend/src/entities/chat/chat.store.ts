@@ -10,9 +10,10 @@ interface Store {
   socket: Socket | null;
   messages: MessageType[];
   selectedChat: ChatType | null;
+  isLoading: boolean;
 
+  getLastMessages: () => Promise<void>;
   setSelectedChat: (chat: ChatType | null) => void;
-  getLastMessages: () => void;
   connectSocket: (token: string) => void;
   disconnectSocket: () => void;
   sendMessage: (message: string, user: User) => void;
@@ -22,18 +23,27 @@ export const useChatStore = create<Store>((set, get) => ({
   socket: null,
   messages: [],
   selectedChat: null,
+  isLoading: false,
 
   getLastMessages: async () => {
     const { messages } = get();
+    if (!messages.length) return;
+    set({ isLoading: true });
 
-    const data = await api(
-      `/chat/last_messages?last_message_id=${messages[0]?._id}&message_count=10`
-    );
+    try {
+      const data: MessageType[] = await api(
+        `/chat/last_messages?last_message_id=${messages[0]?._id}&message_count=10`
+      );
 
-    if (data) {
-      set((state) => ({
-        messages: [...data.reverse(), ...state.messages],
-      }));
+      if (data) {
+        set((state) => ({
+          messages: [...data.reverse(), ...state.messages],
+        }));
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      set({ isLoading: false });
     }
   },
 
