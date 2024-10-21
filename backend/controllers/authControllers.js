@@ -49,7 +49,7 @@ const signup = async (req, res) => {
   //       "Congratulations! You have registered successfully with the rights of administrator. Please login.",
   //   });
   // } else {
-  const adress = section.toLowerCase();
+  const userAdress = section.toLowerCase();
   console.log(residential_complex);
   const [{ _id: residential_complex_id }] = await getComplex({
     name: residential_complex,
@@ -57,7 +57,7 @@ const signup = async (req, res) => {
 
   const data = await getBuilding({
     residential_complex_id,
-    address: adress,
+    address: userAdress,
   });
   if (data.length === 0) {
     throw HttpError(
@@ -82,7 +82,11 @@ const signup = async (req, res) => {
 
   const [apartmentResult] = apartmentData;
 
-  await register({ ...req.body, apartment_id: apartmentResult._id });
+  await register({
+    ...req.body,
+    section: userAdress,
+    apartment_id: apartmentResult._id,
+  });
   res.status(201).json({
     message: "Congratulations! You have registered successfully. Please login.",
   });
