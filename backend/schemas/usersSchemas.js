@@ -19,13 +19,13 @@ export const signupSchema = Joi.object({
           "The password may contain at least one upper case, one lower case English letter, one digit, and have a length of at least 8 characters"
         )
     ),
-  role: Joi.string(),
-  rights: Joi.string().valid("administrator"),
+  // rights: Joi.string().valid("administrator"),
   residential_complex: condition("residential_complex"),
   section: Joi.string().required(),
-  apartment: Joi.number().required(),
   entrance: Joi.number().required(),
+  apartment: Joi.number().required(),
   phone: Joi.string(),
+  role: Joi.string(),
 });
 
 export const signinSchema = Joi.object({

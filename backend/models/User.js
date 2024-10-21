@@ -29,14 +29,14 @@ const userSchema = new Schema(
       enum: ["not_verified", "verified", "moderator", "administrator"],
       default: "not_verified",
     },
-    rights: {
-      type: String,
-      enum: ["administrator"],
-      unique: true,
-    },
+    // rights: {
+    //   type: String,
+    //   enum: ["administrator"],
+    //   unique: true,
+    // },
     residential_complex: {
       type: String,
-      required: condidion,
+      required: [true, "Residential complex is required"],
       // required: function () {
       //   return this.role !== "administrator"; //required if role !== "administrator"
       // },
