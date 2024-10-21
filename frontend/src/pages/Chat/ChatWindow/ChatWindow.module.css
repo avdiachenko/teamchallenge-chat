@@ -86,6 +86,11 @@
   padding-right: 10px;
 }
 
+.spinnerContainer {
+  width: 100%;
+  padding: 20px;
+}
+
 .messageWrapper {
   width: 100%;
 }
