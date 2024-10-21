@@ -1,9 +1,9 @@
 import { Schema, model } from "mongoose";
 import { handleSaveError, setUpdateSetting } from "./hooks.js";
 
-const condidion = function () {
-  return this.rights !== "administrator"; //required if role !== "administrator"
-};
+// const condidion = function () {
+//   return this.rights !== "administrator"; //required if role !== "administrator"
+// };
 
 const userSchema = new Schema(
   {
@@ -24,11 +24,6 @@ const userSchema = new Schema(
       minlength: [8, "Password mast have at least 8 characters"],
       required: [true, "Password is required"],
     },
-    role: {
-      type: String,
-      enum: ["not_verified", "verified", "moderator", "administrator"],
-      default: "not_verified",
-    },
     // rights: {
     //   type: String,
     //   enum: ["administrator"],
@@ -41,20 +36,29 @@ const userSchema = new Schema(
       //   return this.role !== "administrator"; //required if role !== "administrator"
       // },
     },
-    // residential_complex: {
-    //   type: String,
-    //   required: [true, "Residential complex is required"],
-    // },
-    apartment_id: {
-      type: Schema.Types.ObjectId,
-      ref: "apartment",
+    section: {
+      type: String,
+      required: [true, "Section is required"],
     },
     entrance: {
       type: Number,
       required: [true, "Entrance nomber is required"],
     },
+    apartment: {
+      type: Number,
+      required: [true, "Apartment nomber is required"],
+    },
     phone: {
       type: String,
+    },
+    role: {
+      type: String,
+      enum: ["not_verified", "verified", "moderator", "administrator"],
+      default: "not_verified",
+    },
+    apartment_id: {
+      type: Schema.Types.ObjectId,
+      ref: "apartment",
     },
     token: {
       type: String,
