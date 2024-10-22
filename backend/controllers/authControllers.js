@@ -222,6 +222,22 @@ const verify = async (req, res) => {
   }
   await updateByFilter({ _id }, { role });
 
+  const { email } = await findUser(_id);
+  const userEmail = {
+    to: email,
+    subject: "Forgot password",
+    html: `
+        <h1>Hello, did you forget your password?</h1>
+        <p>If no, ignore this email.</p>
+        <p>Otherwise, please click on the link below:</p>
+        <div style="margin-bottom: 20px;">
+          <a href="${DEPLOY_HOST}/update-password/${tempCode}" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #407bff; color: #fff; text-decoration: none; border-radius: 5px; margin-top: 15px;">Click to update your password!</a>
+        </div>
+        `,
+  };
+
+  await sendEmail(userEmail);
+
   res.json({
     message: "Verification successful",
   });
