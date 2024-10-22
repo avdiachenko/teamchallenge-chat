@@ -222,17 +222,15 @@ const verify = async (req, res) => {
   }
   await updateByFilter({ _id }, { role });
 
-  const { email } = await findUser(_id);
+  const { email, name } = await findUser({ _id });
   const userEmail = {
     to: email,
-    subject: "Forgot password",
+    subject: "Your account has been successfully verified",
     html: `
-        <h1>Hello, did you forget your password?</h1>
-        <p>If no, ignore this email.</p>
-        <p>Otherwise, please click on the link below:</p>
-        <div style="margin-bottom: 20px;">
-          <a href="${DEPLOY_HOST}/update-password/${tempCode}" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #407bff; color: #fff; text-decoration: none; border-radius: 5px; margin-top: 15px;">Click to update your password!</a>
-        </div>
+        <h1>Hello, ${name}</h1>
+        <p>Your account has been successfully verified. Now you can use all the features of our application. If you have any questions, you can always contact our support team.</p>
+        <p style="margin-top: 10px;">Best regards,</p>
+        <p style="margin-top: 10px;">The Teamchallenge Chat Team</p>
         `,
   };
 
