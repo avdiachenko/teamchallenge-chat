@@ -336,9 +336,7 @@ export function SignUp() {
                   variant="solid"
                   onChange={() => setIsAgree(!isAgree)}
                 />
-                <label className={styles.label}>
-                  Agree to receive advertisements and promotions
-                </label>
+                <label className={styles.label}>I agree to the processing of personal data</label>
               </div>
             </div>
 
