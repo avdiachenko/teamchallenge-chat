@@ -40,7 +40,7 @@ authRouter.post(
   updatePassword
 );
 authRouter.patch(
-  "/verify/:role/:_id",
+  "/verify/:role/:id",
   authtenticate,
   validateBody(updateRoleSchema),
   verify
