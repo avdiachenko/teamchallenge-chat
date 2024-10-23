@@ -11,6 +11,7 @@ import authControllers from "../controllers/authControllers.js";
 import authtenticate from "../middlewares/authenticate.js";
 import authenticateWithRefresh from "../middlewares/authenticateWithRefresh.js";
 import isValidId from "../middlewares/isValidId.js";
+import trimSpases from "../middlewares/trimSpases.js";
 
 const authRouter = express.Router();
 
@@ -25,8 +26,8 @@ const {
   verify,
 } = authControllers;
 
-authRouter.post("/register", validateBody(signupSchema), signup);
-authRouter.post("/login", validateBody(signinSchema), signin);
+authRouter.post("/register", trimSpases, validateBody(signupSchema), signup);
+authRouter.post("/login", trimSpases, validateBody(signinSchema), signin);
 authRouter.get("/user-info", authtenticate, getCurrent);
 authRouter.get("/refreshCurrent", authenticateWithRefresh, getrefreshCurrent);
 authRouter.post("/logout", authtenticate, logout);
