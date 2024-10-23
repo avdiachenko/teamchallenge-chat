@@ -209,9 +209,9 @@ const updatePassword = async (req, res) => {
 };
 
 const verify = async (req, res) => {
-  const { role, _id } = req.params;
+  const { role, id } = req.params;
   const admin = req.user;
-  console.log(role, _id);
+  console.log(role, id);
   console.log(admin.role);
 
   if (
@@ -220,9 +220,9 @@ const verify = async (req, res) => {
   ) {
     throw HttpError(403, "You don't have access to this action!");
   }
-  await updateByFilter({ _id }, { role });
+  await updateByFilter({ _id: id }, { role });
 
-  const { email, name } = await findUser({ _id });
+  const { email, name } = await findUser({ _id: id });
   const userEmail = {
     to: email,
     subject: "Your account has been successfully verified",
