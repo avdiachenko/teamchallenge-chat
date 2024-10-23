@@ -10,6 +10,7 @@ import validateBody from "../decorators/validateBody.js";
 import authControllers from "../controllers/authControllers.js";
 import authtenticate from "../middlewares/authenticate.js";
 import authenticateWithRefresh from "../middlewares/authenticateWithRefresh.js";
+import isValidId from "../middlewares/isValidId.js";
 
 const authRouter = express.Router();
 
@@ -41,6 +42,7 @@ authRouter.post(
 );
 authRouter.patch(
   "/verify/:role/:id",
+  isValidId,
   authtenticate,
   validateBody(updateRoleSchema),
   verify
