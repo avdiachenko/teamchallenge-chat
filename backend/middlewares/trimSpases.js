@@ -4,6 +4,12 @@ function trimSpases(req, res, next) {
     const newName = name.trim();
     const newEmail = email.trim();
     const newPassword = password.trim();
+    const keys = Object.keys(req.body);
+    console.log(keys);
+    keys.forEach((key) => {
+      return (req.body[key] = req.body[key].trim());
+    });
+    console.log(req.body);
     req.body = {
       ...req.body,
       name: newName,
