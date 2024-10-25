@@ -212,6 +212,7 @@ const updatePassword = async (req, res) => {
   await recoverPassword(tempCode, {
     password: newPassword,
     tempCode: undefined,
+    // tempCodeTime: undefined,
   });
 
   res.status(200).json({

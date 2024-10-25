@@ -33,6 +33,10 @@ export async function recoverPassword(tempCode, data) {
   const hashPassword = await bcrypt.hash(data.password, 10);
   return User.findOneAndUpdate(
     { tempCode },
-    { password: hashPassword, $unset: { tempCode } } //$unset — оператор, который удаляет указанное поле из документа
+    {
+      password: hashPassword,
+      $unset: { tempCode: "", tempCodeTime: "" },
+      // $unset: { tempCode },
+    } //$unset — оператор, который удаляет указанное поле из документа
   );
 }
