@@ -211,7 +211,7 @@ const updatePassword = async (req, res) => {
 
   await recoverPassword(tempCode, {
     password: newPassword,
-    tempCode: undefined,
+    // tempCode: undefined,
     // tempCodeTime: undefined,
   });
 
