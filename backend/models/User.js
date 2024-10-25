@@ -71,6 +71,9 @@ const userSchema = new Schema(
     tempCode: {
       type: String,
     },
+    tempCodeTime: {
+      type: Number,
+    },
   },
   { versionKey: false }
 );

@@ -22,6 +22,7 @@ import {
 } from "../services/complexServices.js";
 
 const { JWT_SECRET, DEPLOY_HOST } = process.env;
+const DELAY = 3600 * 1000;
 
 const signup = async (req, res) => {
   // const { email, apartment, entrance, residential_complex, section, rights } =
@@ -166,15 +167,19 @@ const forgotPassword = async (req, res) => {
   }
 
   const tempCode = generateRandomCode();
-
-  await updateUser({ email }, { tempCode });
+  const tempCodeTime = Date.now() + DELAY; //1729860848770 1729861614634
+  console.log(new Date());
+  console.log(new Date(tempCodeTime));
+  await updateUser({ email }, { tempCode, tempCodeTime });
   const userEmail = {
     to: email,
     subject: "Forgot password",
     html: `
         <h1>Hello, did you forget your password?</h1>
         <p>If no, ignore this email.</p>
-        <p>Otherwise, please click on the link below:</p>
+        <p>Otherwise, please click on the link below, <span style="font-weight: bold;">but remember that this link will expire in <span style="color: red;">${
+          DELAY / 60000
+        } min</span></p>
         <div style="margin-bottom: 20px;">
           <a href="${DEPLOY_HOST}/update-password/${tempCode}" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #407bff; color: #fff; text-decoration: none; border-radius: 5px; margin-top: 15px;">Click to update your password!</a>
         </div>
@@ -197,10 +202,17 @@ const updatePassword = async (req, res) => {
   if (!user) {
     throw HttpError(404, "User not found");
   }
+  if (user.tempCodeTime < Date.now()) {
+    throw HttpError(
+      403,
+      "Unfortunately, your link has expired, so you can't access this action. Try to recover your password again."
+    );
+  }
 
   await recoverPassword(tempCode, {
     password: newPassword,
     tempCode: undefined,
+    // tempCodeTime: undefined,
   });
 
   res.status(200).json({

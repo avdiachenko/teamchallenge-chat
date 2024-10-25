@@ -6,6 +6,7 @@ function trimSpases(req, res, next) {
   //   const newPassword = password.trim();
   const keys = Object.keys(req.body);
   console.log(keys);
+  console.log(Date.now());
   keys.forEach((key) => {
     return (req.body[key] = req.body[key].trim());
   });
