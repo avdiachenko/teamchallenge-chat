@@ -22,7 +22,7 @@ import {
 } from "../services/complexServices.js";
 
 const { JWT_SECRET, DEPLOY_HOST } = process.env;
-const DELAY = 3600 * 1000;
+const DELAY = 60 * 1000;
 
 const signup = async (req, res) => {
   // const { email, apartment, entrance, residential_complex, section, rights } =
@@ -167,9 +167,9 @@ const forgotPassword = async (req, res) => {
   }
 
   const tempCode = generateRandomCode();
-  const tempCodeTime = Date.now() + DELAY; //1729860848770 1729861614634
-  console.log(new Date());
-  console.log(new Date(tempCodeTime));
+  const tempCodeTime = Date.now() + DELAY;
+  // console.log(new Date());
+  // console.log(new Date(tempCodeTime));
   await updateUser({ email }, { tempCode, tempCodeTime });
   const userEmail = {
     to: email,
@@ -211,8 +211,6 @@ const updatePassword = async (req, res) => {
 
   await recoverPassword(tempCode, {
     password: newPassword,
-    // tempCode: undefined,
-    // tempCodeTime: undefined,
   });
 
   res.status(200).json({
