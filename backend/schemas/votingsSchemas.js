@@ -11,6 +11,10 @@ const createOptionSchema = Joi.object({
   quantity: Joi.number(),
 });
 
+const updateOptionSchema = Joi.object({
+  quantity: Joi.number().valid(1),
+});
+
 export const createVotingSchema = Joi.object({
   headline: Joi.string().required(),
   description: Joi.string(),
@@ -20,4 +24,8 @@ export const createVotingSchema = Joi.object({
   endDate: Joi.date(),
   displayType: Joi.string().valid("Percentages", "Number").required(),
   isAnonymous: Joi.boolean().default(true),
+});
+
+export const updateVotingSchema = Joi.object({
+  options: Joi.array().items(updateOptionSchema).required(),
 });

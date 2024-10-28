@@ -17,9 +17,15 @@ const getVotings = async (req, res) => {
   if (role === "not_verified") {
     throw HttpError(403, "You don't have access to this action!");
   }
-  const { page = 1, limit = 20, displayType = "Number" } = req.query;
+  const {
+    page = 1,
+    limit = 20,
+    displayType = "Number",
+    status = "active",
+  } = req.query;
   const skip = (page - 1) * limit;
-  const result = await votingsList({ skip, limit });
+
+  const result = await votingsList({ skip, limit, status });
   // console.log(result);
   if (displayType === "Percentages") {
     const resInPercents = result.map((item) => {
@@ -35,7 +41,7 @@ const getVotings = async (req, res) => {
         return option;
       });
       item.options = optionsInPercents;
-      console.log(item.options);
+      // console.log(item.options);
       return item;
     });
 
@@ -43,6 +49,15 @@ const getVotings = async (req, res) => {
   } else {
     res.json(result);
   }
+};
+
+const vote = async (req, res) => {
+  const { role } = req.user;
+  if (role === "not_verified") {
+    throw HttpError(403, "You don't have access to this action!");
+  }
+  const { votingId } = req.params;
+  // await
 };
 
 export default {
