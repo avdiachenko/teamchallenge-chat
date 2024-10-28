@@ -17,11 +17,32 @@ const getVotings = async (req, res) => {
   if (role === "not_verified") {
     throw HttpError(403, "You don't have access to this action!");
   }
-  const { page = 1, limit = 20, votingType = "Number" } = req.query;
+  const { page = 1, limit = 20, displayType = "Number" } = req.query;
   const skip = (page - 1) * limit;
   const result = await votingsList({ skip, limit });
-  console.log(result);
-  res.json(result);
+  // console.log(result);
+  if (displayType === "Percentages") {
+    const resInPercents = result.map((item) => {
+      // console.log(item);
+      const total = item.options.reduce(
+        (akk, option) => akk + option.quantity,
+        0
+      );
+      console.log(total);
+      const optionsInPercents = item.options.map((option) => {
+        const percentQuantity = Math.round((option.quantity / total) * 100);
+        option.quantity = percentQuantity;
+        return option;
+      });
+      item.options = optionsInPercents;
+      console.log(item.options);
+      return item;
+    });
+
+    res.json(resInPercents);
+  } else {
+    res.json(result);
+  }
 };
 
 export default {
