@@ -1,6 +1,11 @@
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import HttpError from "../helpers/HttpError.js";
-import { addVoting, votingsList } from "../services/votingsServices.js";
+import {
+  addVote,
+  addVoting,
+  findVotingById,
+  votingsList,
+} from "../services/votingsServices.js";
 
 const createVoting = async (req, res) => {
   const user = req.user;
@@ -57,10 +62,32 @@ const vote = async (req, res) => {
     throw HttpError(403, "You don't have access to this action!");
   }
   const { votingId } = req.params;
-  // await
+  const { options } = req.body;
+  console.log(options);
+  const newOptions = options.map(
+    (option) => (option.quantity = option.quantity ? 1 : 0)
+  );
+  // options = newOptions;
+  console.log(newOptions);
+  const { options: oldOptions } = await findVotingById({ _id: votingId });
+  const optionsAfterVoting = oldOptions.map((oldOption, idx) => {
+    const newQuantity = oldOption.quantity + newOptions[idx];
+    console.log(newQuantity);
+    oldOption.quantity = newQuantity;
+    console.log(oldOption);
+    // const newOption = { ...oldOption, quantity: newQuantity };
+    // console.log(newOption);
+    return oldOption;
+  });
+  const result = await addVote(
+    { _id: votingId },
+    { options: optionsAfterVoting }
+  );
+  res.json(result);
 };
 
 export default {
   createVoting: ctrlWrapper(createVoting),
   getVotings: ctrlWrapper(getVotings),
+  vote: ctrlWrapper(vote),
 };
