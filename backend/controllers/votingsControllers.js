@@ -52,7 +52,7 @@ const getVotings = async (req, res) => {
 };
 
 const vote = async (req, res) => {
-  const { role } = req.user;
+  const { _id, role } = req.user;
   if (role === "not_verified") {
     throw HttpError(403, "You don't have access to this action!");
   }
