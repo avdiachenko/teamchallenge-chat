@@ -8,11 +8,11 @@ import Joi from "joi";
 
 const createOptionSchema = Joi.object({
   name: Joi.string().required(),
-  quantity: Joi.number(),
+  quantity: Joi.boolean().default(false),
 });
 
 const updateOptionSchema = Joi.object({
-  quantity: Joi.number().valid(1),
+  quantity: Joi.boolean().required(),
 });
 
 export const createVotingSchema = Joi.object({
