@@ -64,20 +64,24 @@ const vote = async (req, res) => {
   const { votingId } = req.params;
   const { options } = req.body;
   console.log(options);
-  const newOptions = options.map(
+  const voteQuantities = options.map(
     (option) => (option.quantity = option.quantity ? 1 : 0)
   );
   // options = newOptions;
-  console.log(newOptions);
+  console.log(voteQuantities);
   const { options: oldOptions } = await findVotingById({ _id: votingId });
+
   const optionsAfterVoting = oldOptions.map((oldOption, idx) => {
-    const newQuantity = oldOption.quantity + newOptions[idx];
+    const newQuantity = oldOption.quantity + voteQuantities[idx];
     console.log(newQuantity);
+    //the first variant
     oldOption.quantity = newQuantity;
     console.log(oldOption);
-    // const newOption = { ...oldOption, quantity: newQuantity };
-    // console.log(newOption);
     return oldOption;
+    //the second variant
+    // const newOption = { ...oldOption, quantity: newQuantity };
+    // console.log(newOption._doc);
+    // return newOption._doc;
   });
   const result = await addVote(
     { _id: votingId },
