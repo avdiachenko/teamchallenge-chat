@@ -34,7 +34,6 @@ const getVotings = async (req, res) => {
   // console.log(result);
   if (displayType === "Percentages") {
     const resInPercents = result.map((item) => {
-      // console.log(item);
       const total = item.options.reduce(
         (akk, option) => akk + option.quantity,
         0
@@ -46,7 +45,7 @@ const getVotings = async (req, res) => {
         return option;
       });
       item.options = optionsInPercents;
-      // console.log(item.options);
+
       return item;
     });
 
@@ -63,20 +62,20 @@ const vote = async (req, res) => {
   }
   const { votingId } = req.params;
   const { options } = req.body;
-  console.log(options);
+  // console.log(options);
   const voteQuantities = options.map(
     (option) => (option.quantity = option.quantity ? 1 : 0)
   );
-  // options = newOptions;
-  console.log(voteQuantities);
+
+  // console.log(voteQuantities);
   const { options: oldOptions } = await findVotingById({ _id: votingId });
 
   const optionsAfterVoting = oldOptions.map((oldOption, idx) => {
     const newQuantity = oldOption.quantity + voteQuantities[idx];
-    console.log(newQuantity);
+    // console.log(newQuantity);
     //the first variant
     oldOption.quantity = newQuantity;
-    console.log(oldOption);
+    // console.log(oldOption);
     return oldOption;
     //the second variant
     // const newOption = { ...oldOption, quantity: newQuantity };
