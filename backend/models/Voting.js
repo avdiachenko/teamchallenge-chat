@@ -11,6 +11,12 @@ const optionSchema = new Schema({
     default: 0,
   },
 });
+const votedUserSchema = new Schema({
+  votedUserId: {
+    type: Schema.Types.ObjectId,
+    ref: "user",
+  },
+});
 
 const votingSchema = new Schema(
   {
@@ -60,6 +66,7 @@ const votingSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    votedUsers: [votedUserSchema],
   },
   { versionKey: false }
 );
