@@ -12,7 +12,7 @@ const createVoting = async (req, res) => {
   if (user.role !== "moderator") {
     throw HttpError(403, "You don't have access to this action!");
   }
-  const result = await addVoting(req.body);
+  const result = await addVoting({ ...req.body, votedUsers: [] });
   console.log(result);
   res.status(201).json(result);
 };
