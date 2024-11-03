@@ -70,7 +70,29 @@ const vote = async (req, res) => {
   const { options: oldOptions, votedUsers } = await findVotingById({
     _id: votingId,
   });
-
+  //the first variant
+  const votedUser = votedUsers.find(
+    (user) => user._id.toString() === _id.toString()
+  );
+  console.log(votedUser);
+  if (votedUser) {
+    throw HttpError(
+      403,
+      "You don't have access to this action, because you have already voted!"
+    );
+  }
+  //the second variant
+  const isVotedUser = votedUsers.findIndex(
+    (user) => user._id.toString() === _id.toString()
+  );
+  console.log(isVotedUser);
+  if (isVotedUser > -1) {
+    throw HttpError(
+      403,
+      "You don't have access to this action, because you have already voted!"
+    );
+  }
+  // ----------------------
   const optionsAfterVoting = oldOptions.map((oldOption, idx) => {
     const newQuantity = oldOption.quantity + voteQuantities[idx];
 
