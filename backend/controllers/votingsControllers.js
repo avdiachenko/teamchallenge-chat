@@ -62,10 +62,16 @@ const vote = async (req, res) => {
   }
   const { votingId } = req.params;
   const { options } = req.body;
-
-  const voteQuantities = options.map(
-    (option) => (option.quantity = option.quantity ? 1 : 0)
-  );
+  console.log(options);
+  const userOptions = options.map((option) => {
+    option.isVote = option.quantity;
+    return option;
+  });
+  const userVote = { _id, votedUserOptions: userOptions };
+  // const userOptions = options.map((option) => {
+  //   option.quantity = option.quantity ? 1 : 0;
+  //   return option;
+  // });
 
   const { options: oldOptions, votedUsers } = await findVotingById({
     _id: votingId,
@@ -93,6 +99,15 @@ const vote = async (req, res) => {
     );
   }
   // ----------------------
+  console.log(options);
+
+  console.log(userVote);
+  votedUsers.push(userVote);
+  const voteQuantities = options.map(
+    (option) => (option.quantity = option.quantity ? 1 : 0)
+  );
+
+  console.log(voteQuantities);
   const optionsAfterVoting = oldOptions.map((oldOption, idx) => {
     const newQuantity = oldOption.quantity + voteQuantities[idx];
 
@@ -104,7 +119,7 @@ const vote = async (req, res) => {
     // console.log(newOption._doc);
     // return newOption._doc;
   });
-  votedUsers.push(_id);
+
   const result = await addVote(
     { _id: votingId },
     { options: optionsAfterVoting, votedUsers }
