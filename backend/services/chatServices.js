@@ -5,6 +5,7 @@ import User from "../models/User.js";
 import ComplexChat from "../models/ComplexChat.js";
 import BuildingChat from "../models/BuildingChat.js";
 import Complex from "../models/Complex.js";
+import Roles from "../helpers/Roles.js";
 
 export async function createMessage(message, chat) {
   const res = await Message.create(
@@ -40,7 +41,21 @@ export async function getChatMessagesByMessage(id, count) {
   return last_messages;
 }
 
-export async function getUserChatsWithLastMessages(user_id) {    
+export async function getChatsWithLastMessages(user) {
+  let chats;  
+  if (Roles.compareRoles("verified", user.role) == 0) {
+    chats = await getUserChatsWithLastMessages(user._id);
+  } else if (Roles.compareRoles("moderator", user.role) == 0) {
+    chats = await getModeratorChatsWithLastMessages(user._id);
+  } else if (Roles.compareRoles("administrator", user.role) == 0) {
+    chats = await getAdministratorChatsWithLastMessages();
+  } else {
+    throw new HttpError(500, "getChats role not supported");
+  }
+  return chats;
+}
+
+async function getUserChatsWithLastMessages(user_id) {    
   let user = await User.findById(user_id)
     .populate("apartment_id");
   await user.populate("apartment_id.building_id");
@@ -65,7 +80,7 @@ export async function getUserChatsWithLastMessages(user_id) {
   return residential_chats.concat(building_chats);
 }
 
-export async function getModeratorChatsWithLastMessages(moderator_id) {    
+async function getModeratorChatsWithLastMessages(moderator_id) {    
   let moderator = await User.findById(moderator_id)
     .populate("apartment_id");
   await moderator.populate("apartment_id.building_id");
@@ -100,7 +115,7 @@ export async function getModeratorChatsWithLastMessages(moderator_id) {
   return residential_chats.concat(building_chats);
 }
 
-export async function getAdministratorChatsWithLastMessages() {
+async function getAdministratorChatsWithLastMessages() {
   const complexes = await Complex.find();
   let residential_complex_ids = complexes.map(c => c._id);
   const complex_chats = await ComplexChat.find({ residential_complex_id: residential_complex_ids }).lean();

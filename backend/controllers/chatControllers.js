@@ -1,4 +1,4 @@
-import { createMessage, getAdministratorChatsWithLastMessages, getChatMessagesByMessage, getModeratorChatsWithLastMessages, getUserChatsWithLastMessages } from "../services/chatServices.js";
+import { createMessage, getChatMessagesByMessage, getChatsWithLastMessages } from "../services/chatServices.js";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import Roles from "../helpers/Roles.js";
 import HttpError from "../helpers/HttpError.js";
@@ -17,6 +17,17 @@ export function pingEventSubscribe(socket) {
   return processor;
 }
 
+function getChatRoomName(chatType, chatId) {
+  return `${chatType}@${chatId}`;
+}
+
+export async function setChatRooms(socket) {
+  const chats = await getChatsWithLastMessages(socket.user);  
+  for (const chat of chats) {    
+    socket.join(getChatRoomName(chat.chatType, chat._id));
+  }
+}
+
 function chatMessage(socket) {
   return async (incomingMessageObject, callback) => {
     const messageText = incomingMessageObject.message;
@@ -27,8 +38,10 @@ function chatMessage(socket) {
       );
     messageObject.name = socket.user.name;
     messageObject.profilePicture = socket.user.profile_picture || "https://res.cloudinary.com/dtonpxhk7/image/upload/v1727784788/fvqcrnaneokovnfwcgya.jpg";
-    // TODO: send message into a room
-    socket.broadcast.emit("chat message", messageObject);
+    console.log(getChatRoomName(messageObject.chat_type, messageObject.chat_id));
+    
+    socket.to(getChatRoomName(messageObject.chat_type, messageObject.chat_id))
+      .emit("chat message", messageObject);
     callback();
   }
 }
@@ -49,18 +62,7 @@ async function getLastChatMessages(req, res) {
 }
 
 async function getChats(req, res) {
-  const user = req.user;
-  let chats;  
-  if (Roles.compareRoles("verified", user.role) == 0) {
-    chats = await getUserChatsWithLastMessages(user._id);
-  } else if (Roles.compareRoles("moderator", user.role) == 0) {
-    chats = await getModeratorChatsWithLastMessages(user._id);
-  } else if (Roles.compareRoles("administrator", user.role) == 0) {
-    chats = await getAdministratorChatsWithLastMessages();
-  } else {
-    throw new HttpError(500, "getChats role not supported");
-  }
-  
+  const chats = await getChatsWithLastMessages(req.user);  
   res.json(chats);
 }
 
