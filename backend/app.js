@@ -92,6 +92,7 @@ io.use(authorizeSocketForRole("verified"));
 
 io.on("connection", (socket) => {
   // console.log("a user connected");
+  chatControllers.setChatRooms(socket);
   chatControllers.pingEventSubscribe(socket);
   chatControllers.chatMessageEventSubscribe(socket);
 });
