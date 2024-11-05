@@ -63,7 +63,8 @@ const vote = async (req, res) => {
   const { votingId } = req.params;
   const { options } = req.body;
   console.log(options);
-  const userOptions = options.map((option) => {
+  const trueOptions = options.filter((option) => option.quantity === true);
+  const userOptions = trueOptions.map((option) => {
     option.isVote = option.quantity;
     return option;
   });
