@@ -1,11 +1,5 @@
 import Joi from "joi";
 
-// const createOptionsSchema = Joi.object({
-//   up: Joi.number().default(0),
-//   down: Joi.number().default(0),
-//   abstained: Joi.number().default(0),
-// });
-
 const createOptionSchema = Joi.object({
   name: Joi.string().required(),
   quantity: Joi.boolean().default(false),

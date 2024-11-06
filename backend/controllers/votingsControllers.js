@@ -79,10 +79,6 @@ const vote = async (req, res) => {
     return option;
   });
   const userVote = { _id, votedUserOptions: userOptions };
-  // const userOptions = options.map((option) => {
-  //   option.quantity = option.quantity ? 1 : 0;
-  //   return option;
-  // });
 
   const { options: oldOptions, votedUsers } = await findVotingById({
     _id: votingId,
