@@ -15,8 +15,9 @@ const messagesArray = [
 ];
 export function ChatList() {
   const { token } = useUserStore();
-  const { selectedChat, setSelectedChat } = useChatStore();
+  const { selectedChat, setSelectedChat, getChats } = useChatStore();
 
+  getChats();
   const { data: chatList, isLoading } = useApi<ChatType[]>(token ? `/chat` : null);
 
   if (isLoading) return <Spinner />;
@@ -32,7 +33,7 @@ export function ChatList() {
             <div
               className={`${styles.card} ${selectedChat?.name === chat.name && ` ${styles.selected}`}`}
               key={chat.name}
-              onClick={() => setSelectedChat(chat)}
+              onClick={() => setSelectedChat(chat._id, chat.chatType)}
             >
               <img src={chat.picture} alt={chat.name} className={styles.cardImg} />
               <div className={styles.cardInfo}>

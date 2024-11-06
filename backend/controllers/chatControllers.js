@@ -42,7 +42,7 @@ function chatMessage(socket) {
     
     socket.to(getChatRoomName(messageObject.chat_type, messageObject.chat_id))
       .emit("chat message", messageObject);
-    callback();
+    callback(messageObject._id);
   }
 }
 
