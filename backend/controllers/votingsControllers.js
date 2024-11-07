@@ -39,9 +39,7 @@ const getVotings = async (req, res) => {
     item.votedUsers = votedUser;
     return item;
   });
-  console.log(data);
-  console.log(_id);
-  console.log(result);
+
   if (displayType === "Percentages") {
     const resInPercents = result.map((item) => {
       const total = item.options.reduce(
@@ -72,7 +70,6 @@ const vote = async (req, res) => {
   }
   const { votingId } = req.params;
   const { options } = req.body;
-  console.log(options);
   const trueOptions = options.filter((option) => option.quantity === true);
   const userOptions = trueOptions.map((option) => {
     option.isVote = option.quantity;
@@ -106,9 +103,6 @@ const vote = async (req, res) => {
     );
   }
   // ----------------------
-  console.log(options);
-
-  console.log(userVote);
   votedUsers.push(userVote);
   const voteQuantities = options.map(
     (option) => (option.quantity = option.quantity ? 1 : 0)
@@ -131,8 +125,7 @@ const vote = async (req, res) => {
     { _id: votingId },
     { options: optionsAfterVoting, votedUsers }
   );
-  // const displayTypeResult = result.options.map((item, options) => {
-  //   let newItem;
+
   if (result.displayType === "Percentages") {
     const total = result.options.reduce(
       (akk, option) => akk + option.quantity,
@@ -146,7 +139,7 @@ const vote = async (req, res) => {
     });
     result.options = optionsInPercents;
   }
-  // });
+
   res.json(result);
 };
 
