@@ -40,8 +40,9 @@ const getVotings = async (req, res) => {
     return item;
   });
 
-  if (displayType === "Percentages") {
-    const resInPercents = result.map((item) => {
+  // if (displayType === "Percentages") {
+  const finalResult = result.map((item) => {
+    if (item.displayType === "Percentages") {
       const total = item.options.reduce(
         (akk, option) => akk + option.quantity,
         0
@@ -53,14 +54,15 @@ const getVotings = async (req, res) => {
         return option;
       });
       item.options = optionsInPercents;
+    }
 
-      return item;
-    });
+    return item;
+  });
 
-    res.json(resInPercents);
-  } else {
-    res.json(result);
-  }
+  res.json(finalResult);
+  // } else {
+  //   res.json(result);
+  // }
 };
 
 const vote = async (req, res) => {
