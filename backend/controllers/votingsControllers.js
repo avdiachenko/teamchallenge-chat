@@ -40,7 +40,6 @@ const getVotings = async (req, res) => {
     return item;
   });
 
-  // if (displayType === "Percentages") {
   const finalResult = result.map((item) => {
     if (item.displayType === "Percentages") {
       const total = item.options.reduce(
@@ -60,9 +59,6 @@ const getVotings = async (req, res) => {
   });
 
   res.json(finalResult);
-  // } else {
-  //   res.json(result);
-  // }
 };
 
 const vote = async (req, res) => {
