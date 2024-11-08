@@ -1,3 +1,4 @@
+import { Router } from "express";
 import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import HttpError from "../helpers/HttpError.js";
 import {
@@ -7,6 +8,7 @@ import {
 } from "../services/complexServices.js";
 import {
   addNotification,
+  deleteNotification,
   listNotificationsByFilter,
 } from "../services/notificationsServices.js";
 
@@ -177,8 +179,21 @@ const getNotificationsByRole = async (req, res) => {
   res.json(result);
 };
 
+const removeNotification = async (req, res) => {
+  const { role } = req.user;
+  console.log(role);
+  if (role !== "moderator" && role !== "administrator") {
+    throw HttpError(403, "You don't have access to this action!");
+  }
+  const { notificationId: _id } = req.params;
+  console.log(_id);
+  const result = await deleteNotification(_id);
+  res.json(result);
+};
+
 export default {
   createNotification: ctrlWrapper(createNotification),
   getNotifications: ctrlWrapper(getNotifications),
   getNotificationsByRole: ctrlWrapper(getNotificationsByRole),
+  removeNotification: ctrlWrapper(removeNotification),
 };
