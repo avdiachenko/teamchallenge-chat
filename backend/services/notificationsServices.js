@@ -7,3 +7,7 @@ export function addNotification(data) {
 export function listNotificationsByFilter(filter, query) {
   return Notification.find(filter, "", query).sort({ updatedAt: -1 });
 }
+
+export function deleteNotification(id) {
+  return Notification.findByIdAndDelete(id);
+}

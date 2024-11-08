@@ -8,8 +8,12 @@ const notificationsRouter = express.Router();
 
 notificationsRouter.use(authtenticate);
 
-const { createNotification, getNotifications, getNotificationsByRole } =
-  notificationsControllers;
+const {
+  createNotification,
+  getNotifications,
+  getNotificationsByRole,
+  removeNotification,
+} = notificationsControllers;
 
 notificationsRouter.post(
   "/",
@@ -18,5 +22,6 @@ notificationsRouter.post(
 );
 notificationsRouter.get("/", getNotifications);
 notificationsRouter.get("/role", getNotificationsByRole);
+notificationsRouter.delete("/:notificationId", removeNotification);
 
 export default notificationsRouter;
