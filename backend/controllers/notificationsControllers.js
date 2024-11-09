@@ -180,13 +180,13 @@ const getNotificationsByRole = async (req, res) => {
 };
 
 const removeNotification = async (req, res) => {
-  const { role } = req.user;
+  const { role, residential_complex } = req.user;
   console.log(role);
   if (role !== "moderator" && role !== "administrator") {
     throw HttpError(403, "You don't have access to this action!");
   }
   const { notificationId: _id } = req.params;
-  console.log(_id);
+  // console.log(_id);
   const result = await deleteNotification(_id);
   res.json(result);
 };
