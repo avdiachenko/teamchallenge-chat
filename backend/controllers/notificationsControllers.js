@@ -9,6 +9,7 @@ import {
 import {
   addNotification,
   deleteNotification,
+  deleteNotificationByModerator,
   listNotificationsByFilter,
 } from "../services/notificationsServices.js";
 
@@ -187,7 +188,13 @@ const removeNotification = async (req, res) => {
   }
   const { notificationId: _id } = req.params;
   // console.log(_id);
-  const result = await deleteNotification(_id);
+  const result =
+    role === "administrator"
+      ? await deleteNotification(_id)
+      : await deleteNotificationByModerator({ _id, residential_complex });
+  if (result === null) {
+    throw HttpError(403, "You don't have access to this action!");
+  }
   res.json(result);
 };
 
