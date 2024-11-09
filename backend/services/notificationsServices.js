@@ -11,3 +11,7 @@ export function listNotificationsByFilter(filter, query) {
 export function deleteNotification(id) {
   return Notification.findByIdAndDelete(id);
 }
+
+export function deleteNotificationByModerator(params) {
+  return Notification.findOneAndDelete(params);
+}
