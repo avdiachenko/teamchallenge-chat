@@ -15,3 +15,7 @@ export function deleteNotification(id) {
 export function deleteNotificationByModerator(params) {
   return Notification.findOneAndDelete(params);
 }
+
+export function findNotificationByID(id) {
+  return Notification.findById(id);
+}

@@ -10,6 +10,7 @@ import {
   addNotification,
   deleteNotification,
   deleteNotificationByModerator,
+  findNotificationByID,
   listNotificationsByFilter,
 } from "../services/notificationsServices.js";
 
@@ -187,15 +188,34 @@ const removeNotification = async (req, res) => {
     throw HttpError(403, "You don't have access to this action!");
   }
   const { notificationId: _id } = req.params;
-  // console.log(_id);
-  const result =
-    role === "administrator"
-      ? await deleteNotification(_id)
-      : await deleteNotificationByModerator({ _id, residential_complex });
-  if (result === null) {
-    throw HttpError(403, "You don't have access to this action!");
+
+  //the first variant
+  // const result =
+  //   role === "administrator"
+  //     ? await deleteNotification(_id)
+  //     : await deleteNotificationByModerator({ _id, residential_complex });
+  // if (result === null) {
+  //   throw HttpError(403, "You don't have access to this action!");
+  // }
+  // res.json(result);
+
+  //the second variant
+  const notification = await findNotificationByID(_id);
+  console.log(notification);
+  if (!notification) {
+    throw HttpError(404, "Notification not found!");
   }
-  res.json(result);
+  if (
+    role === "moderator" &&
+    notification.residential_complex !== residential_complex
+  ) {
+    throw HttpError(
+      403,
+      "You don't have access to delete this notification due to residential complex mismatch."
+    );
+  }
+  const secondResult = await deleteNotification(_id);
+  res.json(secondResult);
 };
 
 export default {
