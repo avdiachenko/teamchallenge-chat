@@ -448,54 +448,22 @@
         }
       }
     },
-    "/notifications/role": {
-      "get": {
+    "/notifications/{notificationId}": {
+      "delete": {
         "tags": [
           "Notifications"
         ],
-        "summary": "Get notifications by an administrator or a moderator",
-        "description": "The opportunity to choose notifications by type and section. User must be an administrator or a moderator",
+        "summary": "Remove notification",
+        "description": "Remove of the notification by id. User must be authorized and have the role of moderator or administrator",
         "parameters": [
           {
-            "name": "page",
-            "in": "query",
-            "description": "Page number",
-            "required": false,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Number of items on the page",
-            "required": false,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "type",
-            "in": "query",
-            "description": "Type of a notification",
-            "required": false,
+            "name": "notificationId",
+            "in": "path",
+            "description": "Notification id for identification of notification",
+            "required": true,
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "section",
-            "in": "query",
-            "description": "Number of section",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "security": [
-          {
-            "bearerAuth": []
           }
         ],
         "responses": {
@@ -503,14 +471,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CreateNotificationResponse"
-                  }
+                  "$ref": "#/components/schemas/CreateNotificationResponse"
                 }
               }
             },
-            "description": "Successfully receiving the notifications"
+            "description": "Successfully deleting the notification"
           },
           "401": {
             "description": "Unauthorized"
