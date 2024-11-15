@@ -25,8 +25,6 @@ const { JWT_SECRET, DEPLOY_HOST } = process.env;
 const DELAY = 60 * 1000;
 
 const signup = async (req, res) => {
-  // const { email, apartment, entrance, residential_complex, section, rights } =
-  //   req.body;
   const { email, apartment, entrance, residential_complex, section, role } =
     req.body;
 
@@ -35,21 +33,6 @@ const signup = async (req, res) => {
     throw HttpError(409, "Email in use");
   }
 
-  // if (rights) {
-  //   const admin = await findUser({ rights });
-
-  //   if (admin) {
-  //     throw HttpError(
-  //       409,
-  //       "You can't be an administrator. The administrator already exists"
-  //     );
-  //   }
-  //   await register({ ...req.body });
-  //   res.status(201).json({
-  //     message:
-  //       "Congratulations! You have registered successfully with the rights of administrator. Please login.",
-  //   });
-  // } else {
   const userAdress = section.toLowerCase();
   console.log(residential_complex);
   const [{ _id: residential_complex_id }] = await getComplex({
@@ -168,8 +151,7 @@ const forgotPassword = async (req, res) => {
 
   const tempCode = generateRandomCode();
   const tempCodeTime = Date.now() + DELAY;
-  // console.log(new Date());
-  // console.log(new Date(tempCodeTime));
+
   await updateUser({ email }, { tempCode, tempCodeTime });
   const userEmail = {
     to: email,
