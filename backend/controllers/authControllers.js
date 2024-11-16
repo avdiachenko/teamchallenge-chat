@@ -34,7 +34,7 @@ const signup = async (req, res) => {
   }
 
   const userAdress = section.toLowerCase();
-  console.log(residential_complex);
+  // console.log(residential_complex);
   const [{ _id: residential_complex_id }] = await getComplex({
     name: residential_complex,
   });
@@ -74,7 +74,6 @@ const signup = async (req, res) => {
   res.status(201).json({
     message: "Congratulations! You have registered successfully. Please login.",
   });
-  // }
 };
 
 const signin = async (req, res) => {
@@ -99,7 +98,7 @@ const signin = async (req, res) => {
 
   await setTokens(user.id, token, refreshToken);
   const loggedInUser = await findUser({ _id: user._id }, "-password");
-  console.log(loggedInUser);
+  // console.log(loggedInUser);
 
   user = loggedInUser;
   res.json({
@@ -203,8 +202,8 @@ const updatePassword = async (req, res) => {
 const verify = async (req, res) => {
   const { role, id } = req.params;
   const admin = req.user;
-  console.log(role, id);
-  console.log(admin.role);
+  // console.log(role, id);
+  // console.log(admin.role);
 
   if (
     (admin.role !== "moderator" && admin.role !== "administrator") ||

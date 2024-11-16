@@ -4,7 +4,6 @@ function trimSpases(req, res, next) {
   keys.forEach((key) => {
     return (req.body[key] = req.body[key].trim());
   });
-  console.log(req.body);
 
   next();
 }
