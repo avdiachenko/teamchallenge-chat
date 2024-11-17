@@ -237,6 +237,9 @@ const verify = async (req, res) => {
 };
 
 const updateUserInfo = async (req, res) => {
+  if (Object.keys(req.body).length === 0) {
+    throw HttpError(400, "At least one field must not be empty!");
+  }
   const { _id } = req.user;
   const result = await updateById({ _id }, req.body, {
     projection: { password: 0 }, //for excluding the field password mast be {projection: { password: 0 }}
