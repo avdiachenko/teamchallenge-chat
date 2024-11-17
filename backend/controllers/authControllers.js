@@ -238,7 +238,9 @@ const verify = async (req, res) => {
 
 const updateUserInfo = async (req, res) => {
   const { _id } = req.user;
-  const result = await updateById({ _id }, req.body);
+  const result = await updateById({ _id }, req.body, {
+    projection: { password: 0 }, //for excluding the field password mast be {projection: { password: 0 }}
+  });
   res.json(result);
 };
 
