@@ -244,7 +244,7 @@ const updateUserInfo = async (req, res) => {
   const result = await updateById({ _id }, req.body, {
     projection: { password: 0 }, //for excluding the field password mast be {projection: { password: 0 }}
   });
-  res.json(result);
+  res.status(200).json(result);
 };
 
 export default {
