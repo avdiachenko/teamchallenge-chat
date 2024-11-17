@@ -9,7 +9,11 @@ import ctrlWrapper from "../decorators/ctrlWrapper.js";
 import HttpError from "../helpers/HttpError.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { findUser, updateByFilter } from "../services/userServices.js";
+import {
+  findUser,
+  updateByFilter,
+  updateById,
+} from "../services/userServices.js";
 import "dotenv/config"; // Вместо этого можно:
 // import dotenv from "dotenv";
 // dotenv.config();
@@ -232,6 +236,12 @@ const verify = async (req, res) => {
   });
 };
 
+const updateUserInfo = async (req, res) => {
+  const { _id } = req.user;
+  const result = await updateById({ _id }, req.body);
+  res.json(result);
+};
+
 export default {
   signup: ctrlWrapper(signup),
   signin: ctrlWrapper(signin),
@@ -241,4 +251,5 @@ export default {
   forgotPassword: ctrlWrapper(forgotPassword),
   updatePassword: ctrlWrapper(updatePassword),
   verify: ctrlWrapper(verify),
+  updateUserInfo: ctrlWrapper(updateUserInfo),
 };
