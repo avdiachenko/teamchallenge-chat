@@ -13,6 +13,7 @@ import {
   findUser,
   updateByFilter,
   updateById,
+  updateUserById,
 } from "../services/userServices.js";
 import "dotenv/config"; // Вместо этого можно:
 // import dotenv from "dotenv";
@@ -241,9 +242,23 @@ const updateUserInfo = async (req, res) => {
     throw HttpError(400, "At least one field must not be empty!");
   }
   const { _id } = req.user;
-  const result = await updateById({ _id }, req.body, {
+  // const result = await updateById({ _id }, req.body, {
+  const result = await updateUserById({ _id }, req.body, {
     projection: { password: 0 }, //for excluding the field password mast be {projection: { password: 0 }}
   });
+
+  const { email, name } = await findUser({ _id });
+  const userEmail = {
+    to: email,
+    subject: "Your account has been successfully updated",
+    html: `<h1>Hello, ${name}</h1>
+        <p>Your account has been successfully updated. Now you can use your new credentials. If you have any questions, you can always contact our support team.</p>
+        <p style="margin-top: 10px;">Best regards,</p>
+        <p style="margin-top: 10px;">The Teamchallenge Chat Team</p>
+`,
+  };
+  await sendEmail(userEmail);
+
   res.status(200).json(result);
 };
 
