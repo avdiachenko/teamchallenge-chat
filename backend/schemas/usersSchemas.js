@@ -72,6 +72,6 @@ export const updateUserSchema = Joi.object({
           "The password may contain at least one upper case, one lower case English letter, one digit, and have a length of at least 8 characters"
         )
     ),
-  section: Joi.string(),
+  apartment: Joi.number(),
   phone: Joi.string(),
 });
