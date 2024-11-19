@@ -5,6 +5,7 @@ import {
   forgotPasswordSchema,
   updatePasswordSchema,
   updateRoleSchema,
+  updateUserSchema,
 } from "../schemas/usersSchemas.js";
 import validateBody from "../decorators/validateBody.js";
 import authControllers from "../controllers/authControllers.js";
@@ -49,6 +50,11 @@ authRouter.patch(
   validateBody(updateRoleSchema),
   verify
 );
-authRouter.put("/update", authtenticate, updateUserInfo);
+authRouter.put(
+  "/update",
+  authtenticate,
+  validateBody(updateUserSchema),
+  updateUserInfo
+);
 
 export default authRouter;
