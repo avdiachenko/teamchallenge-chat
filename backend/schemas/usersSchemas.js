@@ -60,3 +60,18 @@ export const updatePasswordSchema = Joi.object({
 export const updateRoleSchema = Joi.object({
   role: Joi.string(),
 });
+
+export const updateUserSchema = Joi.object({
+  name: Joi.string(),
+  email: Joi.string().email(),
+  password: Joi.string()
+    .pattern(new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/))
+    .error(
+      (errors) =>
+        new Error(
+          "The password may contain at least one upper case, one lower case English letter, one digit, and have a length of at least 8 characters"
+        )
+    ),
+  section: Joi.string(),
+  phone: Joi.string(),
+});
