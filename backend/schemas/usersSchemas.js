@@ -73,5 +73,6 @@ export const updateUserSchema = Joi.object({
         )
     ),
   apartment: Joi.number(),
+  section: Joi.string(),
   phone: Joi.string(),
 });
