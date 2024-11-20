@@ -243,20 +243,15 @@ const updateUserInfo = async (req, res) => {
   }
 
   const { _id, residential_complex } = req.user;
-  console.log(residential_complex);
+
   const [{ _id: residential_complex_id }] = await getComplex({
     name: residential_complex,
   });
-  // const data = await getComplex({
-  //   name: residential_complex,
-  // });
-  // console.log(data);
+
   let address;
   if (req.body.section) {
     address = req.body.section.toLowerCase();
-    console.log(address);
     const userAddress = await getBuilding({ residential_complex_id, address });
-    console.log(userAddress);
     if (userAddress.length === 0) {
       throw HttpError(
         400,
@@ -265,9 +260,13 @@ const updateUserInfo = async (req, res) => {
     }
   }
   // const result = await updateById({ _id }, req.body, {
-  const result = await updateUserById({ _id }, req.body, {
-    projection: { password: 0 }, //for excluding the field password mast be {projection: { password: 0 }}
-  });
+  const result = await updateUserById(
+    { _id },
+    { ...req.body, section: address },
+    {
+      projection: { password: 0 }, //for excluding the field password mast be {projection: { password: 0 }}
+    }
+  );
 
   const { email, name } = await findUser({ _id });
   const userEmail = {
