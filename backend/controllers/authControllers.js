@@ -25,6 +25,7 @@ import {
   getBuilding,
   getComplex,
 } from "../services/complexServices.js";
+// import { number } from "joi";
 
 const { JWT_SECRET, DEPLOY_HOST } = process.env;
 const DELAY = 60 * 1000;
@@ -243,20 +244,34 @@ const updateUserInfo = async (req, res) => {
   }
 
   const { _id, residential_complex } = req.user;
+  const { section, apartment } = req.body;
 
   const [{ _id: residential_complex_id }] = await getComplex({
     name: residential_complex,
   });
 
   let address;
-  if (req.body.section) {
-    address = req.body.section.toLowerCase();
+  if (section) {
+    address = section.toLowerCase();
     const userAddress = await getBuilding({ residential_complex_id, address });
     if (userAddress.length === 0) {
       throw HttpError(
         400,
-        `The section ${req.body.section} does not exist! Enter the correct section data in the format like this 1a, 2B, etc.`
+        `The section ${section} does not exist! Enter the correct section data in the format like this 1a, 2B, etc.`
       );
+    }
+    const [{ _id: building_id }] = userAddress;
+    if (apartment) {
+      const userApatment = await getApartment({
+        building_id,
+        number: apartment,
+      });
+      if (userApatment.length === 0) {
+        throw HttpError(
+          400,
+          `The section ${apartment} does not exist! Please, enter the correct apartment data`
+        );
+      }
     }
   }
   // const result = await updateById({ _id }, req.body, {
