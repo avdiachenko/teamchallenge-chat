@@ -25,8 +25,6 @@ import {
   getBuilding,
   getComplex,
 } from "../services/complexServices.js";
-// import { number } from "joi";
-
 const { JWT_SECRET, DEPLOY_HOST } = process.env;
 const DELAY = 60 * 1000;
 
@@ -40,7 +38,7 @@ const signup = async (req, res) => {
   }
 
   const userAdress = section.toLowerCase();
-  // console.log(residential_complex);
+
   const [{ _id: residential_complex_id }] = await getComplex({
     name: residential_complex,
   });
@@ -104,7 +102,6 @@ const signin = async (req, res) => {
 
   await setTokens(user.id, token, refreshToken);
   const loggedInUser = await findUser({ _id: user._id }, "-password");
-  // console.log(loggedInUser);
 
   user = loggedInUser;
   res.json({
@@ -208,8 +205,6 @@ const updatePassword = async (req, res) => {
 const verify = async (req, res) => {
   const { role, id } = req.params;
   const admin = req.user;
-  // console.log(role, id);
-  // console.log(admin.role);
 
   if (
     (admin.role !== "moderator" && admin.role !== "administrator") ||
@@ -243,7 +238,7 @@ const updateUserInfo = async (req, res) => {
     throw HttpError(400, "At least one field must not be empty!");
   }
 
-  const { _id, residential_complex } = req.user;
+  const { _id, residential_complex, apartment_id } = req.user;
   const { section, apartment } = req.body;
 
   const [{ _id: residential_complex_id }] = await getComplex({
@@ -269,9 +264,20 @@ const updateUserInfo = async (req, res) => {
       if (userApatment.length === 0) {
         throw HttpError(
           400,
-          `The section ${apartment} does not exist! Please, enter the correct apartment data`
+          `The apartment ${apartment} does not exist! Please, enter the correct apartment data`
         );
       }
+    }
+  }
+  if (!section && apartment) {
+    const [{ building_id }] = await getApartment({ _id: apartment_id });
+
+    const userApatment = await getApartment({ building_id, number: apartment });
+    if (userApatment.length === 0) {
+      throw HttpError(
+        400,
+        `The apartment ${apartment} does not exist! Please, enter the correct apartment data`
+      );
     }
   }
   // const result = await updateById({ _id }, req.body, {
