@@ -73,7 +73,7 @@ const vote = async (req, res) => {
     option.isVote = option.quantity;
     return option;
   });
-  const userVote = { _id, votedUserOptions: userOptions };
+  const userVote = { votedUserId: _id, votedUserOptions: userOptions };
 
   const { options: oldOptions, votedUsers } = await findVotingById({
     _id: votingId,
