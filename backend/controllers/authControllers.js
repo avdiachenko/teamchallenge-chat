@@ -26,7 +26,7 @@ import {
   getComplex,
 } from "../services/complexServices.js";
 const { JWT_SECRET, DEPLOY_HOST } = process.env;
-const DELAY = 60 * 1000;
+const DELAY = 30 * 60 * 1000;
 
 const signup = async (req, res) => {
   const { email, apartment, entrance, residential_complex, section, role } =
