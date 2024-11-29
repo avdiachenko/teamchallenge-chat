@@ -12,6 +12,8 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
+      trim: true,
+      lowercase: true,
       required: [true, "Name is required"],
     },
     profile_picture: {
@@ -19,11 +21,13 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
+      trim: true,
       required: [true, "Email is required"],
       unique: true,
     },
     password: {
       type: String,
+      trim: true,
       minlength: [8, "Password mast have at least 8 characters"],
       required: [true, "Password is required"],
     },
@@ -64,6 +68,7 @@ const userSchema = new Schema(
     // },
     phone: {
       type: String,
+      trim: true,
       required: [true, "Phone is required"],
     },
     role: {
