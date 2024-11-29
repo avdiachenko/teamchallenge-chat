@@ -20,11 +20,15 @@ export const signupSchema = Joi.object({
         )
     ),
   // rights: Joi.string().valid("administrator"),
-  residential_complex: condition("residential_complex"),
-  section: Joi.string().required(),
-  entrance: Joi.number().required(),
-  apartment: Joi.number().required(),
-  phone: Joi.string(),
+  // residential_complex: condition("residential_complex"),
+  residential_complex: Joi.string(),
+  // section: Joi.string().required(),
+  // entrance: Joi.number().required(),
+  // apartment: Joi.number().required(),
+  section: Joi.string(),
+  entrance: Joi.number(),
+  apartment: Joi.number(),
+  phone: Joi.string().required(),
   role: Joi.string(),
 });
 

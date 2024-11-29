@@ -25,8 +25,23 @@ import {
   getBuilding,
   getComplex,
 } from "../services/complexServices.js";
+import User from "../models/User.js";
 const { JWT_SECRET, DEPLOY_HOST } = process.env;
 const DELAY = 30 * 60 * 1000;
+
+const userRegister = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (user) {
+    throw HttpError(409, "This email is already in use");
+  }
+  const newUser = await register(req.body);
+  res.status(201).json({
+    name: newUser.name,
+    email: newUser.email,
+    phone: newUser.phone,
+  });
+};
 
 const signup = async (req, res) => {
   const { email, apartment, entrance, residential_complex, section, role } =
@@ -314,4 +329,5 @@ export default {
   updatePassword: ctrlWrapper(updatePassword),
   verify: ctrlWrapper(verify),
   updateUserInfo: ctrlWrapper(updateUserInfo),
+  userRegister: ctrlWrapper(userRegister),
 };
