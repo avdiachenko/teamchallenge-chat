@@ -26,6 +26,7 @@ const {
   updatePassword,
   verify,
   updateUserInfo,
+  userRegister,
 } = authControllers;
 
 authRouter.post("/register", trimSpases, validateBody(signupSchema), signup);
@@ -56,5 +57,6 @@ authRouter.put(
   validateBody(updateUserSchema),
   updateUserInfo
 );
+authRouter.post("/auth/register", userRegister);
 
 export default authRouter;

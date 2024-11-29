@@ -4,6 +4,9 @@ import { handleSaveError, setUpdateSetting } from "./hooks.js";
 // const condidion = function () {
 //   return this.rights !== "administrator"; //required if role !== "administrator"
 // };
+// const isLoggedIn = function () {
+//   return this.token !== null; //required if token exists
+// };
 
 const userSchema = new Schema(
   {
@@ -31,35 +34,47 @@ const userSchema = new Schema(
     // },
     residential_complex: {
       type: String,
-      required: [true, "Residential complex is required"],
+      // required: [!isLoggedIn, "Residential complex is required"],
       // required: function () {
-      //   return this.role !== "administrator"; //required if role !== "administrator"
+      //   // return this.role !== "administrator"; //required if role !== "administrator"
+      //   return this.token; //required if role !== "administrator"
       // },
+      validate: {
+        validator: function (value) {
+          // Поле residential_complex обязательно, если token существует
+          if (this.token != null && !value) {
+            return false; // Если token есть, residential_complex должен быть заполнен
+          }
+          return true; // В остальных случаях ошибок нет
+        },
+        message: "Residential complex is required when token exists.",
+      },
     },
-    section: {
-      type: String,
-      required: [true, "Section is required"],
-    },
-    entrance: {
-      type: Number,
-      required: [true, "Entrance nomber is required"],
-    },
-    apartment: {
-      type: Number,
-      required: [true, "Apartment nomber is required"],
-    },
+    // section: {
+    //   type: String,
+    //   required: [true, "Section is required"],
+    // },
+    // entrance: {
+    //   type: Number,
+    //   required: [true, "Entrance nomber is required"],
+    // },
+    // apartment: {
+    //   type: Number,
+    //   required: [true, "Apartment nomber is required"],
+    // },
     phone: {
       type: String,
+      required: [true, "Phone is required"],
     },
     role: {
       type: String,
       enum: ["not_verified", "verified", "moderator", "administrator"],
       default: "not_verified",
     },
-    apartment_id: {
-      type: Schema.Types.ObjectId,
-      ref: "apartment",
-    },
+    // apartment_id: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "apartment",
+    // },
     token: {
       type: String,
       default: null,
@@ -78,6 +93,12 @@ const userSchema = new Schema(
   { versionKey: false }
 );
 
+// userSchema.pre("validate", function (next) {
+//   if (!this.token) {
+//     this.token = null; // Устанавливаем значение по умолчанию, если не задано
+//   }
+//   next();
+// });
 // userSchema.pre("validate", function (next) {
 //   if (!this.role) {
 //     this.role = "not_verified"; // Устанавливаем значение по умолчанию, если не задано
