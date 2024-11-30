@@ -116,3 +116,4 @@ userSchema.post("findOneAndUpdate", handleSaveError);
 const User = model("user", userSchema);
 
 export default User;
+// Миша, еще есть вопрос, в голове крутился, никак не мог сформулировать: если поля в buildings сделать необязательными, то юзер может не все заполнить

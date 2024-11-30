@@ -1,11 +1,11 @@
 import Joi from "joi";
 
-const condition = (field) =>
-  Joi.string().when("rights", {
-    is: "administrator",
-    then: Joi.string().optional(), // if the condition is met
-    otherwise: Joi.string().required(),
-  });
+// const condition = (field) =>
+//   Joi.string().when("rights", {
+//     is: "administrator",
+//     then: Joi.string().optional(), // if the condition is met
+//     otherwise: Joi.string().required(),
+//   });
 
 export const signupSchema = Joi.object({
   name: Joi.string().required().trim(),
@@ -21,12 +21,16 @@ export const signupSchema = Joi.object({
           "The password may contain at least one upper case, one lower case English letter, one digit, and have a length of at least 8 characters"
         )
     ),
+  // address: Joi.boolean(),
   // rights: Joi.string().valid("administrator"),
   // residential_complex: condition("residential_complex"),
-  residential_complex: Joi.string(),
+  // section: condition("section"),
+  // residential_complex: condition("residential_complex"),
+  // residential_complex: condition("residential_complex"),
   // section: Joi.string().required(),
   // entrance: Joi.number().required(),
   // apartment: Joi.number().required(),
+  residential_complex: Joi.string(),
   section: Joi.string(),
   entrance: Joi.number(),
   apartment: Joi.number(),
@@ -49,6 +53,13 @@ export const signinSchema = Joi.object({
 
 export const forgotPasswordSchema = Joi.object({
   email: Joi.string().email().required(),
+});
+
+export const addAddressSchema = Joi.object({
+  residential_complex: Joi.string().required(),
+  section: Joi.string().required(),
+  entrance: Joi.number().required(),
+  apartment: Joi.number().required(),
 });
 
 export const updatePasswordSchema = Joi.object({
