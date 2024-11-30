@@ -11,7 +11,7 @@ const updateOptionSchema = Joi.object({
 
 export const createVotingSchema = Joi.object({
   headline: Joi.string().required(),
-  description: Joi.string(),
+  // description: Joi.string(),
   votingType: Joi.string().valid("Single", "Multiple").required(),
   options: Joi.array().items(createOptionSchema).required(),
   startDate: Joi.date().required(),

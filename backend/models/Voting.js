@@ -35,9 +35,9 @@ const votingSchema = new Schema(
       type: String,
       required: [true, "Headline is required"],
     },
-    description: {
-      type: String,
-    },
+    // description: {
+    //   type: String,
+    // },
     votingType: {
       type: String,
       enum: ["Single", "Multiple"],

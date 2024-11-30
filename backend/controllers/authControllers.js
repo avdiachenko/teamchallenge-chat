@@ -30,7 +30,8 @@ const { JWT_SECRET, DEPLOY_HOST } = process.env;
 const DELAY = 30 * 60 * 1000;
 
 const userRegister = async (req, res) => {
-  const { email } = req.body;
+  const { email, password } = req.body;
+  console.log(`*${password}*`);
   const user = await User.findOne({ email });
   if (user) {
     throw HttpError(409, "This email is already in use");
@@ -97,7 +98,9 @@ const signup = async (req, res) => {
 
 const signin = async (req, res) => {
   const { email, password } = req.body;
+  console.log(`${email}, *${password}*`);
   let user = await findUser({ email });
+  console.log(user);
   if (!user) {
     throw HttpError(401, "Email or password is wrong");
   }

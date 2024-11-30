@@ -8,11 +8,13 @@ const condition = (field) =>
   });
 
 export const signupSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().email().required(),
+  name: Joi.string().required().trim(),
+  email: Joi.string().email().required().trim(),
   password: Joi.string()
+
     .pattern(new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/))
     .required()
+    // .trim()
     .error(
       (errors) =>
         new Error(
@@ -28,7 +30,7 @@ export const signupSchema = Joi.object({
   section: Joi.string(),
   entrance: Joi.number(),
   apartment: Joi.number(),
-  phone: Joi.string().required(),
+  phone: Joi.string().required().trim(),
   role: Joi.string(),
 });
 
