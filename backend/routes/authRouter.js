@@ -57,6 +57,6 @@ authRouter.put(
   validateBody(updateUserSchema),
   updateUserInfo
 );
-authRouter.post("/auth/register", userRegister);
+authRouter.post("/auth/register", validateBody(signupSchema), userRegister);
 
 export default authRouter;
