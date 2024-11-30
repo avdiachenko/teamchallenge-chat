@@ -47,9 +47,6 @@ const userRegister = async (req, res) => {
   console.log(tokens);
   const loggedInUser = await User.findById({ _id: newUser._id }, "-password");
   res.status(201).json({
-    // name: newUser.name,
-    // email: newUser.email,
-    // phone: newUser.phone,
     loggedInUser,
   });
 };
