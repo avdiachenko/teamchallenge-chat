@@ -37,34 +37,35 @@ const userSchema = new Schema(
     // },
     residential_complex: {
       type: String,
+      required: [true, "Residential complex is required"],
       // required: [!isLoggedIn, "Residential complex is required"],
       // required: function () {
       //   // return this.role !== "administrator"; //required if role !== "administrator"
       //   return this.token; //required if role !== "administrator"
       // },
-      validate: {
-        validator: function (value) {
-          // Поле residential_complex обязательно, если token существует
-          if (this.token != null && !value) {
-            return false; // Если token есть, residential_complex должен быть заполнен
-          }
-          return true; // В остальных случаях ошибок нет
-        },
-        message: "Residential complex is required when token exists.",
-      },
+      // validate: {
+      //   validator: function (value) {
+      //     // Поле residential_complex обязательно, если token существует
+      //     if (this.token != null && !value) {
+      //       return false; // Если token есть, residential_complex должен быть заполнен
+      //     }
+      //     return true; // В остальных случаях ошибок нет
+      //   },
+      //   message: "Residential complex is required when token exists.",
+      // },
     },
-    // section: {
-    //   type: String,
-    //   required: [true, "Section is required"],
-    // },
-    // entrance: {
-    //   type: Number,
-    //   required: [true, "Entrance nomber is required"],
-    // },
-    // apartment: {
-    //   type: Number,
-    //   required: [true, "Apartment nomber is required"],
-    // },
+    section: {
+      type: String,
+      required: [true, "Section is required"],
+    },
+    entrance: {
+      type: Number,
+      required: [true, "Entrance nomber is required"],
+    },
+    apartment: {
+      type: Number,
+      required: [true, "Apartment nomber is required"],
+    },
     phone: {
       type: String,
       trim: true,
