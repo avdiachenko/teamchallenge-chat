@@ -68,8 +68,24 @@ This step should be done after running backend, once collections are properly in
 
 TODO: is this true, or it can be run earlier, after installing mongodb?
 
+Unzip an encrypted archive using provided password, and import the database
+
 ```bash
-mongorestore --db test db-dump
+unzip db-dump.zip
+mongorestore --db test db-dump/test
+```
+
+If you updated some of the database content you wish to export into initial migration, use either of these commands:
+
+```bash
+mongodump --db test --collection users --out ./db-dump/
+mongodump --db test --out ./db-dump/
+```
+
+Try not keeping sensitive data like emails and passwords in test database, but in case you missed something, do not commit data directly to git, but first zip it with password, and then commit a zip file.
+
+```bash
+zip --password PASSWORD db-dump.zip -r db-dump
 ```
 
 ### Docker image
