@@ -10,27 +10,14 @@ import { Header } from "../../widgets/Header/Header";
 import { SignSwiper } from "../../widgets/SignSwiper/SignSwiper";
 import styles from "./SignIn.module.css";
 
-export function SignIn() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<AuthData>();
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const { loading, error, errorMessage, login, clearMessage } = useUserStore();
-
-  useEffect(() => {
-    return () => {
-      clearMessage();
-    };
-  }, [clearMessage]);
-
-  const onSubmit: SubmitHandler<AuthData> = (data) => login(data, reset);
-
-  // TEST LOGIN DELETE AFTER FINISH DEVELOPMENT ---------------------------------------
+//TODO: enable by .env flag on dev/stage only
+const QASignIn = ({
+  login,
+  reset,
+}: {
+  login: (data: AuthData, reset: () => void) => void;
+  reset: () => void;
+}) => {
   const testLogin = (string: string) => {
     if (string === "admin") {
       login(
@@ -72,7 +59,42 @@ export function SignIn() {
       );
     }
   };
-  // TEST LOGIN DELETE AFTER FINISH DEVELOPMENT ---------------------------------------
+
+  return (
+    <span>
+      TEST LOGIN
+      {" | "}
+      <button onClick={() => testLogin("admin")}>Admin</button>
+      {" | "}
+      <button onClick={() => testLogin("moder")}>Moder</button>
+      {" | "}
+      <button onClick={() => testLogin("verified")}>Verified</button>
+      {" | "}
+      <button onClick={() => testLogin("not_verified")}>Not verified</button>
+      {" | "}
+    </span>
+  );
+};
+
+export function SignIn() {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<AuthData>();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const { loading, error, errorMessage, login, clearMessage } = useUserStore();
+
+  useEffect(() => {
+    return () => {
+      clearMessage();
+    };
+  }, [clearMessage]);
+
+  const onSubmit: SubmitHandler<AuthData> = (data) => login(data, reset);
 
   return (
     <div className={styles.container}>
@@ -155,18 +177,7 @@ export function SignIn() {
             </div>
 
             {/* TEST LOGIN DELETE AFTER FINISH DEVELOPMENT --------------------------------------- */}
-            <span>
-              TEST LOGIN
-              {" | "}
-              <button onClick={() => testLogin("admin")}>Admin</button>
-              {" | "}
-              <button onClick={() => testLogin("moder")}>Moder</button>
-              {" | "}
-              <button onClick={() => testLogin("verified")}>Verified</button>
-              {" | "}
-              <button onClick={() => testLogin("not_verified")}>Not verified</button>
-              {" | "}
-            </span>
+            <QASignIn login={login} reset={reset} />
             {/* TEST LOGIN DELETE AFTER FINISH DEVELOPMENT --------------------------------------- */}
           </form>
         </div>
