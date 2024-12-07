@@ -9,19 +9,19 @@ export function NewsMenu() {
   return (
     <div className={styles.menu}>
       <BaseButton
-        variant={pathname === "/notifications" ? "primary" : "quaternary"}
+        variant={pathname === "/notifications" ? "primary" : "light"}
         onClick={() => navigate("/notifications")}
       >
         Notifications
       </BaseButton>
       <BaseButton
-        variant={pathname === "/votings" ? "primary" : "quaternary"}
+        variant={pathname === "/votings" ? "primary" : "light"}
         onClick={() => navigate("/votings")}
       >
         Votings
       </BaseButton>
       <BaseButton
-        variant={pathname === "/news" ? "primary" : "quaternary"}
+        variant={pathname === "/news" ? "primary" : "light"}
         onClick={() => navigate("/news")}
       >
         News

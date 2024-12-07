@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
-import styles from "./BaseButton.module.css";
+import styles from "./BaseButton.module.scss";
 
-type VariantTypes = "primary" | "secondary" | "tertiary" | "quaternary";
+type VariantTypes = "primary" | "outlined" | "text" | "light";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: string | ReactNode;
