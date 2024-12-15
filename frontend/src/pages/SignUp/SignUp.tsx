@@ -2,21 +2,21 @@ import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
 import { Checkbox, Select } from "@mui/joy";
 import Option from "@mui/joy/Option";
 import { selectClasses } from "@mui/joy/Select";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import {
-  ResidentialComplex,
-  ResidentialComplexDetails,
-} from "../../entities/residentialComplex/residentialComplex.types";
-import { useUserStore } from "../../entities/user/user.store";
-import { RegistrationData } from "../../entities/user/user.types";
-import useApi from "../../shared/api/useApi";
-import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
-import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
-import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
-import { Header } from "../../widgets/Header/Header";
-import { SignSwiper } from "../../widgets/SignSwiper/SignSwiper";
+
+import { useUserStore } from "@/entities/user/user.store";
+import { RegistrationData } from "@/entities/user/user.types";
+import { fetchResidentialComplexDetails } from "@/shared/api/residential-complex-details";
+import { fetchResidentialComplexList } from "@/shared/api/residential-complex-list";
+import EyeClosed from "@/shared/assets/icons/EyeClosed.svg";
+import EyeOpen from "@/shared/assets/icons/EyeOpen.svg";
+import { BaseButton } from "@/shared/components/BaseButton/BaseButton";
+import { Header } from "@/widgets/Header/Header";
+import { SignSwiper } from "@/widgets/SignSwiper/SignSwiper";
+
 import styles from "./SignUp.module.css";
 import { SuccessRegistrationModal } from "./SuccessRegistrationModal/SuccessRegistrationModal";
 
@@ -31,15 +31,20 @@ export function SignUp() {
 
   const { loading, success, error, errorMessage, registration, clearMessage } = useUserStore();
 
-  const { data: complexes } = useApi<ResidentialComplex[]>("/api/residential_complex");
-
   const [isAgree, setIsAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [selectedComplex, setSelectedComplex] = useState<string | null>(null);
 
-  const { data: selectedComplexData } = useApi<ResidentialComplexDetails>(
-    selectedComplex && `/api/residential_complex/${selectedComplex}`
-  );
+  const { data: complexes } = useQuery({
+    queryKey: ["residential_complex_list"],
+    queryFn: fetchResidentialComplexList,
+  });
+
+  const { data: selectedComplexData } = useQuery({
+    queryKey: ["residential_complex_details", selectedComplex],
+    queryFn: ({ queryKey }) => fetchResidentialComplexDetails(queryKey[1] as string),
+    enabled: !!selectedComplex,
+  });
 
   useEffect(() => {
     return () => {
@@ -49,7 +54,7 @@ export function SignUp() {
 
   const onSubmit: SubmitHandler<RegistrationData> = (data) => registration(data, reset);
 
-  const complexArr = complexes?.map((complex: ResidentialComplex) => complex.name);
+  const complexArr = complexes?.map((complex) => complex.name);
   const sectionsArr = selectedComplexData?.sectionNames;
 
   return (
@@ -350,7 +355,7 @@ export function SignUp() {
 
             <div className={styles.text}>
               Already have an account?{" "}
-              <Link to="/signin" className={styles.link}>
+              <Link to="/auth/signin" className={styles.link}>
                 Log In
               </Link>
             </div>

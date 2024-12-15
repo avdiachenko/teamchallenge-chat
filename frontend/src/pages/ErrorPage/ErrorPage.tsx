@@ -1,5 +1,7 @@
-import { useNavigate } from "react-router-dom";
-import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
+import { useNavigate } from "@tanstack/react-router";
+
+import { BaseButton } from "@/shared/components/BaseButton/BaseButton";
+
 import styles from "./ErrorPage.module.css";
 
 export function ErrorPage() {
@@ -9,7 +11,7 @@ export function ErrorPage() {
     <div className={styles.container}>
       <span className={styles.text}>Oops! Something went wrong.</span>
       <div>
-        <BaseButton variant="primary" onClick={() => navigate("/")}>
+        <BaseButton variant="primary" onClick={() => navigate({ to: "/" })}>
           Back to Home
         </BaseButton>
       </div>

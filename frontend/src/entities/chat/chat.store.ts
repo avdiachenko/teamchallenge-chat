@@ -1,9 +1,11 @@
 /* eslint-disable no-console */
 import { io, Socket } from "socket.io-client";
 import { create } from "zustand";
-import { api } from "../../shared/api/api";
-import { BASE_URL } from "../../shared/constants/urls";
-import { User } from "../user/user.types";
+
+import { User } from "@/entities/user/user.types";
+import { api } from "@/shared/api/api";
+import { BASE_API_URL } from "@/shared/constants/urls";
+
 import { ChatType, MessageType } from "./chat.types";
 
 interface Store {
@@ -58,7 +60,7 @@ export const useChatStore = create<Store>((set, get) => ({
   },
 
   connectSocket: (token: string) => {
-    const newSocket = io(BASE_URL, {
+    const newSocket = io(BASE_API_URL, {
       auth: { token },
     });
 

@@ -1,13 +1,15 @@
+import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { useUserStore } from "../../entities/user/user.store";
-import { AuthData } from "../../entities/user/user.types";
-import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
-import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
-import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
-import { Header } from "../../widgets/Header/Header";
-import { SignSwiper } from "../../widgets/SignSwiper/SignSwiper";
+
+import { useUserStore } from "@/entities/user/user.store";
+import { AuthData } from "@/entities/user/user.types";
+import EyeClosed from "@/shared/assets/icons/EyeClosed.svg";
+import EyeOpen from "@/shared/assets/icons/EyeOpen.svg";
+import { BaseButton } from "@/shared/components/BaseButton/BaseButton";
+import { Header } from "@/widgets/Header/Header";
+import { SignSwiper } from "@/widgets/SignSwiper/SignSwiper";
+
 import styles from "./SignIn.module.css";
 
 //TODO: enable by .env flag on dev/stage only
@@ -156,7 +158,7 @@ export function SignIn() {
             </div>
 
             <div className={styles.forgot}>
-              <Link to="/forgot-password" className={styles.link}>
+              <Link to="/auth/forgot-password" className={styles.link}>
                 Forgot password?
               </Link>
             </div>
@@ -171,7 +173,7 @@ export function SignIn() {
 
             <div className={styles.text}>
               Don’t have an account?{" "}
-              <Link to="/signup" className={styles.link}>
+              <Link to="/auth/signup" className={styles.link}>
                 Sign Up
               </Link>
             </div>

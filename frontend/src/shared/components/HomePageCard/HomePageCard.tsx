@@ -1,4 +1,5 @@
 import React from "react";
+
 import styles from "./HomePageCard.module.css";
 import accept from "./Tick.svg";
 

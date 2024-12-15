@@ -1,12 +1,14 @@
+import { Navigate, useParams } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Navigate, useParams } from "react-router-dom";
-import { useUserStore } from "../../entities/user/user.store";
-import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
-import EyeOpen from "../../shared/assets/icons/EyeOpen.svg";
-import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
-import { Header } from "../../widgets/Header/Header";
-import { SignSwiper } from "../../widgets/SignSwiper/SignSwiper";
+
+import { useUserStore } from "@/entities/user/user.store";
+import EyeClosed from "@/shared/assets/icons/EyeClosed.svg";
+import EyeOpen from "@/shared/assets/icons/EyeOpen.svg";
+import { BaseButton } from "@/shared/components/BaseButton/BaseButton";
+import { Header } from "@/widgets/Header/Header";
+import { SignSwiper } from "@/widgets/SignSwiper/SignSwiper";
+
 import styles from "./ResetPassword.module.css";
 
 export function ResetPassword() {

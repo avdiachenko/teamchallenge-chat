@@ -1,8 +1,9 @@
-import { useChatStore } from "../../../entities/chat/chat.store";
-import { ChatType } from "../../../entities/chat/chat.types";
-import { useUserStore } from "../../../entities/user/user.store";
-import useApi from "../../../shared/api/useApi";
-import { Spinner } from "../../../shared/components/Spinner/Spinner";
+import { useChatStore } from "@/entities/chat/chat.store";
+import { ChatType } from "@/entities/chat/chat.types";
+import { useUserStore } from "@/entities/user/user.store";
+import useApi from "@/shared/api/useApi";
+import { Spinner } from "@/shared/components/Spinner/Spinner";
+
 import styles from "./ChatList.module.css";
 
 const messagesArray = [

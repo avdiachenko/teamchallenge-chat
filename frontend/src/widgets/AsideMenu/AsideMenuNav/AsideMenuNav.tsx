@@ -1,15 +1,16 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import cs from "classnames";
 
-import { useUserStore } from "../../../entities/user/user.store.ts";
+import { useUserStore } from "@/entities/user/user.store.ts";
+
 import styles from "../AsideMenu.module.scss";
 import {
   IconChat,
   IconContacts,
   IconLogout,
+  IconNeighbours,
   IconNews,
   IconPayments,
-  IconNeighbours,
   IconSettings,
 } from "../icons/index.ts";
 
@@ -23,69 +24,48 @@ export const AsideMenuNav: React.FC<AsideMenuNavProps> = ({ isLoggedIn }) => {
   return (
     <nav className={styles.nav_menu}>
       <div className={styles.main_links}>
-        <NavLink
-          className={({ isActive }) =>
-            cs(styles.nav_links, { [styles.disabled]: !isLoggedIn, [styles.active]: isActive })
-          }
+        <Link
+          className={cs(styles.nav_links, { [styles.disabled]: !isLoggedIn })}
+          activeProps={{ className: styles.active }}
           to="/chat"
         >
           <IconChat color={isLoggedIn ? "primary" : "disabled"} />
-        </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            cs(styles.nav_links, {
-              [styles.disabled]: !isLoggedIn,
-              [styles.active]: isActive,
-            })
-          }
-          to="/notifications"
+        </Link>
+        <Link
+          className={cs(styles.nav_links, { [styles.disabled]: !isLoggedIn })}
+          activeProps={{ className: styles.active }}
+          to="/activities"
         >
           <IconNews color={isLoggedIn ? "primary" : "disabled"} />
-        </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            cs(styles.nav_links, {
-              [styles.disabled]: !isLoggedIn,
-              [styles.active]: isActive,
-            })
-          }
+        </Link>
+        <Link
+          className={cs(styles.nav_links, { [styles.disabled]: !isLoggedIn })}
+          activeProps={{ className: styles.active }}
           to="/contacts"
         >
           <IconContacts color={isLoggedIn ? "primary" : "disabled"} />
-        </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            cs(styles.nav_links, {
-              [styles.disabled]: !isLoggedIn,
-              [styles.active]: isActive,
-            })
-          }
+        </Link>
+        <Link
+          className={cs(styles.nav_links, { [styles.disabled]: !isLoggedIn })}
+          activeProps={{ className: styles.active }}
           to="/payments"
         >
           <IconPayments color={isLoggedIn ? "primary" : "disabled"} />
-        </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            cs(styles.nav_links, {
-              [styles.disabled]: !isLoggedIn,
-              [styles.active]: isActive,
-            })
-          }
+        </Link>
+        <Link
+          className={cs(styles.nav_links, { [styles.disabled]: !isLoggedIn })}
+          activeProps={{ className: styles.active }}
           to="/neighbours"
         >
           <IconNeighbours color={isLoggedIn ? "primary" : "disabled"} />
-        </NavLink>
-        <NavLink
-          className={({ isActive }) =>
-            cs(styles.nav_links, {
-              [styles.disabled]: !isLoggedIn,
-              [styles.active]: isActive,
-            })
-          }
+        </Link>
+        <Link
+          className={cs(styles.nav_links, { [styles.disabled]: !isLoggedIn })}
+          activeProps={{ className: styles.active }}
           to="/settings"
         >
           <IconSettings color={isLoggedIn ? "primary" : "disabled"} />
-        </NavLink>
+        </Link>
         {isLoggedIn && (
           <button onClick={logout} className={cs(styles.nav_links, styles.logout)}>
             <IconLogout />

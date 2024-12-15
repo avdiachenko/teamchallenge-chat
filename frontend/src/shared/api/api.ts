@@ -1,5 +1,5 @@
-import { useUserStore } from "../../entities/user/user.store";
-import { BASE_URL } from "../constants/urls";
+import { useUserStore } from "@/entities/user/user.store";
+import { BASE_API_URL } from "@/shared/constants/urls";
 
 export const api = async (url: string, options: RequestInit = {}) => {
   const { token, refreshToken, refresh, clearTokens } = useUserStore.getState();
@@ -13,13 +13,13 @@ export const api = async (url: string, options: RequestInit = {}) => {
     },
   };
 
-  let res = await fetch(BASE_URL + url, modifiedOptions);
+  let res = await fetch(BASE_API_URL + url, modifiedOptions);
 
   if (res.status === 401 && refreshToken) {
     await refresh();
     const { token: newToken } = useUserStore.getState();
 
-    res = await fetch(BASE_URL + url, {
+    res = await fetch(BASE_API_URL + url, {
       ...modifiedOptions,
       headers: {
         ...modifiedOptions.headers,

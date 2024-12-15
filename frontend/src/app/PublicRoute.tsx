@@ -1,6 +1,7 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { useUserStore } from "../entities/user/user.store";
-import { Spinner } from "../shared/components/Spinner/Spinner";
+import { Navigate, Outlet } from "@tanstack/react-router";
+
+import { useUserStore } from "@/entities/user/user.store";
+import { Spinner } from "@/shared/components/Spinner/Spinner";
 
 export const PublicRoute = () => {
   const { isAuth, isInitialized } = useUserStore();

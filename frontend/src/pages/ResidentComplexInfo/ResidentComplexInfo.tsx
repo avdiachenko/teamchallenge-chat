@@ -1,15 +1,18 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "swiper/swiper-bundle.css"; // Не забудь импортировать стили Swiper
+
+import { useParams } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/swiper-bundle.css"; // Не забудь импортировать стили Swiper
 import { Swiper as SwiperClass } from "swiper/types";
-import { Spinner } from "../../shared/components/Spinner/Spinner";
-import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
-import { Header } from "../../widgets/Header/Header";
+
+import { Spinner } from "@/shared/components/Spinner/Spinner";
+import { AsideMenu } from "@/widgets/AsideMenu/AsideMenu";
+import { Header } from "@/widgets/Header/Header";
+
 import apartments from "./apartments.svg";
 import entrances from "./entrances.svg";
 import floors from "./floors.svg";

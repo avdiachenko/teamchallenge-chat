@@ -1,4 +1,5 @@
-import { useUserStore } from "../../entities/user/user.store.ts";
+import { useUserStore } from "@/entities/user/user.store.ts";
+
 import styles from "./AsideMenu.module.scss";
 import { AsideMenuNav } from "./AsideMenuNav/AsideMenuNav.tsx";
 

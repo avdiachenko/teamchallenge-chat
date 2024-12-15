@@ -1,11 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
-import styles from "./Header.module.css";
-import { UserPanel } from "./UserPanel/UserPanel";
+import { Link } from "@tanstack/react-router";
+import React, { useEffect, useRef, useState } from "react";
+
 import * as images from "../AsideMenu/icons/index";
 import eng from "./eng.svg";
-import ua from "./ua.svg";
+import styles from "./Header.module.css";
 import openIcon from "./openIcon.svg";
+import ua from "./ua.svg";
+import { UserPanel } from "./UserPanel/UserPanel";
 
 type HeaderProps = {
   title: string;

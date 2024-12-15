@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useUserStore } from "../../entities/user/user.store";
-import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
-import { Header } from "../../widgets/Header/Header";
-import { SignSwiper } from "../../widgets/SignSwiper/SignSwiper";
+
+import { useUserStore } from "@/entities/user/user.store";
+import { BaseButton } from "@/shared/components/BaseButton/BaseButton";
+import { Header } from "@/widgets/Header/Header";
+import { SignSwiper } from "@/widgets/SignSwiper/SignSwiper";
+
 import styles from "./ForgotPassword.module.css";
 
 export function ForgotPassword() {

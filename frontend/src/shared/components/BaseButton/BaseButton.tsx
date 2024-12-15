@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
+
 import styles from "./BaseButton.module.scss";
 
 type VariantTypes = "primary" | "outlined" | "text" | "light";

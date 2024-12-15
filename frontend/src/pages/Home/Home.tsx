@@ -1,16 +1,19 @@
-import { HomePageCard } from "../../shared/components/HomePageCard/HomePageCard";
-import { Link } from "react-router-dom";
-import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
-import { Header } from "../../widgets/Header/Header";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Swiper as SwiperType } from "swiper/types";
-import styles from "./Home.module.css";
-import { BASE_URL } from "../../shared/constants/urls";
+
+import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper as SwiperType } from "swiper/types";
+
+import { HomePageCard } from "@/shared/components/HomePageCard/HomePageCard";
+import { BASE_API_URL } from "@/shared/constants/urls";
+import { AsideMenu } from "@/widgets/AsideMenu/AsideMenu";
+import { Header } from "@/widgets/Header/Header";
+
+import styles from "./Home.module.css";
 // import { ResidentComplexInfo } from "../ResidentComplexInfo/ResidentComplexInfo"
 
 interface ResidentialComplex {
@@ -31,7 +34,7 @@ export function Home() {
   const [complex, setComplexes] = useState<ResidentialComplex[]>([]);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/api/residential_complex`)
+    fetch(`${BASE_API_URL}/api/residential_complex`)
       .then((res) => res.json())
       .then((data) => {
         setComplexes(data);

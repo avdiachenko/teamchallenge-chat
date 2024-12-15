@@ -1,5 +1,7 @@
-import { Link } from "react-router-dom";
-import { useUserStore } from "../../../entities/user/user.store";
+import { Link } from "@tanstack/react-router";
+
+import { useUserStore } from "@/entities/user/user.store";
+
 import nofiticationIcon from "./nofiticationIcon.svg";
 import avatar from "./userAvatar.png";
 import styles from "./UserPanel.module.css";
@@ -20,11 +22,11 @@ export function UserPanel() {
         </div>
       ) : (
         <div className={styles.auth}>
-          <Link to="/signin" className={styles.link}>
+          <Link to="/auth/signin" className={styles.link}>
             Sign in
           </Link>
 
-          <Link to="/signup" className={styles.link}>
+          <Link to="/auth/signup" className={styles.link}>
             Sign up
           </Link>
         </div>

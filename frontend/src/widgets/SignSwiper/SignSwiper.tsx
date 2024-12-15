@@ -1,20 +1,29 @@
-import { memo, useRef } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
+
+import { useQuery } from "@tanstack/react-query";
+import { useRef } from "react";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ResidentialComplex } from "../../entities/residentialComplex/residentialComplex.types";
-import useApi from "../../shared/api/useApi";
+
+import { fetchResidentialComplexList } from "@/shared/api/residential-complex-list";
+
 import ArrowLeft from "./icons/ArrowLeft.svg";
 import ArrowRight from "./icons/ArrowRight.svg";
 import styles from "./SignSwiper.module.css";
 
-export const SignSwiper = memo(() => {
-  const { data } = useApi<ResidentialComplex[]>("/api/residential_complex");
-  const imgArr = data?.map((complex) => complex.images).flat();
+export const SignSwiper = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["residential_complex_list"],
+    queryFn: fetchResidentialComplexList,
+  });
 
   const swiperNavNextRef = useRef(null);
   const swiperNavPrevRef = useRef(null);
+
+  if (isLoading) {
+    return <div>loading...</div>;
+  }
 
   return (
     <div className={styles.container}>
@@ -32,12 +41,15 @@ export const SignSwiper = memo(() => {
         navigation={{ prevEl: swiperNavPrevRef.current, nextEl: swiperNavNextRef.current }}
         className={styles.swiper}
       >
-        {imgArr?.map((img) => (
-          <SwiperSlide className={styles.slide} key={img}>
-            <img src={img} alt="complex" />
-          </SwiperSlide>
-        ))}
+        {data
+          ?.map((complex) => complex.images)
+          .flat()
+          .map((img) => (
+            <SwiperSlide className={styles.slide} key={img}>
+              <img src={img} alt="complex" />
+            </SwiperSlide>
+          ))}
       </Swiper>
     </div>
   );
-});
+};

@@ -1,9 +1,10 @@
 import {
   ResidentialComplex,
   ResidentialComplexDetails,
-} from "../../../entities/residentialComplex/residentialComplex.types";
-import { useUserStore } from "../../../entities/user/user.store";
-import useApi from "../../../shared/api/useApi";
+} from "@/entities/residentialComplex/residentialComplex.types";
+import { useUserStore } from "@/entities/user/user.store";
+import useApi from "@/shared/api/useApi";
+
 import styles from "./NotificationsSelector.module.css";
 
 interface Props {

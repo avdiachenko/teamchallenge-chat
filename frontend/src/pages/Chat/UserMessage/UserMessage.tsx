@@ -1,4 +1,5 @@
-import { MessageType } from "../../../entities/chat/chat.types";
+import { MessageType } from "@/entities/chat/chat.types";
+
 import styles from "./UserMessage.module.css";
 
 interface Props {

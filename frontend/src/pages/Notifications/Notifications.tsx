@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { useUserStore } from "../../entities/user/user.store";
-import useApi from "../../shared/api/useApi";
-import { Spinner } from "../../shared/components/Spinner/Spinner";
-import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
-import { Header } from "../../widgets/Header/Header";
-import { NewsMenu } from "../../widgets/NewsMenu/NewsMenu";
+
+import { useUserStore } from "@/entities/user/user.store";
+import useApi from "@/shared/api/useApi";
+import { Spinner } from "@/shared/components/Spinner/Spinner";
+import { AsideMenu } from "@/widgets/AsideMenu/AsideMenu";
+import { Header } from "@/widgets/Header/Header";
+import { NewsMenu } from "@/widgets/NewsMenu/NewsMenu";
+
 import { NotificationCard } from "./NotificationCard/NotificationCard";
 import { NotificationInput } from "./NotificationInput/NotificationInput";
 import styles from "./Notifications.module.css";

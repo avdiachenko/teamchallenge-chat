@@ -1,8 +1,10 @@
 import { Modal, ModalClose, Sheet } from "@mui/joy";
-import { useNavigate } from "react-router-dom";
-import { BaseButton } from "../../../shared/components/BaseButton/BaseButton";
-import styles from "./SuccessRegistrationModal.module.css";
+import { useNavigate } from "@tanstack/react-router";
+
+import { BaseButton } from "@/shared/components/BaseButton/BaseButton";
+
 import regFolderImage from "./icons/regFolderImage.svg";
+import styles from "./SuccessRegistrationModal.module.css";
 
 interface Props {
   open: boolean;
@@ -14,7 +16,7 @@ export function SuccessRegistrationModal(props: Props) {
 
   const clickHomeButton = () => {
     close();
-    navigate("/");
+    navigate({ to: "/" });
   };
 
   if (!open) {

@@ -1,9 +1,11 @@
 import { useEffect, useRef } from "react";
-import { useChatStore } from "../../../entities/chat/chat.store";
-import { useUserStore } from "../../../entities/user/user.store";
-import { Spinner } from "../../../shared/components/Spinner/Spinner";
-import { Message } from "../Message/Message";
-import { UserMessage } from "../UserMessage/UserMessage";
+
+import { useChatStore } from "@/entities/chat/chat.store";
+import { useUserStore } from "@/entities/user/user.store";
+import { Message } from "@/pages/Chat/Message/Message";
+import { UserMessage } from "@/pages/Chat/UserMessage/UserMessage";
+import { Spinner } from "@/shared/components/Spinner/Spinner";
+
 import styles from "./ChatWindow.module.css";
 
 export function ChatWindow() {
