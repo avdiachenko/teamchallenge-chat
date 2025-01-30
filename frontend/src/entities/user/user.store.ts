@@ -106,6 +106,7 @@ export const useUserStore = create<Store>((set, get) => ({
   },
 
   registration: async (registrationData: RegistrationData, reset: () => void) => {
+    console.log("registrationData: ", registrationData);
     try {
       set({ loading: true, success: false, error: false, errorMessage: "" });
 
