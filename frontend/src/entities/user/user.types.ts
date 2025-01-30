@@ -29,4 +29,5 @@ export interface RegistrationData {
   apartment: number;
   entrance: number;
   section: string;
+  phone: string;
 }

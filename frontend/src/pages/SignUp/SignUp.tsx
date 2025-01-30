@@ -104,6 +104,26 @@ export function SignUp() {
             </div>
 
             <div className={styles.inputContainer}>
+              <label className={`${errors.email && styles.labelError} ${styles.label}`}>
+                Phone number
+              </label>
+              <input
+                type="tel"
+                {...register("phone", {
+                  required: "Phone number is required",
+                  validate: {
+                    isPhone: (value) =>
+                      /^(\+\d{1,3}[- ]?)?(\(?\d{1,4}\)?[- ]?)?\d{1,4}[- ]?\d{4}$/.test(value) ||
+                      "Invalid phone number",
+                  },
+                })}
+                placeholder="Your Email Address"
+                className={`${errors.email && styles.inputError} ${styles.input}`}
+              />
+              {errors.email && <p className={styles.error}>{errors.email.message}</p>}
+            </div>
+
+            <div className={styles.inputContainer}>
               <label className={`${errors.password && styles.labelError} ${styles.label}`}>
                 Password
               </label>
