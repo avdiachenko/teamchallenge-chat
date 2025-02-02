@@ -8,6 +8,7 @@ export interface User {
   apartment?: number;
   section?: string;
   phone?: string;
+  is_admin?: boolean;
 }
 
 export interface LoginData {

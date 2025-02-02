@@ -22,7 +22,6 @@ export function Notifications() {
   const { data: notifications, isLoading } = useApi<Notification[]>(
     selectedSection || selectedComplex ? url : null
   );
-  console.log("notifications", notifications);
   const notificationListRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = (px?: number) => {
@@ -67,7 +66,6 @@ export function Notifications() {
       }
     };
   }, [limit]);
-
   return (
     <>
       <AsideMenu />
@@ -93,7 +91,7 @@ export function Notifications() {
                   ))}
             </div>
 
-            {(user?.role === "administrator" || user?.role === "moderator") && (
+            {(user?.is_admin  || user?.role === "moderator") && (
               <NotificationInput />
             )}
           </div>

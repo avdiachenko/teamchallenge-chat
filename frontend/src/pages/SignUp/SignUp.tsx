@@ -31,14 +31,14 @@ export function SignUp() {
 
   const { loading, success, error, errorMessage, registration, clearMessage } = useUserStore();
 
-  const { data: complexes } = useApi<ResidentialComplex[]>("/api/residential_complex");
+  const { data: complexes } = useApi<ResidentialComplex[]>("/complexes");
 
   const [isAgree, setIsAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [selectedComplex, setSelectedComplex] = useState<string | null>(null);
 
   const { data: selectedComplexData } = useApi<ResidentialComplexDetails>(
-    selectedComplex && `/api/residential_complex/${selectedComplex}`
+    selectedComplex && `/complexes/${selectedComplex}`
   );
 
   useEffect(() => {
@@ -49,7 +49,10 @@ export function SignUp() {
 
   const onSubmit: SubmitHandler<RegistrationData> = (data) => registration(data, reset);
 
-  const complexArr = complexes?.map((complex: ResidentialComplex) => complex.name);
+  const complexArr = complexes?.map((complex: ResidentialComplex) => ({
+    id: complex._id,
+    name: complex.name,
+  }));
   const sectionsArr = selectedComplexData?.sectionNames;
 
   return (
@@ -196,8 +199,8 @@ export function SignUp() {
                     }}
                   >
                     {complexArr?.map((complex) => (
-                      <Option key={complex} value={complex}>
-                        {complex}
+                      <Option key={complex.id} value={complex.id}>
+                        {complex.name}
                       </Option>
                     ))}
                   </Select>

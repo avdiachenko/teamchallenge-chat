@@ -42,7 +42,7 @@ export const ResidentComplexInfo: React.FC = () => {
   const { name } = useParams();
 
   useEffect(() => {
-    fetch(`https://teamchallenge-chat-jmsz.onrender.com/api/residential_complex/${name}`)
+    fetch(`https://teamchallenge-chat-jmsz.onrender.com/api/complexes/${name}`)
       .then((res) => res.json())
       .then((data) => {
         setComplexData(data);

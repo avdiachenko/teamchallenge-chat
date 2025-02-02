@@ -18,11 +18,11 @@ export function NotificationsSelector(props: Props) {
   const { user } = useUserStore();
 
   const { data: complexes } = useApi<ResidentialComplex[]>(
-    user?.role === "administrator" ? "/api/residential_complex" : null
+    user?.role === "administrator" ? "/complexes" : null
   );
 
   const { data: userComplex } = useApi<ResidentialComplexDetails>(
-    user?.role !== "administrator" ? `/api/residential_complex/${user?.residential_complex}` : null
+    user?.role !== "administrator" ? `/complexes/${user?.residential_complex}` : null
   );
 
   return (

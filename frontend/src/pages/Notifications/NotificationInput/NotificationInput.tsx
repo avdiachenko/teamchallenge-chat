@@ -12,7 +12,6 @@ export function NotificationInput() {
   const [type, setType] = useState<null | string>("Events");
 
   const sendMessage = () => {
-    console.log({ type, text });
     alert(type + ": " + text);
     setText("");
   };

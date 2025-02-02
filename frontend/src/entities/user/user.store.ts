@@ -134,7 +134,6 @@ export const useUserStore = create<Store>((set, get) => ({
         body: JSON.stringify(loginInputs),
       });
 
-      console.log(data);
 
       set({
         token: data.token,

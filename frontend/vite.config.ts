@@ -4,7 +4,9 @@ import { defineConfig } from "vite";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const baseURL =
-    mode === "local-dev" ? "http://localhost:4000" : "https://teamchallenge-chat-jmsz.onrender.com";
+    mode === "local-dev"
+      ? "http://localhost:4000"
+      : "https://team-challenge-backend-c55i.onrender.com";
 
   return {
     plugins: [react()],

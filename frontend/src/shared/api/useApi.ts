@@ -7,7 +7,6 @@ const useApi = <T>(
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-
   const fetchData = useCallback(async () => {
     if (!path) {
       setData(null);

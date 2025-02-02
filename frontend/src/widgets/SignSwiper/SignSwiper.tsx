@@ -10,7 +10,7 @@ import ArrowRight from "./icons/ArrowRight.svg";
 import styles from "./SignSwiper.module.css";
 
 export const SignSwiper = memo(() => {
-  const { data } = useApi<ResidentialComplex[]>("/api/residential_complex");
+  const { data } = useApi<ResidentialComplex[]>("/complexes");
   const imgArr = data?.map((complex) => complex.images).flat();
 
   const swiperNavNextRef = useRef(null);
