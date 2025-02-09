@@ -129,7 +129,7 @@ export const useUserStore = create<Store>((set, get) => ({
     try {
       set({ loading: true, error: false, errorMessage: "", success: false });
 
-      const data = await api("/users/login", {
+      const data = await api("/auth/login", {
         method: "POST",
         body: JSON.stringify(loginInputs),
       });
