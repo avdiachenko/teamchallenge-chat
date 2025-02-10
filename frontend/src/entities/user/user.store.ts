@@ -48,9 +48,7 @@ export const useUserStore = create<Store>((set, get) => ({
     const { token, refreshToken, refresh, updateUserInfo } = get();
     const isTokenValid = token && !isTokenExpired(token);
     const isRefreshTokenValid = refreshToken && !isTokenExpired(refreshToken);
-
     if (!isTokenValid) {
-      localStorage.removeItem("token");
       set({ token: null });
       if (isRefreshTokenValid) {
         await refresh();
@@ -129,11 +127,10 @@ export const useUserStore = create<Store>((set, get) => ({
     try {
       set({ loading: true, error: false, errorMessage: "", success: false });
 
-      const data = await api("/users/login", {
+      const data = await api("/auth/login", {
         method: "POST",
         body: JSON.stringify(loginInputs),
       });
-
 
       set({
         token: data.token,

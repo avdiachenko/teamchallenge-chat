@@ -16,6 +16,7 @@ import floors from "./floors.svg";
 import style from "./ResidentComplexInfo.module.css";
 import sections from "./sections.svg";
 import accept from "./Tick.svg";
+import { BASE_URL } from "../../shared/constants/urls";
 
 export const ResidentComplexInfo: React.FC = () => {
   type complexData = {
@@ -42,7 +43,7 @@ export const ResidentComplexInfo: React.FC = () => {
   const { name } = useParams();
 
   useEffect(() => {
-    fetch(`https://teamchallenge-chat-jmsz.onrender.com/api/complexes/${name}`)
+    fetch(`${BASE_URL}/complexes/${name}`)
       .then((res) => res.json())
       .then((data) => {
         setComplexData(data);

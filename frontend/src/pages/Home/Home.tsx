@@ -31,7 +31,7 @@ export function Home() {
   const [complex, setComplexes] = useState<ResidentialComplex[]>([]);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/api/complexes`)
+    fetch(`${BASE_URL}/complexes`)
       .then((res) => res.json())
       .then((data) => {
         setComplexes(data);

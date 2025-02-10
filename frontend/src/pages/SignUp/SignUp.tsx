@@ -148,7 +148,7 @@ export function SignUp() {
               {errors.password && <p className={styles.error}>{errors.password.message}</p>}
             </div>
 
-            <div className={styles.inputContainer}>
+            {/* <div className={styles.inputContainer}>
               <label
                 className={`${errors.residential_complex && styles.labelError} ${styles.label}`}
               >
@@ -341,7 +341,7 @@ export function SignUp() {
                 />
                 <label className={styles.label}>I agree to the processing of personal data</label>
               </div>
-            </div>
+            </div> */}
 
             <BaseButton disabled={loading || !isAgree} type="submit">
               Sign Up

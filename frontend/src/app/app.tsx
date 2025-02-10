@@ -7,11 +7,11 @@ interface Props {
 
 export function App(props: Props) {
   const { children } = props;
-  const { token, isInitialized, initialization } = useUserStore();
-
+  const { isInitialized, initialization } = useUserStore();
+  console.log("isInitialized", isInitialized);
   useEffect(() => {
     if (!isInitialized) initialization();
-  }, [token, initialization, isInitialized]);
+  }, [isInitialized, initialization]);
 
   return <>{children}</>;
 }
