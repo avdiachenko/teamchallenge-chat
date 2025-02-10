@@ -26,8 +26,5 @@ export interface RegistrationData {
   name: string;
   email: string;
   password: string;
-  residential_complex: string;
-  apartment: number;
-  entrance: number;
-  section: string;
+  phone: string;
 }

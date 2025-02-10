@@ -18,7 +18,7 @@ export function Notifications() {
   const [limit, setLimit] = useState(7);
   const [isInited, setIsInited] = useState(false);
 
-  const url = `/notifications?limit=${limit}&page=1${selectedSection ? "&building=true" : ""}`;
+  const url = `/notifications/${setSelectedComplex}?builsing_id=${setSelectedSection}&limit=${limit}&page=1`;
   const { data: notifications, isLoading } = useApi<Notification[]>(
     selectedSection || selectedComplex ? url : null
   );
@@ -91,9 +91,7 @@ export function Notifications() {
                   ))}
             </div>
 
-            {(user?.is_admin  || user?.role === "moderator") && (
-              <NotificationInput />
-            )}
+            {user?.is_admin && <NotificationInput />}
           </div>
         </div>
       </div>

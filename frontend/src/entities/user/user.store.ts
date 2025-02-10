@@ -65,7 +65,7 @@ export const useUserStore = create<Store>((set, get) => ({
 
   updateUserInfo: async () => {
     try {
-      const data = await api("/users/user-info");
+      const data = await api("/auth/current");
 
       if (!data) throw new Error("Failed to fetch user info");
 
@@ -81,7 +81,7 @@ export const useUserStore = create<Store>((set, get) => ({
 
       if (!refreshToken) throw new Error("No refresh token available");
 
-      const res = await fetch(BASE_URL + "/users/refreshCurrent", {
+      const res = await fetch(BASE_URL + "/auth/refreshCurrent", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${refreshToken}`,
@@ -90,7 +90,9 @@ export const useUserStore = create<Store>((set, get) => ({
 
       if (!res.ok) throw new Error("Failed to refresh token");
 
-      const { token, refreshToken: newRefreshToken } = await res.json();
+      const {
+        tokens: { accessToken: token, refreshToken: newRefreshToken },
+      } = await res.json();
 
       if (!token || !newRefreshToken) throw new Error("Invalid token or refresh token in response");
 
@@ -107,7 +109,7 @@ export const useUserStore = create<Store>((set, get) => ({
     try {
       set({ loading: true, success: false, error: false, errorMessage: "" });
 
-      await api("/users/register", {
+      await api("/auth/register", {
         method: "POST",
         body: JSON.stringify(registrationData),
       });
@@ -131,15 +133,14 @@ export const useUserStore = create<Store>((set, get) => ({
         method: "POST",
         body: JSON.stringify(loginInputs),
       });
-
       set({
-        token: data.token,
-        refreshToken: data.refreshToken,
+        token: data.tokens.accessToken,
+        refreshToken: data.tokens.refreshToken,
         user: data.user,
       });
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("token", data.tokens.accessToken);
+      localStorage.setItem("refreshToken", data.tokens.refreshToken);
 
       reset();
     } catch (error) {
@@ -152,7 +153,7 @@ export const useUserStore = create<Store>((set, get) => ({
 
   logout: async () => {
     try {
-      await api("/users/logout", {
+      await api("/auth/logout", {
         method: "POST",
       });
     } catch (error) {
@@ -180,7 +181,7 @@ export const useUserStore = create<Store>((set, get) => ({
     try {
       set({ loading: true, error: false, errorMessage: "", success: false });
 
-      await api("/users/forgot-password", {
+      await api("/auth/forgot-password", {
         method: "POST",
         body: JSON.stringify({ email }),
       });
@@ -200,7 +201,7 @@ export const useUserStore = create<Store>((set, get) => ({
     try {
       set({ loading: true, error: false, errorMessage: "", success: false });
 
-      await api(`/users/update-password/${tempCode}`, {
+      await api(`/auth/update-password/${tempCode}`, {
         method: "POST",
         body: JSON.stringify({ newPassword }),
       });

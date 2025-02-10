@@ -12,7 +12,7 @@ export const isTokenExpired = (token: string) => {
 
   const payload = token.split(".")[1];
   const decodedPayload = JSON.parse(decodeBase64(payload));
-  // const exp = decodedPayload.exp;
-  // const now = Math.floor(Date.now() / 1000);
-  return false;
+  const exp = decodedPayload.exp;
+  const now = Math.floor(Date.now() / 1000);
+  return exp < now;
 };

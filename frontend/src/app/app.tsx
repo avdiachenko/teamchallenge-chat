@@ -8,7 +8,6 @@ interface Props {
 export function App(props: Props) {
   const { children } = props;
   const { isInitialized, initialization } = useUserStore();
-  console.log("isInitialized", isInitialized);
   useEffect(() => {
     if (!isInitialized) initialization();
   }, [isInitialized, initialization]);
