@@ -16,10 +16,9 @@ interface Props {
 export function NotificationsSelector(props: Props) {
   const { selectedComplex, selectedSection, setSelectedComplex, setSelectedSection } = props;
   const { user } = useUserStore();
-  const { data: complexes } = useApi<ResidentialComplex[]>(
-    user?.role === "administrator" ? "/complexes" : null
-  );
-
+  const { data: complexes } = useApi<ResidentialComplex[]>(user?.is_admin ? "/complexes" : null);
+  console.log("user", user);
+  console.log("complexes", complexes);
   const { data: userComplex } = useApi<ResidentialComplexDetails>(
     user?.role !== "administrator" ? `/complexes/67a3b22c57531ded6f3b23c0` : null
   );
@@ -76,7 +75,7 @@ export function NotificationsSelector(props: Props) {
               </div>
             ))}
           </>
-        )} 
+        )}
 
         {!user?.is_admin && userComplex && (
           <>

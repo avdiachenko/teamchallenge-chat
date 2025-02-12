@@ -4,6 +4,7 @@ import { api } from "../../shared/api/api";
 import { BASE_URL } from "../../shared/constants/urls";
 import { AuthData, RegistrationData, User } from "./user.types";
 import { isTokenExpired } from "./user.utils";
+import { NavigateFunction } from "react-router-dom";
 
 type Store = {
   token: string | null;
@@ -20,7 +21,7 @@ type Store = {
   updateUserInfo: () => Promise<void>;
   refresh: () => Promise<void>;
   registration: (registrationData: RegistrationData, reset: () => void) => Promise<void>;
-  login: (loginInputs: AuthData, reset: () => void) => Promise<void>;
+  login: (loginInputs: AuthData, reset: () => void, navigate: NavigateFunction) => Promise<void>;
   logout: () => Promise<void>;
   clearTokens: () => void;
   clearMessage: () => void;
@@ -125,7 +126,7 @@ export const useUserStore = create<Store>((set, get) => ({
     }
   },
 
-  login: async (loginInputs: AuthData, reset: () => void) => {
+  login: async (loginInputs: AuthData, reset: () => void, navigate: NavigateFunction) => {
     try {
       set({ loading: true, error: false, errorMessage: "", success: false });
 
@@ -143,6 +144,7 @@ export const useUserStore = create<Store>((set, get) => ({
       localStorage.setItem("refreshToken", data.tokens.refreshToken);
 
       reset();
+      navigate("/");
     } catch (error) {
       console.error(error);
       set({ error: true, errorMessage: (error as Error).message });
