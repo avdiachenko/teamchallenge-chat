@@ -18,12 +18,11 @@ export function Notifications() {
   const [limit, setLimit] = useState(7);
   const [isInited, setIsInited] = useState(false);
 
-  const url = `/notifications/${setSelectedComplex}?builsing_id=${setSelectedSection}&limit=${limit}&page=1`;
+  const url = `/notifications/${selectedComplex}?builsing_id=${selectedSection}&limit=${limit}&page=1`;
   const { data: notifications, isLoading } = useApi<Notification[]>(
     selectedSection || selectedComplex ? url : null
   );
   const notificationListRef = useRef<HTMLDivElement>(null);
-
   const scrollToBottom = (px?: number) => {
     const notificationListCurrent = notificationListRef.current;
 

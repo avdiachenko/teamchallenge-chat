@@ -5,9 +5,9 @@ import { Notification } from "../notifications.types";
 import styles from "./NotificationCard.module.css";
 
 const cardTypeMap = {
-  Payments: "Payments",
-  Emergency: "Emergency messages",
-  Events: "Events",
+  payments: "payments",
+  emergency: "emergency messages",
+  events: "events",
 };
 
 interface Props {
@@ -20,22 +20,22 @@ export function NotificationCard(props: Props) {
   return (
     <div
       className={`${styles.container}
-      ${notification.type === "Payments" && styles.payments}
-      ${notification.type === "Emergency" && styles.emergency}
-      ${notification.type === "Events" && styles.events}`}
+      ${notification.type === "payments" && styles.payments}
+      ${notification.type === "emergency" && styles.emergency}
+      ${notification.type === "events" && styles.events}`}
     >
       <div className={styles.imgBox}>
-        {notification.type === "Payments" && <img src={BsCashCoin} alt="payment icon" />}
-        {notification.type === "Emergency" && (
+        {notification.type === "payments" && <img src={BsCashCoin} alt="payment icon" />}
+        {notification.type === "emergency" && (
           <img src={BsFillExclamation} alt="emergency messages icon" />
         )}
-        {notification.type === "Events" && <img src={EventIcon} alt="event icon" />}
+        {notification.type === "events" && <img src={EventIcon} alt="event icon" />}
       </div>
 
       <div className={styles.content}>
         <div className={styles.title}>
           <span className={styles.type}>{cardTypeMap[notification.type]}</span>
-          <span className={styles.date}>{new Date(notification.createdAt).toLocaleString()}</span>
+          {/* <span className={styles.date}>{new Date(notification.createdAt).toLocaleString()}</span> */}
         </div>
 
         <span className={styles.text}>{notification.text}</span>

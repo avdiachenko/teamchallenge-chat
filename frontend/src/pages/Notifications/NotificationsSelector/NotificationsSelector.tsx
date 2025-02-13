@@ -17,10 +17,8 @@ export function NotificationsSelector(props: Props) {
   const { selectedComplex, selectedSection, setSelectedComplex, setSelectedSection } = props;
   const { user } = useUserStore();
   const { data: complexes } = useApi<ResidentialComplex[]>(user?.is_admin ? "/complexes" : null);
-  console.log("user", user);
-  console.log("complexes", complexes);
   const { data: userComplex } = useApi<ResidentialComplexDetails>(
-    user?.role !== "administrator" ? `/complexes/67a3b22c57531ded6f3b23c0` : null
+    user?.is_admin ? `/complexes/${user?.residential_complex}` : null
   );
   return (
     <div className={styles.container}>
@@ -31,7 +29,7 @@ export function NotificationsSelector(props: Props) {
             <div
               className={`${styles.card} ${selectedComplex === complex.name && ` ${styles.selected}`}`}
               key={complex._id}
-              onClick={() => setSelectedComplex(complex.name)}
+              onClick={() => setSelectedComplex("6760675f58e4cf9dc2be0bdb")}
             >
               <img src={complex.images[0]} alt={complex.name} className={styles.cardImg} />
               <div className={styles.cardInfo}>
@@ -40,7 +38,7 @@ export function NotificationsSelector(props: Props) {
             </div>
           ))}
 
-        {user?.role === "moderator" && userComplex && (
+        {/* {user?.is_admin && userComplex && (
           <>
             <div
               className={`${styles.card} ${selectedComplex === userComplex.name && ` ${styles.selected}`}`}
@@ -75,7 +73,7 @@ export function NotificationsSelector(props: Props) {
               </div>
             ))}
           </>
-        )}
+        )} */}
 
         {!user?.is_admin && userComplex && (
           <>

@@ -41,6 +41,34 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    path: "/news",
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: "/news",
+        lazy: async () => {
+          const { News } = await import("../pages/News/News");
+          return { Component: News };
+        },
+      },
+    ],
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/votings",
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: "/votings",
+        lazy: async () => {
+          const { Votings } = await import("../pages/Votings/Votings");
+          return { Component: Votings };
+        },
+      },
+    ],
+    errorElement: <ErrorPage />,
+  },
+  {
     path: "/signup",
     element: <PublicRoute />,
     children: [
@@ -109,5 +137,5 @@ export const router = createBrowserRouter([
       return { Component: ResidentComplexInfo };
     },
     errorElement: <ErrorPage />,
-  }
+  },
 ]);
