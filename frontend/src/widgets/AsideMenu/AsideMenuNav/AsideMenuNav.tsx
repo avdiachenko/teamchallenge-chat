@@ -9,7 +9,6 @@ type AsideMenuNavProps = {
 
 export const AsideMenuNav: React.FC<AsideMenuNavProps> = ({ login }) => {
   const { logout } = useUserStore();
-  console.log("login", login);
   return (
     <nav className={styles.nav_menu}>
       {login ? (
@@ -32,7 +31,7 @@ export const AsideMenuNav: React.FC<AsideMenuNavProps> = ({ login }) => {
               />
             </svg>
           </Link>
-          <Link className={styles.nav_links} to="/notifications">
+          <Link className={styles.nav_links} to="/news">
             <svg
               width="24"
               height="24"
