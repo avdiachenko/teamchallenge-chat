@@ -27,20 +27,6 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/notifications",
-    element: <ProtectedRoute />,
-    children: [
-      {
-        path: "/notifications",
-        lazy: async () => {
-          const { Notifications } = await import("../pages/Notifications/Notifications");
-          return { Component: Notifications };
-        },
-      },
-    ],
-    errorElement: <ErrorPage />,
-  },
-  {
     path: "/news",
     element: <ProtectedRoute />,
     children: [

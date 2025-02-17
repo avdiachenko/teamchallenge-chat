@@ -5,10 +5,19 @@ import { NewsMenu } from "../../widgets/NewsMenu/NewsMenu";
 import { NewsSelector } from "./NewsSelector/NewsSelector";
 import styles from "./News.module.css";
 import { Votings } from "../Votings/Votings";
+import { Notifications } from "./Notifications/Notifications";
 
 export const News: FC = () => {
   const [selectedComplex, setSelectedComplex] = useState<string | null>(null);
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
+  const [checked, setChecked] = useState<string>("");
+  const handleOnClick = (e: React.MouseEvent): void => {
+    setChecked(e.currentTarget.innerHTML);
+  };
+  // const url = `/notifications/${selectedComplex}?builsing_id=${selectedSection}&limit=${limit}&page=1`;
+  // const { data: notifications, isLoading } = useApi<Notification[]>(
+  //   selectedSection || selectedComplex ? url : null
+  // );
 
   return (
     <>
@@ -22,12 +31,15 @@ export const News: FC = () => {
           setSelectedSection={setSelectedSection}
         />
         <div className={styles.content}>
-          <NewsMenu />
+          <NewsMenu onClick={handleOnClick} />
 
           <div className={styles.wrapper}>
-            <div className={styles.list}>
-              <Votings />
-            </div>
+            {checked.toLowerCase() === "notifications" && <Notifications />}
+            {checked.toLowerCase() === "votings" && (
+              <div className={styles.list}>
+                <Votings />
+              </div>
+            )}
           </div>
         </div>
       </div>
