@@ -27,14 +27,28 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/notifications",
+    path: "/news",
     element: <ProtectedRoute />,
     children: [
       {
-        path: "/notifications",
+        path: "/news",
         lazy: async () => {
-          const { Notifications } = await import("../pages/Notifications/Notifications");
-          return { Component: Notifications };
+          const { News } = await import("../pages/News/News");
+          return { Component: News };
+        },
+      },
+    ],
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/votings",
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: "/votings",
+        lazy: async () => {
+          const { Votings } = await import("../pages/Votings/Votings");
+          return { Component: Votings };
         },
       },
     ],
@@ -109,5 +123,5 @@ export const router = createBrowserRouter([
       return { Component: ResidentComplexInfo };
     },
     errorElement: <ErrorPage />,
-  }
+  },
 ]);

@@ -5,7 +5,7 @@ type VariantTypes = "primary" | "secondary" | "tertiary" | "quaternary";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: string | ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
   variant?: VariantTypes;
 }
 

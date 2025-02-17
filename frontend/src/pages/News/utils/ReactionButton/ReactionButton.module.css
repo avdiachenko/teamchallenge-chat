@@ -1,0 +1,21 @@
+.button {
+  width: 80px;
+  height: 40px;
+  border-radius: 50px;
+  background: rgb(250, 250, 255);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  /* Body/Regular/18px */
+  color: rgb(75, 74, 74);
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 160%;
+  letter-spacing: 0px;
+  text-align: left;
+}
+.active {
+  background: rgb(239, 239, 254);
+}

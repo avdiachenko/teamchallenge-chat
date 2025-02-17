@@ -4,6 +4,7 @@ import { api } from "../../shared/api/api";
 import { BASE_URL } from "../../shared/constants/urls";
 import { AuthData, RegistrationData, User } from "./user.types";
 import { isTokenExpired } from "./user.utils";
+import { NavigateFunction } from "react-router-dom";
 
 type Store = {
   token: string | null;
@@ -20,7 +21,7 @@ type Store = {
   updateUserInfo: () => Promise<void>;
   refresh: () => Promise<void>;
   registration: (registrationData: RegistrationData, reset: () => void) => Promise<void>;
-  login: (loginInputs: AuthData, reset: () => void) => Promise<void>;
+  login: (loginInputs: AuthData, reset: () => void, navigate: NavigateFunction) => Promise<void>;
   logout: () => Promise<void>;
   clearTokens: () => void;
   clearMessage: () => void;
@@ -48,9 +49,7 @@ export const useUserStore = create<Store>((set, get) => ({
     const { token, refreshToken, refresh, updateUserInfo } = get();
     const isTokenValid = token && !isTokenExpired(token);
     const isRefreshTokenValid = refreshToken && !isTokenExpired(refreshToken);
-
     if (!isTokenValid) {
-      localStorage.removeItem("token");
       set({ token: null });
       if (isRefreshTokenValid) {
         await refresh();
@@ -67,7 +66,7 @@ export const useUserStore = create<Store>((set, get) => ({
 
   updateUserInfo: async () => {
     try {
-      const data = await api("/users/user-info");
+      const data = await api("/auth/current");
 
       if (!data) throw new Error("Failed to fetch user info");
 
@@ -83,7 +82,7 @@ export const useUserStore = create<Store>((set, get) => ({
 
       if (!refreshToken) throw new Error("No refresh token available");
 
-      const res = await fetch(BASE_URL + "/users/refreshCurrent", {
+      const res = await fetch(BASE_URL + "/auth/refreshCurrent", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${refreshToken}`,
@@ -92,7 +91,9 @@ export const useUserStore = create<Store>((set, get) => ({
 
       if (!res.ok) throw new Error("Failed to refresh token");
 
-      const { token, refreshToken: newRefreshToken } = await res.json();
+      const {
+        tokens: { accessToken: token, refreshToken: newRefreshToken },
+      } = await res.json();
 
       if (!token || !newRefreshToken) throw new Error("Invalid token or refresh token in response");
 
@@ -109,7 +110,7 @@ export const useUserStore = create<Store>((set, get) => ({
     try {
       set({ loading: true, success: false, error: false, errorMessage: "" });
 
-      await api("/users/register", {
+      await api("/auth/register", {
         method: "POST",
         body: JSON.stringify(registrationData),
       });
@@ -125,27 +126,25 @@ export const useUserStore = create<Store>((set, get) => ({
     }
   },
 
-  login: async (loginInputs: AuthData, reset: () => void) => {
+  login: async (loginInputs: AuthData, reset: () => void, navigate: NavigateFunction) => {
     try {
       set({ loading: true, error: false, errorMessage: "", success: false });
 
-      const data = await api("/users/login", {
+      const data = await api("/auth/login", {
         method: "POST",
         body: JSON.stringify(loginInputs),
       });
-
-      console.log(data);
-
       set({
-        token: data.token,
-        refreshToken: data.refreshToken,
+        token: data.tokens.accessToken,
+        refreshToken: data.tokens.refreshToken,
         user: data.user,
       });
 
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("token", data.tokens.accessToken);
+      localStorage.setItem("refreshToken", data.tokens.refreshToken);
 
       reset();
+      navigate("/");
     } catch (error) {
       console.error(error);
       set({ error: true, errorMessage: (error as Error).message });
@@ -156,7 +155,7 @@ export const useUserStore = create<Store>((set, get) => ({
 
   logout: async () => {
     try {
-      await api("/users/logout", {
+      await api("/auth/logout", {
         method: "POST",
       });
     } catch (error) {
@@ -184,7 +183,7 @@ export const useUserStore = create<Store>((set, get) => ({
     try {
       set({ loading: true, error: false, errorMessage: "", success: false });
 
-      await api("/users/forgot-password", {
+      await api("/auth/forgot-password", {
         method: "POST",
         body: JSON.stringify({ email }),
       });
@@ -204,7 +203,7 @@ export const useUserStore = create<Store>((set, get) => ({
     try {
       set({ loading: true, error: false, errorMessage: "", success: false });
 
-      await api(`/users/update-password/${tempCode}`, {
+      await api(`/auth/update-password/${tempCode}`, {
         method: "POST",
         body: JSON.stringify({ newPassword }),
       });

@@ -1,28 +1,33 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
 import styles from "./NewsMenu.module.css";
+import { useState } from "react";
 
-export function NewsMenu() {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-
+export function NewsMenu({
+  onClick,
+  checked,
+}: {
+  onClick: (e: React.MouseEvent) => void;
+  checked: string;
+}) {
+  // const [activeButton, setActiveButton] = useState(second)
   return (
     <div className={styles.menu}>
       <BaseButton
-        variant={pathname === "/notifications" ? "primary" : "quaternary"}
-        onClick={() => navigate("/notifications")}
+        variant={checked.toLocaleLowerCase() === "notifications" ? "primary" : "quaternary"}
+        onClick={onClick}
       >
         Notifications
       </BaseButton>
       <BaseButton
-        variant={pathname === "/votings" ? "primary" : "quaternary"}
-        onClick={() => navigate("/votings")}
+        variant={checked.toLocaleLowerCase() === "votings" ? "primary" : "quaternary"}
+        onClick={onClick}
       >
         Votings
       </BaseButton>
       <BaseButton
-        variant={pathname === "/news" ? "primary" : "quaternary"}
-        onClick={() => navigate("/news")}
+        variant={checked.toLocaleLowerCase() === "news" ? "primary" : "quaternary"}
+        onClick={onClick}
       >
         News
       </BaseButton>

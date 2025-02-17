@@ -3,7 +3,6 @@ import { BASE_URL } from "../constants/urls";
 
 export const api = async (url: string, options: RequestInit = {}) => {
   const { token, refreshToken, refresh, clearTokens } = useUserStore.getState();
-
   const modifiedOptions = {
     ...options,
     headers: {

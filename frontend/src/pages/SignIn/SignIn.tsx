@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../entities/user/user.store";
 import { AuthData } from "../../entities/user/user.types";
 import EyeClosed from "../../shared/assets/icons/EyeClosed.svg";
@@ -17,7 +17,7 @@ export function SignIn() {
     reset,
     formState: { errors },
   } = useForm<AuthData>();
-
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const { loading, error, errorMessage, login, clearMessage } = useUserStore();
@@ -28,7 +28,7 @@ export function SignIn() {
     };
   }, [clearMessage]);
 
-  const onSubmit: SubmitHandler<AuthData> = (data) => login(data, reset);
+  const onSubmit: SubmitHandler<AuthData> = (data) => login(data, reset, navigate);
 
   // TEST LOGIN DELETE AFTER FINISH DEVELOPMENT ---------------------------------------
   const testLogin = (string: string) => {

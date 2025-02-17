@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 
 interface ResidentialComplex {
   name: string;
-  location: string;
+  location?: { ltd: number; lng: number } | undefined;
   images: string;
   security: boolean;
   access_control: boolean;
@@ -31,7 +31,7 @@ export function Home() {
   const [complex, setComplexes] = useState<ResidentialComplex[]>([]);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/api/residential_complex`)
+    fetch(`${BASE_URL}/complexes`)
       .then((res) => res.json())
       .then((data) => {
         setComplexes(data);
