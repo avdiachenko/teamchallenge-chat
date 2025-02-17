@@ -41,20 +41,6 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/votings",
-    element: <ProtectedRoute />,
-    children: [
-      {
-        path: "/votings",
-        lazy: async () => {
-          const { Votings } = await import("../pages/Votings/Votings");
-          return { Component: Votings };
-        },
-      },
-    ],
-    errorElement: <ErrorPage />,
-  },
-  {
     path: "/signup",
     element: <PublicRoute />,
     children: [
