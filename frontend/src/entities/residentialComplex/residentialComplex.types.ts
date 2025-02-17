@@ -12,7 +12,7 @@ export interface ResidentialComplex {
   description: string;
   floors: number;
   entrances: number;
-  location: string;
+  location?: { ltd: number; lng: number } | undefined;
 }
 
 export interface ResidentialComplexDetails {
@@ -29,7 +29,7 @@ export interface ResidentialComplexDetails {
   description: string;
   floors: number;
   entrances: number;
-  location: string;
+  location?: { ltd: number; lng: number } | undefined;
   sections: number;
   apartments: number;
   sectionNames: string[];

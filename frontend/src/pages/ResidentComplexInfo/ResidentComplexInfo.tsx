@@ -35,7 +35,7 @@ export const ResidentComplexInfo: React.FC = () => {
     playground: boolean;
     apartments: number;
     access_control: boolean;
-    location: string;
+    location?: { ltd: number; lng: number } | undefined;
   };
 
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);

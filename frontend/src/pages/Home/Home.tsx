@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 
 interface ResidentialComplex {
   name: string;
-  location?: { ltd: number; lng: number };
+  location?: { ltd: number; lng: number } | undefined;
   images: string;
   security: boolean;
   access_control: boolean;
