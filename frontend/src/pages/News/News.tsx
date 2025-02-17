@@ -4,8 +4,9 @@ import { Header } from "../../widgets/Header/Header";
 import { NewsMenu } from "../../widgets/NewsMenu/NewsMenu";
 import { NewsSelector } from "./NewsSelector/NewsSelector";
 import styles from "./News.module.css";
-import { Votings } from "../Votings/Votings";
+import { Votings } from "./Votings/Votings";
 import { Notifications } from "./Notifications/Notifications";
+import NewsItem from "./NewsItem/NewsItem";
 
 export const News: FC = () => {
   const [selectedComplex, setSelectedComplex] = useState<string | null>(null);
@@ -35,11 +36,11 @@ export const News: FC = () => {
 
           <div className={styles.wrapper}>
             {checked.toLowerCase() === "notifications" && <Notifications />}
-            {checked.toLowerCase() === "votings" && (
-              <div className={styles.list}>
-                <Votings />
-              </div>
-            )}
+
+            <div className={styles.list}>
+              {checked.toLowerCase() === "votings" && <Votings />}
+              {checked.toLowerCase() === "news" && <NewsItem />}
+            </div>
           </div>
         </div>
       </div>

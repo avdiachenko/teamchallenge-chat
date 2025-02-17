@@ -4,7 +4,7 @@ import accept from "./Tick.svg";
 
 type HomePageCardProps = {
   title: string;
-  location: { ltd: number; lng: number };
+  location?: { ltd: number; lng: number } | undefined;
   img: string;
   parking: boolean;
   security: boolean;
