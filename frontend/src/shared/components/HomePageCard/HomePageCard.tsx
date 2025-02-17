@@ -4,7 +4,7 @@ import accept from "./Tick.svg";
 
 type HomePageCardProps = {
   title: string;
-  location: string;
+  location: { ltd: number; lng: number };
   img: string;
   parking: boolean;
   security: boolean;
@@ -27,12 +27,15 @@ export const HomePageCard: React.FC<HomePageCardProps> = ({
   closedArea,
   video,
 }) => {
+  const { ltd, lng } = location || {};
   return (
     <div className={styles.home_page_card}>
       <div>
         <img className={styles.card_img} src={img} alt="" />
         <h1 className={styles.card_title}>{title}</h1>
-        <h2 className={styles.card_subtitle}>Location:{location}</h2>
+        <h2 className={styles.card_subtitle}>
+          Location:{ltd}, {lng}
+        </h2>
       </div>
       <div className={styles.card_info}>
         {parking && (
