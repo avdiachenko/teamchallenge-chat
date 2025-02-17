@@ -1,6 +1,6 @@
 import { useState, FC } from "react";
 import styles from "./Votings.module.css";
-import { Card } from "../utils/Card";
+import { Card } from "../utils/Card/Card";
 // Тип для варіантів голосування
 interface PollOption {
   id: number;

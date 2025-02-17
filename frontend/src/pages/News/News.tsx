@@ -32,7 +32,7 @@ export const News: FC = () => {
           setSelectedSection={setSelectedSection}
         />
         <div className={styles.content}>
-          <NewsMenu onClick={handleOnClick} />
+          <NewsMenu onClick={handleOnClick} checked={checked} />
 
           <div className={styles.wrapper}>
             {checked.toLowerCase() === "notifications" && <Notifications />}
