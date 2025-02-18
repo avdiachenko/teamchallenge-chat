@@ -1,7 +1,5 @@
-import { useLocation } from "react-router-dom";
 import { BaseButton } from "../../shared/components/BaseButton/BaseButton";
 import styles from "./NewsMenu.module.css";
-import { useState } from "react";
 
 export function NewsMenu({
   onClick,

@@ -7,13 +7,16 @@ import { NotificationInput } from "./NotificationInput/NotificationInput";
 import styles from "./Notifications.module.css";
 import { Notification } from "./notifications.types";
 
-export function Notifications() {
+export function Notifications({
+  selectedSection,
+  selectedComplex,
+}: {
+  selectedSection: string | null;
+  selectedComplex: string | null;
+}) {
   const { user } = useUserStore();
-  const [selectedComplex] = useState<string | null>(null);
-  const [selectedSection] = useState<string | null>(null);
   const [limit, setLimit] = useState(7);
   const [isInited, setIsInited] = useState(false);
-
   const url = `/notifications/${selectedComplex}?builsing_id=${selectedSection}&limit=${limit}&page=1`;
   const { data: notifications, isLoading } = useApi<Notification[]>(
     selectedSection || selectedComplex ? url : null

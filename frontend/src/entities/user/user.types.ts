@@ -3,7 +3,7 @@ export interface User {
   role: "administrator" | "moderator" | "verified" | "not_verified";
   name: string;
   email: string;
-  residential_complex?: string;
+  buildings?: { addresses: string[]; residential_complex_id: string }[];
   entrance?: number;
   apartment?: number;
   section?: string;
