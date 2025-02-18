@@ -21,7 +21,7 @@ export function NewsSelector(props: Props) {
   const { data: userComplex } = useApi<ResidentialComplexDetails>(
     !user?.is_admin ? `/complexes/${residentialComplex}` : null
   );
-  console.log("userComplex", userComplex);
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
