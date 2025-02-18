@@ -15,10 +15,6 @@ export const News: FC = () => {
   const handleOnClick = (e: React.MouseEvent): void => {
     setChecked(e.currentTarget.innerHTML);
   };
-  // const url = `/notifications/${selectedComplex}?builsing_id=${selectedSection}&limit=${limit}&page=1`;
-  // const { data: notifications, isLoading } = useApi<Notification[]>(
-  //   selectedSection || selectedComplex ? url : null
-  // );
 
   return (
     <>
@@ -35,7 +31,9 @@ export const News: FC = () => {
           <NewsMenu onClick={handleOnClick} checked={checked} />
 
           <div className={styles.wrapper}>
-            {checked.toLowerCase() === "notifications" && <Notifications />}
+            {checked.toLowerCase() === "notifications" && (
+              <Notifications selectedComplex={selectedComplex} selectedSection={selectedSection} />
+            )}
 
             <div className={styles.list}>
               {checked.toLowerCase() === "votings" && <Votings />}

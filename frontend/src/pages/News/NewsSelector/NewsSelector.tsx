@@ -16,10 +16,12 @@ interface Props {
 export function NewsSelector(props: Props) {
   const { selectedComplex, selectedSection, setSelectedComplex, setSelectedSection } = props;
   const { user } = useUserStore();
+  const residentialComplex = user?.buildings?.[0]?.residential_complex_id;
   const { data: complexes } = useApi<ResidentialComplex[]>(user?.is_admin ? "/complexes" : null);
   const { data: userComplex } = useApi<ResidentialComplexDetails>(
-    user?.is_admin ? `/complexes/${user?.residential_complex}` : null
+    !user?.is_admin ? `/complexes/${residentialComplex}` : null
   );
+  console.log("userComplex", userComplex);
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -29,7 +31,7 @@ export function NewsSelector(props: Props) {
             <div
               className={`${styles.card} ${selectedComplex === complex.name && ` ${styles.selected}`}`}
               key={complex._id}
-              onClick={() => setSelectedComplex("6760675f58e4cf9dc2be0bdb")}
+              onClick={() => setSelectedComplex(selectedComplex)}
             >
               <img src={complex.images[0]} alt={complex.name} className={styles.cardImg} />
               <div className={styles.cardInfo}>
@@ -81,7 +83,7 @@ export function NewsSelector(props: Props) {
               className={`${styles.card} ${selectedComplex === userComplex.name && ` ${styles.selected}`}`}
               onClick={() => {
                 setSelectedSection(null);
-                setSelectedComplex(userComplex.name);
+                setSelectedComplex(userComplex._id);
               }}
             >
               <img src={userComplex.images[0]} alt={userComplex.name} className={styles.cardImg} />
