@@ -51,7 +51,7 @@ export const ResidentComplexInfo: React.FC = () => {
   }, [name]);
 
   if (!complexData) return <Spinner />;
-
+  const { ltd, lng } = complexData.location ? complexData.location : { ltd: 0, lng: 0 };
   return (
     <div>
       <AsideMenu />
@@ -154,7 +154,9 @@ export const ResidentComplexInfo: React.FC = () => {
             <div className={style.resident_complex_location_title}>
               Location Residential Complex
             </div>
-            <div className={style.resident_complex_location_subtitle}>{complexData.location}</div>
+            <div className={style.resident_complex_location_subtitle}>
+              {ltd}, {lng}
+            </div>
             <span className={style.map}>
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d162757.83842281808!2d30.367544991978317!3d50.402137450280556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4cf4ee15a4505%3A0x764931d2170146fe!2z0JrQuNC10LIsIDAyMDAw!5e0!3m2!1sru!2sua!4v1729165464413!5m2!1sru!2sua"

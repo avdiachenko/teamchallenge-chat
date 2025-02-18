@@ -38,7 +38,8 @@ export function SignIn() {
           email: "menome333@abatido.com",
           password: "123456Ab",
         },
-        reset
+        reset,
+        navigate
       );
     }
 
@@ -48,7 +49,8 @@ export function SignIn() {
           email: "lokaf94657@asaud.com",
           password: "123456Ab",
         },
-        reset
+        reset,
+        navigate
       );
     }
 
@@ -58,7 +60,8 @@ export function SignIn() {
           email: "mm123456@gmail.com",
           password: "Mm123456",
         },
-        reset
+        reset,
+        navigate
       );
     }
 
@@ -68,7 +71,8 @@ export function SignIn() {
           email: "nn123456@gmail.com",
           password: "Nn123456",
         },
-        reset
+        reset,
+        navigate
       );
     }
   };
