@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { AsideMenu } from "../../widgets/AsideMenu/AsideMenu";
 import { Header } from "../../widgets/Header/Header";
 import { NewsMenu } from "../../widgets/NewsMenu/NewsMenu";
@@ -7,15 +7,19 @@ import styles from "./News.module.css";
 import { Votings } from "./Votings/Votings";
 import { Notifications } from "./Notifications/Notifications";
 import NewsItem from "./NewsItem/NewsItem";
+import { useSearchParams } from "react-router-dom";
 
 export const News: FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedComplex, setSelectedComplex] = useState<string | null>(null);
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
-  const [checked, setChecked] = useState<string>("");
+  const [checked, setChecked] = useState<string>("notifications");
   const handleOnClick = (e: React.MouseEvent): void => {
-    setChecked(e.currentTarget.innerHTML);
+    setSearchParams({ checked: e.currentTarget.innerHTML });
   };
-
+  useEffect(() => {
+    setChecked(searchParams.get("checked") || "notifications");
+  }, [searchParams]);
   return (
     <>
       <AsideMenu />
