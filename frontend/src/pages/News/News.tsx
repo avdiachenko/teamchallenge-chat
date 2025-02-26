@@ -8,6 +8,7 @@ import { Votings } from "./Votings/Votings";
 import { Notifications } from "./Notifications/Notifications";
 import NewsItem from "./NewsItem/NewsItem";
 import { useSearchParams } from "react-router-dom";
+import AddVotingsBtn from "./Votings/AddVotingsBtn";
 
 export const News: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -43,6 +44,7 @@ export const News: FC = () => {
               {checked.toLowerCase() === "votings" && <Votings />}
               {checked.toLowerCase() === "news" && <NewsItem />}
             </div>
+            <AddVotingsBtn />
           </div>
         </div>
       </div>

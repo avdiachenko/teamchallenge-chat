@@ -1,7 +1,13 @@
 import { Modal, ModalClose, ModalDialog, Typography } from "@mui/joy";
-const ModalContainer = () => {
+const ModalContainer = ({
+  toggleModal,
+  isModal,
+}: {
+  toggleModal: () => void;
+  isModal: boolean;
+}) => {
   return (
-    <Modal open>
+    <Modal open={isModal} onClose={toggleModal}>
       <ModalDialog>
         <ModalClose />
         <Typography>Modal title</Typography>

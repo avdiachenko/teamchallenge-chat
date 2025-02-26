@@ -130,3 +130,19 @@
   background-color: rgb(125, 124, 243);
   border-radius: 100%;
 }
+
+.addButton {
+  position: absolute;
+  bottom: 28px;
+  right: 28px;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgb(125, 124, 243);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10;
+  padding: 16px;
+}

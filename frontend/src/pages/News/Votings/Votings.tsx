@@ -3,41 +3,40 @@ import styles from "./Votings.module.css";
 import { Card } from "../utils/Card/Card";
 import useApi from "../../../shared/api/useApi";
 import { Poll } from "./votings.types";
-import { getVoteOption } from "./utils";
 import { api } from "../../../shared/api/api";
 import { useNavigate } from "react-router-dom";
-const initialOption: Poll = {
-  _id: "",
-  headline: "",
-  options: [],
-};
+
 export const Votings: FC = () => {
-  const [selectedOptions, setSelectedOptions] = useState<Partial<Poll> | null>(initialOption);
+  const [selectedOptions, setSelectedOptions] = useState<{ optionsIds: string[] } | null>(null);
+  const [selectedPoll, setSelectedPoll] = useState<string | null>(null);
   const navigate = useNavigate();
-  // const [pollResults, setPollResults] = useState<PollOption[]>(initialOptions);
   const [polls, setPolls] = useState<Poll[] | null>([]);
-  const { data } = useApi<Poll[]>(`/votings?displayType=Percentages&status=active`);
+  const { data, refetch } = useApi<Poll[]>(`/votings?displayType=Percentages&status=active`);
   useEffect(() => {
     setPolls(data);
   }, [data]);
+
   const handleVote = (id: string, pollId: string) => {
-    const selectedOptions = getVoteOption(pollId, id, polls);
-    setSelectedOptions(selectedOptions as Partial<Poll>);
+    const selectedOptions = { optionsIds: [id] };
+    setSelectedOptions(selectedOptions);
+    setSelectedPoll(pollId);
   };
 
   useEffect(() => {
-    if (selectedOptions?._id !== "") {
-      console.log("selectedOptions", selectedOptions);
-      api(`/votings/${selectedOptions?._id}`, {
+    if (selectedOptions?.optionsIds?.length) {
+      api(`/votings/${selectedPoll}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(selectedOptions),
+      }).then(() => {
+        refetch();
       });
       navigate("/news?checked=votings");
     }
-  }, [selectedOptions, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOptions, selectedPoll, navigate]);
   return (
     <>
       {polls &&
@@ -51,8 +50,8 @@ export const Votings: FC = () => {
                     name={option.name}
                     id={`${option._id}-${option.name}`}
                     checked={
-                      selectedOptions?.options &&
-                      selectedOptions?.options[selectedOptions?.options.length - 1]?._id ===
+                      selectedOptions?.optionsIds &&
+                      selectedOptions?.optionsIds[selectedOptions?.optionsIds.length - 1] ===
                         option._id
                     }
                     onChange={() => handleVote(option._id, _id)}
