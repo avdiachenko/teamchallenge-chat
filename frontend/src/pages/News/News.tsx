@@ -9,8 +9,13 @@ import { Notifications } from "./Notifications/Notifications";
 import NewsItem from "./NewsItem/NewsItem";
 import { useSearchParams } from "react-router-dom";
 import AddVotingsBtn from "./Votings/AddVotingsBtn";
+import { useStore } from "../../store/store";
+import ModalContainer from "../../widgets/Modal/Modal";
+import { CreateVote } from "./CreateVote/CreateVote";
 
 export const News: FC = () => {
+  const { isModal, toggleModal } = useStore();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedComplex, setSelectedComplex] = useState<string | null>(null);
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
@@ -35,7 +40,7 @@ export const News: FC = () => {
         <div className={styles.content}>
           <NewsMenu onClick={handleOnClick} checked={checked} />
 
-          <div className={styles.wrapper}>
+          <div className={styles.wrapper} id="newsBox">
             {checked.toLowerCase() === "notifications" && (
               <Notifications selectedComplex={selectedComplex} selectedSection={selectedSection} />
             )}
@@ -45,6 +50,9 @@ export const News: FC = () => {
               {checked.toLowerCase() === "news" && <NewsItem />}
             </div>
             <AddVotingsBtn />
+            <ModalContainer isModal={isModal} toggleModal={toggleModal}>
+              <CreateVote />
+            </ModalContainer>
           </div>
         </div>
       </div>
