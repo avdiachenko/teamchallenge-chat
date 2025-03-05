@@ -10,7 +10,6 @@ import NewsItem from "./NewsItem/NewsItem";
 import { useSearchParams } from "react-router-dom";
 import AddVotingsBtn from "./Votings/AddVotingsBtn";
 import { useStore } from "../../store/store";
-import ModalContainer from "../../widgets/Modal/Modal";
 import { CreateVote } from "./CreateVote/CreateVote";
 
 export const News: FC = () => {
@@ -40,7 +39,7 @@ export const News: FC = () => {
         <div className={styles.content}>
           <NewsMenu onClick={handleOnClick} checked={checked} />
 
-          <div className={styles.wrapper} id="newsBox">
+          <div className={styles.wrapper}>
             {checked.toLowerCase() === "notifications" && (
               <Notifications selectedComplex={selectedComplex} selectedSection={selectedSection} />
             )}
@@ -49,10 +48,18 @@ export const News: FC = () => {
               {checked.toLowerCase() === "votings" && <Votings />}
               {checked.toLowerCase() === "news" && <NewsItem />}
             </div>
-            <AddVotingsBtn />
-            <ModalContainer isModal={isModal} toggleModal={toggleModal}>
-              <CreateVote />
-            </ModalContainer>
+            {checked.toLowerCase() === "votings" && (
+              <>
+                <AddVotingsBtn />
+                {isModal && (
+                  <>
+                    {" "}
+                    <div className={styles.overlay} onClick={toggleModal}></div>
+                    <CreateVote />
+                  </>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>

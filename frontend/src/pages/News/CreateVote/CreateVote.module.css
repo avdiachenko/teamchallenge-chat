@@ -1,0 +1,232 @@
+.container {
+  margin: 40px auto;
+  width: 767px;
+  border-radius: 16px;
+  background-color: #fff;
+  z-index: 2;
+  padding: 40px;
+}
+.containerTitle {
+  color: rgb(12, 17, 29);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 27px;
+  letter-spacing: 0%;
+  text-align: left;
+}
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  position: relative;
+  background: rgb(255, 255, 255);
+}
+.radioContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+}
+.radio {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 57px;
+  left: 0;
+  top: 46px;
+  gap: 10;
+  padding: 14px 40px 14px 40px;
+  border-radius: 20px;
+  background: rgb(239, 239, 254, 0.5);
+  &:active {
+    background: rgb(239, 239, 254, 1);
+  }
+}
+.visuallyHidden {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+}
+.label {
+  position: relative;
+  cursor: pointer;
+  color: rgb(12, 17, 29);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 160%;
+  letter-spacing: 0px;
+}
+.title {
+  color: rgb(12, 17, 29);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0%;
+}
+.addOptionContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-end;
+}
+.addOption {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  padding: 18px 20px 18px 20px;
+  border-radius: 20px;
+  background: rgb(250, 250, 255);
+  width: 97px;
+  & > div {
+    color: rgb(75, 74, 74);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 160%;
+    letter-spacing: 0px;
+    text-align: left;
+  }
+  & .icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+  }
+}
+.closeModal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 18px 20px 18px 20px;
+  border-radius: 100%;
+  background: rgb(250, 250, 255);
+  width: 42px;
+  height: 42px;
+  & .icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 18px;
+    height: 18px;
+    transform: rotate(45deg);
+  }
+}
+.dateTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.subtitle {
+  color: rgb(130, 131, 135);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 160%;
+  letter-spacing: 0px;
+  text-align: left;
+}
+.dateContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  align-items: center;
+  justify-content: flex-start;
+
+  /* White */
+  background: rgb(255, 255, 255);
+}
+.date {
+  width: 143px;
+  height: 48px;
+  box-sizing: border-box;
+  border: 1px solid rgb(197, 198, 205);
+  border-radius: 12px;
+  background: rgb(255, 255, 255);
+  color: rgb(12, 17, 29);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 160%;
+  letter-spacing: 0px;
+  text-align: left;
+  &:active {
+    border: 1px solid rgb(125, 124, 243);
+  }
+}
+.submit {
+  /* Buttons */
+
+  width: 100%;
+  height: 52px;
+  left: 40px;
+  top: 1500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10;
+  padding: 14px 60px 14px 60px;
+  border-radius: 60px;
+  background: rgb(125, 124, 243);
+  color: rgb(255, 255, 255);
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0%;
+  cursor: pointer;
+}
+
+.radioDisplay {
+  height: 54px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10;
+  padding: 14px 20px 14px 20px;
+  border-radius: 16px;
+  background: rgb(250, 250, 255);
+  color: rgb(54, 54, 54);
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 160%;
+  letter-spacing: 0px;
+
+  &:active {
+    border: 1px solid rgb(125, 124, 243);
+  }
+}
+.displayContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.input {
+  height: 56px;
+  padding: 14px 20px 14px 20px;
+  border: 1px solid rgb(197, 198, 205);
+  border-radius: 20px;
+  background: rgb(255, 255, 255);
+  color: rgb(12, 17, 29);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 160%;
+  letter-spacing: 0px;
+  text-align: left;
+}
