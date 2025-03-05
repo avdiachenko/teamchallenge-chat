@@ -1,10 +1,16 @@
-import { Modal, ModalClose, ModalDialog, Typography } from "@mui/joy";
-const ModalContainer = () => {
+import { DialogContent, DialogTitle, Modal, ModalClose, ModalDialog } from "@mui/joy";
+interface ModalContainerProps {
+  toggleModal: () => void;
+  isModal: boolean;
+  children: React.ReactNode;
+}
+const ModalContainer = ({ toggleModal, isModal, children }: ModalContainerProps) => {
   return (
-    <Modal open>
+    <Modal open={isModal} onClose={toggleModal}>
       <ModalDialog>
         <ModalClose />
-        <Typography>Modal title</Typography>
+        <DialogTitle>Title</DialogTitle>
+        <DialogContent>{children}</DialogContent>
       </ModalDialog>
     </Modal>
   );

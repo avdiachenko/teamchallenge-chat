@@ -8,8 +8,13 @@ import { Votings } from "./Votings/Votings";
 import { Notifications } from "./Notifications/Notifications";
 import NewsItem from "./NewsItem/NewsItem";
 import { useSearchParams } from "react-router-dom";
+import AddVotingsBtn from "./Votings/AddVotingsBtn";
+import { useStore } from "../../store/store";
+import { CreateVote } from "./CreateVote/CreateVote";
 
 export const News: FC = () => {
+  const { isModal, toggleModal } = useStore();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedComplex, setSelectedComplex] = useState<string | null>(null);
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
@@ -43,6 +48,18 @@ export const News: FC = () => {
               {checked.toLowerCase() === "votings" && <Votings />}
               {checked.toLowerCase() === "news" && <NewsItem />}
             </div>
+            {checked.toLowerCase() === "votings" && (
+              <>
+                <AddVotingsBtn />
+                {isModal && (
+                  <>
+                    {" "}
+                    <div className={styles.overlay} onClick={toggleModal}></div>
+                    <CreateVote />
+                  </>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
