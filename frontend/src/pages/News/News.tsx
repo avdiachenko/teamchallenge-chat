@@ -25,7 +25,6 @@ export const News: FC = () => {
   useEffect(() => {
     setChecked(searchParams.get("checked") || "notifications");
   }, [searchParams]);
-  console.log("isRefetch", isRefetch);
   return (
     <>
       <AsideMenu />
