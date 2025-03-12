@@ -8,25 +8,25 @@ import { useStore } from "../../../store/store";
 
 interface IFormInput {
   headline: string;
-  votingType: { label: string; value: string };
+  votingType: string;
   startDate: string;
   endDate: string;
   options: { [key: number]: string }[];
-  displayType: { label: string; value: string };
+  displayType: string;
   isAnonymous: boolean;
 }
 type OptionsType = Record<number, string>;
 export const CreateVote = () => {
-  const { toggleModal } = useStore();
+  const { toggleModal, toggleRefetch } = useStore();
   const [options, setOptions] = useState(1);
   const { control, handleSubmit } = useForm<IFormInput & { options: OptionsType }>({
     defaultValues: {
       headline: "",
-      votingType: { label: "", value: "" },
+      votingType: "Single",
       startDate: new Date().toISOString().split("T")[0],
       endDate: "",
       options: [],
-      displayType: { label: "", value: "" },
+      displayType: "Percentages",
       isAnonymous: true,
     },
   });
@@ -46,6 +46,8 @@ export const CreateVote = () => {
         method: "POST",
         body: JSON.stringify(preparedData),
       });
+      toggleModal();
+      toggleRefetch();
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(error.message);
@@ -93,7 +95,7 @@ export const CreateVote = () => {
                       className={styles.visuallyHidden}
                       {...field}
                       value={value}
-                      checked={field.value.value === value}
+                      checked={field.value === value}
                     />
                   </label>
                 </div>
@@ -177,7 +179,7 @@ export const CreateVote = () => {
                       {...field}
                       value={value}
                       className={styles.visuallyHidden}
-                      checked={field.value.value === value}
+                      checked={field.value === value}
                     />
                   </label>
                 </div>
