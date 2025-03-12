@@ -36,7 +36,11 @@ export const Votings = ({ isRefetch }: { isRefetch: boolean }) => {
       navigate("/news?checked=votings");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedOptions, selectedPoll, navigate, isRefetch]);
+  }, [selectedOptions, selectedPoll, navigate]);
+  useEffect(() => {
+    refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRefetch]);
   return (
     <>
       {polls &&
