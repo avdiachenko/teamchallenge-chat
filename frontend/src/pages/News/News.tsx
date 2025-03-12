@@ -13,7 +13,7 @@ import { useStore } from "../../store/store";
 import { CreateVote } from "./CreateVote/CreateVote";
 
 export const News: FC = () => {
-  const { isModal, toggleModal } = useStore();
+  const { isModal, isRefetch, toggleModal } = useStore();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedComplex, setSelectedComplex] = useState<string | null>(null);
@@ -25,6 +25,7 @@ export const News: FC = () => {
   useEffect(() => {
     setChecked(searchParams.get("checked") || "notifications");
   }, [searchParams]);
+  console.log("isModal", isModal);
   return (
     <>
       <AsideMenu />
@@ -45,7 +46,7 @@ export const News: FC = () => {
             )}
 
             <div className={styles.list}>
-              {checked.toLowerCase() === "votings" && <Votings />}
+              {checked.toLowerCase() === "votings" && <Votings isRefetch={isRefetch} />}
               {checked.toLowerCase() === "news" && <NewsItem />}
             </div>
             {checked.toLowerCase() === "votings" && (
@@ -53,7 +54,6 @@ export const News: FC = () => {
                 <AddVotingsBtn />
                 {isModal && (
                   <>
-                    {" "}
                     <div className={styles.overlay} onClick={toggleModal}></div>
                     <CreateVote />
                   </>

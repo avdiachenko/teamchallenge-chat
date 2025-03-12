@@ -1,4 +1,4 @@
-import { useState, FC, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Votings.module.css";
 import { Card } from "../utils/Card/Card";
 import useApi from "../../../shared/api/useApi";
@@ -6,7 +6,7 @@ import { Poll } from "./votings.types";
 import { api } from "../../../shared/api/api";
 import { useNavigate } from "react-router-dom";
 
-export const Votings: FC = () => {
+export const Votings = ({ isRefetch }: { isRefetch: boolean }) => {
   const [selectedOptions, setSelectedOptions] = useState<{ optionsIds: string[] } | null>(null);
   const [selectedPoll, setSelectedPoll] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export const Votings: FC = () => {
       navigate("/news?checked=votings");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedOptions, selectedPoll, navigate]);
+  }, [selectedOptions, selectedPoll, navigate, isRefetch]);
   return (
     <>
       {polls &&
